@@ -1,0 +1,3931 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Introduction to empirical market microstructure in Python | Vincent Grégoire</title>
+<link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+<link rel="canonical" href="http://www.vincentgregoire.com/introduction-to-empirical-market-microstructure-in-python/">
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+    },
+    displayAlign: 'left', // Change this to 'center' to center equations.
+    "HTML-CSS": {
+        styles: {'.MathJax_Display': {"margin": 0}}
+    }
+});
+</script><!--[if lt IE 9]><script src="../assets/js/html5.js"></script><![endif]--><meta name="author" content="Vincent Grégoire">
+<meta property="og:site_name" content="Vincent Grégoire">
+<meta property="og:title" content="Introduction to empirical market microstructure in Python">
+<meta property="og:url" content="http://www.vincentgregoire.com/introduction-to-empirical-market-microstructure-in-python/">
+<meta property="og:description" content="Introduction to empirical market microstructure in Python¶Prepared by Vincent Grégoire, Department of Finance, The University of Melbourne.
+This is a sample code to illustrate how you can merge and an">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-03-31T06:57:49+11:00">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://www.vincentgregoire.com/">
+
+                <span id="blog-title">Vincent Grégoire</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../">Home</a>
+                </li>
+<li>
+<a href="../research/">Research</a>
+                </li>
+<li>
+<a href="../CV%20Gregoire.pdf">CV</a>
+            </li>
+<li class="dropdown">
+<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Code <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+<li>
+<a href="../standard-errors-in-python/">Standard errors in Python</a>
+                    </li>
+<li>
+<a href="../python-bootcamp/">Python bootcamp</a>
+            </li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+    <a href="index.ipynb" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text storypage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Introduction to empirical market microstructure in Python</a></h1>
+
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div tabindex="-1" id="notebook" class="border-box-sizing">
+    <div class="container" id="notebook-container">
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Introduction-to-empirical-market-microstructure-in-Python">Introduction to empirical market microstructure in Python<a class="anchor-link" href="#Introduction-to-empirical-market-microstructure-in-Python">¶</a>
+</h2>
+<p>Prepared by <a href="http://www.vincentgregoire.com">Vincent Grégoire</a>, Department of Finance, The University of Melbourne.</p>
+<p>This is a sample code to illustrate how you can merge and analyze intraday financial data.</p>
+<p>This code loads and analyzes intraday trades and quotes for all ASX20 stocks for the first two weeks of
+March 2017 using
+data from from <a href="https://tickhistory.thomsonreuters.com/">Thomson Reuters Tick History</a>, provided by <a href="https://www.sirca.org.au/">SIRCA</a>.</p>
+<p>This notebook was created as supplemental material to a Python for financial research bootcamp for finance honours and PhD students at the University of Melbourne in March of 2017.</p>
+<p>Last update: March 30, 2017.</p>
+<p><strong>Contact</strong>: <a href="mailto:vincent.gregoire@unimelb.edu.au">vincent.gregoire@unimelb.edu.au</a></p>
+<p>Latest version: <a href="http://www.vincentgregoire.com/python-bootcamp/">http://www.vincentgregoire.com/python-bootcamp/</a></p>
+<p><strong>Outline</strong>:</p>
+<ul>
+<li>Load trades and quotes</li>
+<li>Parsing timestamps (and convert from UTC)</li>
+<li>Cleaning, forward filling quotes</li>
+<li>Realized spread (merging asof)</li>
+<li>Time-weigthed depth</li>
+<li>Plot something</li>
+<li>Summarize data at the stock/day level</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The data requested from TRTH is in a file named "ASX20_HalfMarch2017.csv.gz". First, let's get a sense of the data.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'data/ASX20_HalfMarch2017.csv.gz'</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[2]:</div>
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+<thead><tr style="text-align: right;">
+<th></th>
+      <th>#RIC</th>
+      <th>Current RIC</th>
+      <th>Date[L]</th>
+      <th>Time[L]</th>
+      <th>Type</th>
+      <th>Price</th>
+      <th>Volume</th>
+      <th>Bid Price</th>
+      <th>Bid Size</th>
+      <th>Ask Price</th>
+      <th>Ask Size</th>
+      <th>Qualifiers</th>
+      <th>Exch Time</th>
+      <th>Trd/Qte Date</th>
+      <th>Quote Time</th>
+    </tr></thead>
+<tbody>
+<tr>
+<th>0</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>06:10:21.249</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4.86</td>
+      <td>1000.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>19:10:21.000</td>
+    </tr>
+<tr>
+<th>1</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>06:10:21.249</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4.86</td>
+      <td>2000.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>19:10:21.000</td>
+    </tr>
+<tr>
+<th>2</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>06:10:21.249</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4.89</td>
+      <td>2000.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>19:10:21.000</td>
+    </tr>
+<tr>
+<th>3</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>07:00:03.289</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4.87</td>
+      <td>175.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>20:00:03.000</td>
+    </tr>
+<tr>
+<th>4</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>07:01:28.368</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4.88</td>
+      <td>1000.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>20:01:28.000</td>
+    </tr>
+<tr>
+<th>5</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>07:03:18.538</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4.91</td>
+      <td>1050.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>20:03:18.000</td>
+    </tr>
+<tr>
+<th>6</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>07:10:12.544</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4.64</td>
+      <td>1759.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>20:10:12.000</td>
+    </tr>
+<tr>
+<th>7</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>08:30:05.654</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.27</td>
+      <td>195.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>21:30:05.000</td>
+    </tr>
+<tr>
+<th>8</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>08:30:10.604</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.27</td>
+      <td>173.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>21:30:10.000</td>
+    </tr>
+<tr>
+<th>9</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>08:48:48.448</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.27</td>
+      <td>225.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>21:48:48.000</td>
+    </tr>
+<tr>
+<th>10</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>09:09:17.185</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4.62</td>
+      <td>244.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>22:09:17.000</td>
+    </tr>
+<tr>
+<th>11</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>09:09:33.074</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4.61</td>
+      <td>244.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>22:09:32.000</td>
+    </tr>
+<tr>
+<th>12</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>09:11:36.249</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4.37</td>
+      <td>256.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>22:11:36.000</td>
+    </tr>
+<tr>
+<th>13</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>09:11:39.119</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.27</td>
+      <td>274.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>22:11:38.000</td>
+    </tr>
+<tr>
+<th>14</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>09:11:44.219</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.27</td>
+      <td>378.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>22:11:44.000</td>
+    </tr>
+<tr>
+<th>15</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>09:14:41.321</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.27</td>
+      <td>422.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>22:14:41.000</td>
+    </tr>
+<tr>
+<th>16</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>09:17:41.963</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4.62</td>
+      <td>422.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>22:17:41.000</td>
+    </tr>
+<tr>
+<th>17</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>09:17:41.984</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4.38</td>
+      <td>256.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>22:17:41.000</td>
+    </tr>
+<tr>
+<th>18</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>09:24:33.723</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.27</td>
+      <td>378.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>22:24:33.000</td>
+    </tr>
+<tr>
+<th>19</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>09:24:33.922</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.27</td>
+      <td>471.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>22:24:33.000</td>
+    </tr>
+<tr>
+<th>20</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>09:27:38.785</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4.38</td>
+      <td>3418.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>22:27:38.000</td>
+    </tr>
+<tr>
+<th>21</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>09:27:40.825</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.27</td>
+      <td>422.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>22:27:40.000</td>
+    </tr>
+<tr>
+<th>22</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>09:27:41.025</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.27</td>
+      <td>822.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>22:27:40.000</td>
+    </tr>
+<tr>
+<th>23</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>09:31:48.395</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.27</td>
+      <td>770.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>22:31:48.000</td>
+    </tr>
+<tr>
+<th>24</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>09:31:48.605</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.27</td>
+      <td>2755.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>22:31:48.000</td>
+    </tr>
+<tr>
+<th>25</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>09:39:48.192</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.27</td>
+      <td>2662.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>22:39:48.000</td>
+    </tr>
+<tr>
+<th>26</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>09:39:48.413</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.27</td>
+      <td>3066.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>22:39:48.000</td>
+    </tr>
+<tr>
+<th>27</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>09:46:40.566</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4.38</td>
+      <td>4948.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>22:46:40.000</td>
+    </tr>
+<tr>
+<th>28</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>09:46:43.125</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.27</td>
+      <td>2962.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>22:46:42.000</td>
+    </tr>
+<tr>
+<th>29</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>09:46:43.346</td>
+      <td>Quote</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>5.27</td>
+      <td>3420.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>22:46:43.000</td>
+    </tr>
+<tr>
+<th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+<tr>
+<th>70</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.342</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>17.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>71</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.352</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>483.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>72</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.352</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>92.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>73</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.352</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>2.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>74</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.352</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>17.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>75</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.352</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>256.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>76</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.372</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>77</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.372</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>8.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>78</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.372</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>170.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>79</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.372</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>859.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>80</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.392</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>1894.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>81</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.412</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>2889.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MOXT  [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>82</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.412</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>385.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MOXT  [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>83</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.412</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>857.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MOXT  [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>84</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.412</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>227.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>85</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.422</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>204.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>86</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.432</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>508.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>87</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.442</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>1251.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>88</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.442</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>649.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>89</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.442</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>5123.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>90</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.442</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>142.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>91</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.442</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>185.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>92</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.442</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>163.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>93</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.442</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>401.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>94</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.451</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>72.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>95</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.451</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>3387.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>96</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.451</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>391.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>97</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.462</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>18.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>98</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.462</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>2500.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+<tr>
+<th>99</th>
+      <td>AMP.AX</td>
+      <td>NaN</td>
+      <td>03/01/2017</td>
+      <td>10:00:11.462</td>
+      <td>Trade</td>
+      <td>4.86</td>
+      <td>1143.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+</tbody>
+</table>
+<p>100 rows × 15 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this case we won't use the TRTH timestamps (we'll use exchange timestamps). It will also be more practictal to split trades and quotes in different datasets.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'#RIC'</span><span class="p">,</span> <span class="s1">'Date[L]'</span><span class="p">,</span> <span class="s1">'Type'</span><span class="p">,</span> <span class="s1">'Price'</span><span class="p">,</span> <span class="s1">'Volume'</span><span class="p">,</span> <span class="s1">'Bid Price'</span><span class="p">,</span> <span class="s1">'Bid Size'</span><span class="p">,</span>
+        <span class="s1">'Ask Price'</span><span class="p">,</span> <span class="s1">'Ask Size'</span><span class="p">,</span> <span class="s1">'Qualifiers'</span><span class="p">,</span> <span class="s1">'Exch Time'</span><span class="p">,</span> <span class="s1">'Quote Time'</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'data/ASX20_HalfMarch2017.csv.gz'</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">df_quotes</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">Type</span><span class="o">==</span><span class="s1">'Quote'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'#RIC'</span><span class="p">,</span> <span class="s1">'Date[L]'</span><span class="p">,</span><span class="s1">'Bid Price'</span><span class="p">,</span> <span class="s1">'Bid Size'</span><span class="p">,</span>
+                                      <span class="s1">'Ask Price'</span><span class="p">,</span> <span class="s1">'Ask Size'</span><span class="p">,</span> <span class="s1">'Quote Time'</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_quotes</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[4]:</div>
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+<thead><tr style="text-align: right;">
+<th></th>
+      <th>#RIC</th>
+      <th>Date[L]</th>
+      <th>Bid Price</th>
+      <th>Bid Size</th>
+      <th>Ask Price</th>
+      <th>Ask Size</th>
+      <th>Quote Time</th>
+    </tr></thead>
+<tbody>
+<tr>
+<th>0</th>
+      <td>AMP.AX</td>
+      <td>03/01/2017</td>
+      <td>4.86</td>
+      <td>1000.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>19:10:21.000</td>
+    </tr>
+<tr>
+<th>1</th>
+      <td>AMP.AX</td>
+      <td>03/01/2017</td>
+      <td>4.86</td>
+      <td>2000.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>19:10:21.000</td>
+    </tr>
+<tr>
+<th>2</th>
+      <td>AMP.AX</td>
+      <td>03/01/2017</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4.89</td>
+      <td>2000.0</td>
+      <td>19:10:21.000</td>
+    </tr>
+<tr>
+<th>3</th>
+      <td>AMP.AX</td>
+      <td>03/01/2017</td>
+      <td>4.87</td>
+      <td>175.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>20:00:03.000</td>
+    </tr>
+<tr>
+<th>4</th>
+      <td>AMP.AX</td>
+      <td>03/01/2017</td>
+      <td>4.88</td>
+      <td>1000.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>20:01:28.000</td>
+    </tr>
+</tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">df_trades</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">Type</span><span class="o">==</span><span class="s1">'Trade'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'#RIC'</span><span class="p">,</span> <span class="s1">'Date[L]'</span><span class="p">,</span> <span class="s1">'Price'</span><span class="p">,</span> <span class="s1">'Volume'</span><span class="p">,</span> <span class="s1">'Qualifiers'</span><span class="p">,</span> <span class="s1">'Exch Time'</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_trades</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[5]:</div>
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+<thead><tr style="text-align: right;">
+<th></th>
+      <th>#RIC</th>
+      <th>Date[L]</th>
+      <th>Price</th>
+      <th>Volume</th>
+      <th>Qualifiers</th>
+      <th>Exch Time</th>
+    </tr></thead>
+<tbody>
+<tr>
+<th>63</th>
+      <td>AMP.AX</td>
+      <td>03/01/2017</td>
+      <td>4.86</td>
+      <td>1985.0</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT];Open|High|Low[USER]</td>
+      <td>23:00:11.000</td>
+    </tr>
+<tr>
+<th>64</th>
+      <td>AMP.AX</td>
+      <td>03/01/2017</td>
+      <td>4.86</td>
+      <td>753.0</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+    </tr>
+<tr>
+<th>65</th>
+      <td>AMP.AX</td>
+      <td>03/01/2017</td>
+      <td>4.86</td>
+      <td>424.0</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+    </tr>
+<tr>
+<th>66</th>
+      <td>AMP.AX</td>
+      <td>03/01/2017</td>
+      <td>4.86</td>
+      <td>912.0</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+    </tr>
+<tr>
+<th>67</th>
+      <td>AMP.AX</td>
+      <td>03/01/2017</td>
+      <td>4.86</td>
+      <td>618.0</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11.000</td>
+    </tr>
+</tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">df_quotes</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[6]:</div>
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>5818262</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">df_trades</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[7]:</div>
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>2501299</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To parse dates and timestamps, we'll use the same trick we used for CRSP data. We parse date and time separately since there is much more redundancy in dates.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">parse_simple_date</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="s1">'%m/</span><span class="si">%d</span><span class="s1">/%Y'</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">parse_simple_time</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+    <span class="c1"># The data is up to the second precision.</span>
+    <span class="k">return</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]),</span> <span class="n">minutes</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">5</span><span class="p">]),</span>
+                     <span class="n">seconds</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">6</span><span class="p">:</span><span class="mi">8</span><span class="p">]))</span>
+
+<span class="k">def</span> <span class="nf">fast_date_parse</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">date_parser</span><span class="o">=</span><span class="n">parse_simple_date</span><span class="p">):</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+    <span class="n">dt</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="o">+</span> <span class="s1">'_tmp'</span><span class="p">]</span>
+    <span class="n">dt</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">dt</span><span class="p">[</span><span class="n">col</span> <span class="o">+</span> <span class="s1">'_tmp'</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">date_parser</span><span class="p">)</span>
+    <span class="n">date_dict</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">col</span> <span class="o">+</span> <span class="s1">'_tmp'</span><span class="p">)</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">date_dict</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">df</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># To join dates and times, we need to account for time zone. Dates are local dates (Sydney),</span>
+<span class="c1"># but times are in UTC.</span>
+<span class="n">df_trades</span> <span class="o">=</span> <span class="n">fast_date_parse</span><span class="p">(</span><span class="n">df_trades</span><span class="p">,</span> <span class="s1">'Exch Time'</span><span class="p">,</span> <span class="n">parse_simple_time</span><span class="p">)</span>
+<span class="n">df_trades</span> <span class="o">=</span> <span class="n">fast_date_parse</span><span class="p">(</span><span class="n">df_trades</span><span class="p">,</span> <span class="s1">'Date[L]'</span><span class="p">)</span>
+<span class="n">df_trades</span><span class="p">[</span><span class="s1">'Timestamp'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_trades</span><span class="p">[</span><span class="s1">'Date[L]'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="s1">'UTC'</span><span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">tz_convert</span><span class="p">(</span><span class="s1">'Australia/Sydney'</span><span class="p">)</span> <span class="o">+</span>
+                          <span class="n">df_trades</span><span class="p">[</span><span class="s1">'Exch Time'</span><span class="p">])</span>
+<span class="n">sel</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_trades</span><span class="o">.</span><span class="n">Timestamp</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span> <span class="o">!=</span> <span class="n">df_trades</span><span class="p">[</span><span class="s1">'Date[L]'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span><span class="p">)</span>
+<span class="n">df_trades</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">sel</span><span class="p">,</span> <span class="s1">'Timestamp'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_trades</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">sel</span><span class="p">,</span> <span class="s1">'Timestamp'</span><span class="p">]</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df_trades</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[9]:</div>
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+<thead><tr style="text-align: right;">
+<th></th>
+      <th>#RIC</th>
+      <th>Date[L]</th>
+      <th>Price</th>
+      <th>Volume</th>
+      <th>Qualifiers</th>
+      <th>Exch Time</th>
+      <th>Timestamp</th>
+    </tr></thead>
+<tbody>
+<tr>
+<th>63</th>
+      <td>AMP.AX</td>
+      <td>2017-03-01</td>
+      <td>4.86</td>
+      <td>1985.0</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT];Open|High|Low[USER]</td>
+      <td>23:00:11</td>
+      <td>2017-03-01 10:00:11+11:00</td>
+    </tr>
+<tr>
+<th>64</th>
+      <td>AMP.AX</td>
+      <td>2017-03-01</td>
+      <td>4.86</td>
+      <td>753.0</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11</td>
+      <td>2017-03-01 10:00:11+11:00</td>
+    </tr>
+<tr>
+<th>65</th>
+      <td>AMP.AX</td>
+      <td>2017-03-01</td>
+      <td>4.86</td>
+      <td>424.0</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11</td>
+      <td>2017-03-01 10:00:11+11:00</td>
+    </tr>
+<tr>
+<th>66</th>
+      <td>AMP.AX</td>
+      <td>2017-03-01</td>
+      <td>4.86</td>
+      <td>912.0</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11</td>
+      <td>2017-03-01 10:00:11+11:00</td>
+    </tr>
+<tr>
+<th>67</th>
+      <td>AMP.AX</td>
+      <td>2017-03-01</td>
+      <td>4.86</td>
+      <td>618.0</td>
+      <td>[ACT_FLAG1];MO    [GV4_TEXT]</td>
+      <td>23:00:11</td>
+      <td>2017-03-01 10:00:11+11:00</td>
+    </tr>
+</tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">df_quotes</span> <span class="o">=</span> <span class="n">fast_date_parse</span><span class="p">(</span><span class="n">df_quotes</span><span class="p">,</span> <span class="s1">'Quote Time'</span><span class="p">,</span> <span class="n">parse_simple_time</span><span class="p">)</span>
+<span class="n">df_quotes</span> <span class="o">=</span> <span class="n">fast_date_parse</span><span class="p">(</span><span class="n">df_quotes</span><span class="p">,</span> <span class="s1">'Date[L]'</span><span class="p">)</span>
+<span class="n">df_quotes</span><span class="p">[</span><span class="s1">'Timestamp'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_quotes</span><span class="p">[</span><span class="s1">'Date[L]'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">tz_localize</span><span class="p">(</span><span class="s1">'UTC'</span><span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">tz_convert</span><span class="p">(</span><span class="s1">'Australia/Sydney'</span><span class="p">)</span> <span class="o">+</span>
+                          <span class="n">df_quotes</span><span class="p">[</span><span class="s1">'Quote Time'</span><span class="p">])</span>
+<span class="n">sel</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_quotes</span><span class="o">.</span><span class="n">Timestamp</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span> <span class="o">!=</span> <span class="n">df_quotes</span><span class="p">[</span><span class="s1">'Date[L]'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span><span class="p">)</span>
+<span class="n">df_quotes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">sel</span><span class="p">,</span> <span class="s1">'Timestamp'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_quotes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">sel</span><span class="p">,</span> <span class="s1">'Timestamp'</span><span class="p">]</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df_quotes</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[10]:</div>
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+<thead><tr style="text-align: right;">
+<th></th>
+      <th>#RIC</th>
+      <th>Date[L]</th>
+      <th>Bid Price</th>
+      <th>Bid Size</th>
+      <th>Ask Price</th>
+      <th>Ask Size</th>
+      <th>Quote Time</th>
+      <th>Timestamp</th>
+    </tr></thead>
+<tbody>
+<tr>
+<th>0</th>
+      <td>AMP.AX</td>
+      <td>2017-03-01</td>
+      <td>4.86</td>
+      <td>1000.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>19:10:21</td>
+      <td>2017-03-01 06:10:21+11:00</td>
+    </tr>
+<tr>
+<th>1</th>
+      <td>AMP.AX</td>
+      <td>2017-03-01</td>
+      <td>4.86</td>
+      <td>2000.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>19:10:21</td>
+      <td>2017-03-01 06:10:21+11:00</td>
+    </tr>
+<tr>
+<th>2</th>
+      <td>AMP.AX</td>
+      <td>2017-03-01</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>4.89</td>
+      <td>2000.0</td>
+      <td>19:10:21</td>
+      <td>2017-03-01 06:10:21+11:00</td>
+    </tr>
+<tr>
+<th>3</th>
+      <td>AMP.AX</td>
+      <td>2017-03-01</td>
+      <td>4.87</td>
+      <td>175.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>20:00:03</td>
+      <td>2017-03-01 07:00:03+11:00</td>
+    </tr>
+<tr>
+<th>4</th>
+      <td>AMP.AX</td>
+      <td>2017-03-01</td>
+      <td>4.88</td>
+      <td>1000.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>20:01:28</td>
+      <td>2017-03-01 07:01:28+11:00</td>
+    </tr>
+</tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As we can see, quotes get updated only one side at a time, so we need to fill forward the quotes.</p>
+<p>We will first do the processing on one day only. It will be easier to see, and then we can write a function
+with our code to loop over every day in the sample. This is usually a good approach, when the processing is split into logical elements (ie. stock or day) it is easier to write and to run in parallel.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">quotes</span> <span class="o">=</span> <span class="n">df_quotes</span><span class="p">[</span><span class="n">df_quotes</span><span class="p">[</span><span class="s1">'Date[L]'</span><span class="p">]</span> <span class="o">==</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2017</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">trades</span> <span class="o">=</span> <span class="n">df_trades</span><span class="p">[</span><span class="n">df_trades</span><span class="p">[</span><span class="s1">'Date[L]'</span><span class="p">]</span> <span class="o">==</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2017</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">quotes_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Bid Price'</span><span class="p">,</span> <span class="s1">'Bid Size'</span><span class="p">,</span> <span class="s1">'Ask Price'</span><span class="p">,</span> <span class="s1">'Ask Size'</span><span class="p">]</span>
+<span class="n">quotes</span><span class="p">[</span><span class="n">quotes_cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">quotes</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'#RIC'</span><span class="p">])[</span><span class="n">quotes_cols</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">'ffill'</span><span class="p">)</span>
+<span class="c1"># Missing values implie no depth</span>
+<span class="n">quotes</span><span class="p">[[</span><span class="s1">'Bid Size'</span><span class="p">,</span> <span class="s1">'Ask Size'</span><span class="p">]]</span> <span class="o">=</span> <span class="n">quotes</span><span class="p">[[</span><span class="s1">'Bid Size'</span><span class="p">,</span> <span class="s1">'Ask Size'</span><span class="p">]]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="n">quotes</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[12]:</div>
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+<thead><tr style="text-align: right;">
+<th></th>
+      <th>#RIC</th>
+      <th>Date[L]</th>
+      <th>Bid Price</th>
+      <th>Bid Size</th>
+      <th>Ask Price</th>
+      <th>Ask Size</th>
+      <th>Quote Time</th>
+      <th>Timestamp</th>
+    </tr></thead>
+<tbody>
+<tr>
+<th>0</th>
+      <td>AMP.AX</td>
+      <td>2017-03-01</td>
+      <td>4.86</td>
+      <td>1000.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>19:10:21</td>
+      <td>2017-03-01 06:10:21+11:00</td>
+    </tr>
+<tr>
+<th>1</th>
+      <td>AMP.AX</td>
+      <td>2017-03-01</td>
+      <td>4.86</td>
+      <td>2000.0</td>
+      <td>NaN</td>
+      <td>0.0</td>
+      <td>19:10:21</td>
+      <td>2017-03-01 06:10:21+11:00</td>
+    </tr>
+<tr>
+<th>2</th>
+      <td>AMP.AX</td>
+      <td>2017-03-01</td>
+      <td>4.86</td>
+      <td>2000.0</td>
+      <td>4.89</td>
+      <td>2000.0</td>
+      <td>19:10:21</td>
+      <td>2017-03-01 06:10:21+11:00</td>
+    </tr>
+<tr>
+<th>3</th>
+      <td>AMP.AX</td>
+      <td>2017-03-01</td>
+      <td>4.87</td>
+      <td>175.0</td>
+      <td>4.89</td>
+      <td>2000.0</td>
+      <td>20:00:03</td>
+      <td>2017-03-01 07:00:03+11:00</td>
+    </tr>
+<tr>
+<th>4</th>
+      <td>AMP.AX</td>
+      <td>2017-03-01</td>
+      <td>4.88</td>
+      <td>1000.0</td>
+      <td>4.89</td>
+      <td>2000.0</td>
+      <td>20:01:28</td>
+      <td>2017-03-01 07:01:28+11:00</td>
+    </tr>
+</tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's create a few measures.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">quotes</span><span class="p">[</span><span class="s1">'MidQuote'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">quotes</span><span class="p">[</span><span class="s1">'Bid Price'</span><span class="p">]</span> <span class="o">+</span> <span class="n">quotes</span><span class="p">[</span><span class="s1">'Ask Price'</span><span class="p">])</span><span class="o">/</span><span class="mf">2.0</span>
+<span class="n">quotes</span><span class="p">[</span><span class="s1">'DepthOnTop'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">quotes</span><span class="p">[</span><span class="s1">'Bid Size'</span><span class="p">]</span> <span class="o">+</span> <span class="n">quotes</span><span class="p">[</span><span class="s1">'Ask Size'</span><span class="p">])</span><span class="o">/</span><span class="mf">2.0</span>
+<span class="n">quotes</span><span class="p">[</span><span class="s1">'Spread'</span><span class="p">]</span> <span class="o">=</span> <span class="n">quotes</span><span class="p">[</span><span class="s1">'Ask Price'</span><span class="p">]</span> <span class="o">-</span> <span class="n">quotes</span><span class="p">[</span><span class="s1">'Bid Price'</span><span class="p">]</span>
+<span class="n">quotes</span><span class="p">[</span><span class="s1">'RelSpread'</span><span class="p">]</span> <span class="o">=</span> <span class="n">quotes</span><span class="p">[</span><span class="s1">'Spread'</span><span class="p">]</span><span class="o">/</span><span class="n">quotes</span><span class="p">[</span><span class="s1">'MidQuote'</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">trades</span><span class="p">[</span><span class="s1">'Value'</span><span class="p">]</span> <span class="o">=</span> <span class="n">trades</span><span class="p">[</span><span class="s1">'Price'</span><span class="p">]</span> <span class="o">*</span> <span class="n">trades</span><span class="p">[</span><span class="s1">'Volume'</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We want to focus on continuous trading.</p>
+<p>We can look at trading hours on <a href="http://www.asx.com.au/about/trading-hours.htm">ASX's website</a>.</p>
+<p>By 10:10am all stocks should be open, and they all stop at 4pm for an auction about 10 minutes later.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># We will focus on continuous trading. </span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">(</span><span class="n">hour</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">minute</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">sel</span> <span class="o">=</span> <span class="p">((</span><span class="n">trades</span><span class="o">.</span><span class="n">Timestamp</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">time</span> <span class="o">&gt;</span> <span class="n">start_time</span><span class="p">)</span> <span class="o">&amp;</span>
+       <span class="p">(</span><span class="n">trades</span><span class="o">.</span><span class="n">Timestamp</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">time</span> <span class="o">&lt;</span> <span class="n">end_time</span><span class="p">))</span>
+
+<span class="n">trades_open</span> <span class="o">=</span> <span class="n">trades</span><span class="p">[</span><span class="n">sel</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">sel</span> <span class="o">=</span> <span class="p">((</span><span class="n">trades</span><span class="o">.</span><span class="n">Timestamp</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">time</span> <span class="o">&gt;</span> <span class="n">start_time</span><span class="p">)</span> <span class="o">&amp;</span>
+       <span class="p">(</span><span class="n">trades</span><span class="o">.</span><span class="n">Timestamp</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">time</span> <span class="o">&lt;</span> <span class="n">end_time</span><span class="p">))</span>
+
+<span class="n">trades_open</span> <span class="o">=</span> <span class="n">trades</span><span class="p">[</span><span class="n">sel</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">trades_open</span> <span class="o">=</span> <span class="n">trades_open</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">'Timestamp'</span><span class="p">,</span> <span class="s1">'#RIC'</span><span class="p">])</span>
+<span class="n">quotes</span> <span class="o">=</span> <span class="n">quotes</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s1">'Timestamp'</span><span class="p">,</span> <span class="s1">'#RIC'</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Spreads">Spreads<a class="anchor-link" href="#Spreads">¶</a>
+</h3>
+<p>Two common measures for the cost of trading are the effective spread and the realized spread.</p>
+<p>The definition for each of them is the following:</p>
+<h4 id="Effective-spread">Effective spread<a class="anchor-link" href="#Effective-spread">¶</a>
+</h4>
+<p>Buy market order: $2\times p_t - m_t$</p>
+<p>Sell market order: $2\times m_t - p_t$</p>
+<p>where $p_t$ is the price for the transaction at time $t$, and $m_t$ is the mid quote at time $t-\varepsilon$ (just before the trade).</p>
+<h4 id="Realized-spread">Realized spread<a class="anchor-link" href="#Realized-spread">¶</a>
+</h4>
+<p>Buy market order: $2\times p_t - m_{t+\Delta}$</p>
+<p>Sell market order: $2\times m_{t+\Delta} - p_t$</p>
+<p>where $p_t$ is the price for the transaction at time $t$, and $m_{t+\Delta}$ is the mid quote at time ${t+\Delta}$. A common value for $\Delta$ is 5 minutes, so we'll use that.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>First, we need to merge trades and quotes at the right time.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">trades_open</span><span class="p">[</span><span class="s1">'TS_5min'</span><span class="p">]</span> <span class="o">=</span> <span class="n">trades_open</span><span class="p">[</span><span class="s1">'Timestamp'</span><span class="p">]</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">taq_merged</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge_asof</span><span class="p">(</span><span class="n">trades_open</span><span class="p">,</span>
+                           <span class="n">quotes</span><span class="p">[[</span><span class="s1">'#RIC'</span><span class="p">,</span> <span class="s1">'Timestamp'</span><span class="p">,</span> <span class="s1">'Bid Price'</span><span class="p">,</span> <span class="s1">'Ask Price'</span><span class="p">,</span> <span class="s1">'MidQuote'</span><span class="p">]],</span>
+                           <span class="n">on</span><span class="o">=</span><span class="s1">'Timestamp'</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="s1">'#RIC'</span><span class="p">,</span> <span class="n">allow_exact_matches</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="n">taq_merged</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge_asof</span><span class="p">(</span><span class="n">taq_merged</span><span class="p">,</span>
+                           <span class="n">quotes</span><span class="p">[[</span><span class="s1">'#RIC'</span><span class="p">,</span> <span class="s1">'Timestamp'</span><span class="p">,</span> <span class="s1">'Bid Price'</span><span class="p">,</span> <span class="s1">'Ask Price'</span><span class="p">,</span> <span class="s1">'MidQuote'</span><span class="p">]],</span>
+                           <span class="n">left_on</span><span class="o">=</span><span class="s1">'TS_5min'</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="s1">'Timestamp'</span><span class="p">,</span>
+                           <span class="n">by</span><span class="o">=</span><span class="s1">'#RIC'</span><span class="p">,</span> <span class="n">suffixes</span><span class="o">=</span><span class="p">(</span><span class="s1">''</span><span class="p">,</span> <span class="s1">'_5min'</span><span class="p">),</span>
+                           <span class="n">allow_exact_matches</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">taq_merged</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[21]:</div>
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+<thead><tr style="text-align: right;">
+<th></th>
+      <th>#RIC</th>
+      <th>Date[L]</th>
+      <th>Price</th>
+      <th>Volume</th>
+      <th>Qualifiers</th>
+      <th>Exch Time</th>
+      <th>Timestamp</th>
+      <th>Value</th>
+      <th>TS_5min</th>
+      <th>Bid Price</th>
+      <th>Ask Price</th>
+      <th>MidQuote</th>
+      <th>Timestamp_5min</th>
+      <th>Bid Price_5min</th>
+      <th>Ask Price_5min</th>
+      <th>MidQuote_5min</th>
+    </tr></thead>
+<tbody>
+<tr>
+<th>0</th>
+      <td>AMP.AX</td>
+      <td>2017-03-01</td>
+      <td>4.87</td>
+      <td>1235.0</td>
+      <td>S[ACT_FLAG1];      [GV4_TEXT]</td>
+      <td>23:10:01</td>
+      <td>2017-03-01 10:10:01+11:00</td>
+      <td>6014.45</td>
+      <td>2017-03-01 10:15:01+11:00</td>
+      <td>4.87</td>
+      <td>4.88</td>
+      <td>4.875</td>
+      <td>2017-03-01 10:15:00+11:00</td>
+      <td>4.87</td>
+      <td>4.88</td>
+      <td>4.875</td>
+    </tr>
+<tr>
+<th>1</th>
+      <td>AMP.AX</td>
+      <td>2017-03-01</td>
+      <td>4.87</td>
+      <td>128.0</td>
+      <td>S[ACT_FLAG1];      [GV4_TEXT]</td>
+      <td>23:10:01</td>
+      <td>2017-03-01 10:10:01+11:00</td>
+      <td>623.36</td>
+      <td>2017-03-01 10:15:01+11:00</td>
+      <td>4.87</td>
+      <td>4.88</td>
+      <td>4.875</td>
+      <td>2017-03-01 10:15:00+11:00</td>
+      <td>4.87</td>
+      <td>4.88</td>
+      <td>4.875</td>
+    </tr>
+<tr>
+<th>2</th>
+      <td>AMP.AX</td>
+      <td>2017-03-01</td>
+      <td>4.87</td>
+      <td>3.0</td>
+      <td>S[ACT_FLAG1];      [GV4_TEXT]</td>
+      <td>23:10:01</td>
+      <td>2017-03-01 10:10:01+11:00</td>
+      <td>14.61</td>
+      <td>2017-03-01 10:15:01+11:00</td>
+      <td>4.87</td>
+      <td>4.88</td>
+      <td>4.875</td>
+      <td>2017-03-01 10:15:00+11:00</td>
+      <td>4.87</td>
+      <td>4.88</td>
+      <td>4.875</td>
+    </tr>
+<tr>
+<th>3</th>
+      <td>CBA.AX</td>
+      <td>2017-03-01</td>
+      <td>81.83</td>
+      <td>15.0</td>
+      <td>S[ACT_FLAG1];      [GV4_TEXT]</td>
+      <td>23:10:01</td>
+      <td>2017-03-01 10:10:01+11:00</td>
+      <td>1227.45</td>
+      <td>2017-03-01 10:15:01+11:00</td>
+      <td>81.83</td>
+      <td>81.88</td>
+      <td>81.855</td>
+      <td>2017-03-01 10:15:00+11:00</td>
+      <td>82.07</td>
+      <td>82.14</td>
+      <td>82.105</td>
+    </tr>
+<tr>
+<th>4</th>
+      <td>CSL.AX</td>
+      <td>2017-03-01</td>
+      <td>117.99</td>
+      <td>29.0</td>
+      <td>S[ACT_FLAG1];      [GV4_TEXT]</td>
+      <td>23:10:01</td>
+      <td>2017-03-01 10:10:01+11:00</td>
+      <td>3421.71</td>
+      <td>2017-03-01 10:15:01+11:00</td>
+      <td>117.99</td>
+      <td>118.12</td>
+      <td>118.055</td>
+      <td>2017-03-01 10:15:00+11:00</td>
+      <td>117.76</td>
+      <td>117.86</td>
+      <td>117.810</td>
+    </tr>
+</tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We next need to "sign" the trades, figure out if it's a buy or a sell.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">taq_merged</span><span class="p">[</span><span class="s1">'Sign'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">''</span>
+<span class="n">taq_merged</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">taq_merged</span><span class="o">.</span><span class="n">Price</span> <span class="o">==</span> <span class="n">taq_merged</span><span class="p">[</span><span class="s1">'Bid Price'</span><span class="p">],</span> <span class="s1">'Sign'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'S'</span>
+<span class="n">taq_merged</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">taq_merged</span><span class="o">.</span><span class="n">Price</span> <span class="o">==</span> <span class="n">taq_merged</span><span class="p">[</span><span class="s1">'Ask Price'</span><span class="p">],</span> <span class="s1">'Sign'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'B'</span>
+<span class="n">taq_merged</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">taq_merged</span><span class="o">.</span><span class="n">Price</span> <span class="o">==</span> <span class="n">taq_merged</span><span class="p">[</span><span class="s1">'MidQuote'</span><span class="p">],</span> <span class="s1">'Sign'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'C'</span> <span class="c1"># Cross</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">taq_merged</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[23]:</div>
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+<thead><tr style="text-align: right;">
+<th></th>
+      <th>#RIC</th>
+      <th>Date[L]</th>
+      <th>Price</th>
+      <th>Volume</th>
+      <th>Qualifiers</th>
+      <th>Exch Time</th>
+      <th>Timestamp</th>
+      <th>Value</th>
+      <th>TS_5min</th>
+      <th>Bid Price</th>
+      <th>Ask Price</th>
+      <th>MidQuote</th>
+      <th>Timestamp_5min</th>
+      <th>Bid Price_5min</th>
+      <th>Ask Price_5min</th>
+      <th>MidQuote_5min</th>
+      <th>Sign</th>
+    </tr></thead>
+<tbody>
+<tr>
+<th>0</th>
+      <td>AMP.AX</td>
+      <td>2017-03-01</td>
+      <td>4.87</td>
+      <td>1235.0</td>
+      <td>S[ACT_FLAG1];      [GV4_TEXT]</td>
+      <td>23:10:01</td>
+      <td>2017-03-01 10:10:01+11:00</td>
+      <td>6014.45</td>
+      <td>2017-03-01 10:15:01+11:00</td>
+      <td>4.87</td>
+      <td>4.88</td>
+      <td>4.875</td>
+      <td>2017-03-01 10:15:00+11:00</td>
+      <td>4.87</td>
+      <td>4.88</td>
+      <td>4.875</td>
+      <td>S</td>
+    </tr>
+<tr>
+<th>1</th>
+      <td>AMP.AX</td>
+      <td>2017-03-01</td>
+      <td>4.87</td>
+      <td>128.0</td>
+      <td>S[ACT_FLAG1];      [GV4_TEXT]</td>
+      <td>23:10:01</td>
+      <td>2017-03-01 10:10:01+11:00</td>
+      <td>623.36</td>
+      <td>2017-03-01 10:15:01+11:00</td>
+      <td>4.87</td>
+      <td>4.88</td>
+      <td>4.875</td>
+      <td>2017-03-01 10:15:00+11:00</td>
+      <td>4.87</td>
+      <td>4.88</td>
+      <td>4.875</td>
+      <td>S</td>
+    </tr>
+<tr>
+<th>2</th>
+      <td>AMP.AX</td>
+      <td>2017-03-01</td>
+      <td>4.87</td>
+      <td>3.0</td>
+      <td>S[ACT_FLAG1];      [GV4_TEXT]</td>
+      <td>23:10:01</td>
+      <td>2017-03-01 10:10:01+11:00</td>
+      <td>14.61</td>
+      <td>2017-03-01 10:15:01+11:00</td>
+      <td>4.87</td>
+      <td>4.88</td>
+      <td>4.875</td>
+      <td>2017-03-01 10:15:00+11:00</td>
+      <td>4.87</td>
+      <td>4.88</td>
+      <td>4.875</td>
+      <td>S</td>
+    </tr>
+<tr>
+<th>3</th>
+      <td>CBA.AX</td>
+      <td>2017-03-01</td>
+      <td>81.83</td>
+      <td>15.0</td>
+      <td>S[ACT_FLAG1];      [GV4_TEXT]</td>
+      <td>23:10:01</td>
+      <td>2017-03-01 10:10:01+11:00</td>
+      <td>1227.45</td>
+      <td>2017-03-01 10:15:01+11:00</td>
+      <td>81.83</td>
+      <td>81.88</td>
+      <td>81.855</td>
+      <td>2017-03-01 10:15:00+11:00</td>
+      <td>82.07</td>
+      <td>82.14</td>
+      <td>82.105</td>
+      <td>S</td>
+    </tr>
+<tr>
+<th>4</th>
+      <td>CSL.AX</td>
+      <td>2017-03-01</td>
+      <td>117.99</td>
+      <td>29.0</td>
+      <td>S[ACT_FLAG1];      [GV4_TEXT]</td>
+      <td>23:10:01</td>
+      <td>2017-03-01 10:10:01+11:00</td>
+      <td>3421.71</td>
+      <td>2017-03-01 10:15:01+11:00</td>
+      <td>117.99</td>
+      <td>118.12</td>
+      <td>118.055</td>
+      <td>2017-03-01 10:15:00+11:00</td>
+      <td>117.76</td>
+      <td>117.86</td>
+      <td>117.810</td>
+      <td>S</td>
+    </tr>
+</tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Effective-Spread">Effective Spread<a class="anchor-link" href="#Effective-Spread">¶</a>
+</h4>
+<p>Buy market order: $2\times p_t - m_t$</p>
+<p>Sell market order: $2\times m_t - p_t$</p>
+<p>where $p_t$ is the price for the transaction at time $t$, and $m_t$ is the mid quote at time $t-\varepsilon$ (just before the trade).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Create the variable for every obs</span>
+<span class="n">taq_merged</span><span class="p">[</span><span class="s1">'Effective Spread'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="n">b_sel</span> <span class="o">=</span> <span class="n">taq_merged</span><span class="o">.</span><span class="n">Sign</span> <span class="o">==</span> <span class="s1">'B'</span>
+<span class="n">taq_merged</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">b_sel</span><span class="p">,</span> <span class="s1">'Effective Spread'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">taq_merged</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">b_sel</span><span class="p">,</span> <span class="s1">'Price'</span><span class="p">]</span> <span class="o">-</span>
+                                               <span class="n">taq_merged</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">b_sel</span><span class="p">,</span> <span class="s1">'MidQuote'</span><span class="p">])</span>
+<span class="n">s_sel</span> <span class="o">=</span> <span class="n">taq_merged</span><span class="o">.</span><span class="n">Sign</span> <span class="o">==</span> <span class="s1">'S'</span>
+<span class="n">taq_merged</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">s_sel</span><span class="p">,</span> <span class="s1">'Effective Spread'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">taq_merged</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">s_sel</span><span class="p">,</span> <span class="s1">'MidQuote'</span><span class="p">]</span> <span class="o">-</span>
+                                               <span class="n">taq_merged</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">s_sel</span><span class="p">,</span> <span class="s1">'Price'</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Realized-spread">Realized spread<a class="anchor-link" href="#Realized-spread">¶</a>
+</h4>
+<p>Buy market order: $2\times p_t - m_{t+\Delta}$</p>
+<p>Sell market order: $2\times m_{t+\Delta} - p_t$</p>
+<p>where $p_t$ is the price for the transaction at time $t$, and $m_{t+\Delta}$ is the mid quote at time ${t+\Delta}$. We use $\Delta=$5 minutes.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [25]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Create the variable for every obs</span>
+<span class="n">taq_merged</span><span class="p">[</span><span class="s1">'Realized Spread'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="n">b_sel</span> <span class="o">=</span> <span class="n">taq_merged</span><span class="o">.</span><span class="n">Sign</span> <span class="o">==</span> <span class="s1">'B'</span>
+<span class="n">taq_merged</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">b_sel</span><span class="p">,</span> <span class="s1">'Realized Spread'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">taq_merged</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">b_sel</span><span class="p">,</span> <span class="s1">'Price'</span><span class="p">]</span> <span class="o">-</span>
+                                              <span class="n">taq_merged</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">b_sel</span><span class="p">,</span> <span class="s1">'MidQuote_5min'</span><span class="p">])</span>
+<span class="n">s_sel</span> <span class="o">=</span> <span class="n">taq_merged</span><span class="o">.</span><span class="n">Sign</span> <span class="o">==</span> <span class="s1">'S'</span>
+<span class="n">taq_merged</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">s_sel</span><span class="p">,</span> <span class="s1">'Realized Spread'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">taq_merged</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">s_sel</span><span class="p">,</span> <span class="s1">'MidQuote_5min'</span><span class="p">]</span> <span class="o">-</span>
+                                              <span class="n">taq_merged</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">s_sel</span><span class="p">,</span> <span class="s1">'Price'</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Note</strong>: here we might choose to do something special for trades in the last 5 minutes, such as recomputing realized spread using the closing auction price instead of the midquote. We won't do it, meaning we're using the prevailing mid quote at market close.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Price-impact">Price impact<a class="anchor-link" href="#Price-impact">¶</a>
+</h4>
+<p>The realized spread is a measure of price impact, i.e. it measures how trades move prices. If prices move in the direction of the trade, realized spread becomes smaller and possibly negative. We might expect that price impact is related to trade size. To make everything comparable, we need to make the measures "relative" (i.e. in %) to something, either price or mid quote. We use the prevailing mid quote at trade time.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">taq_merged</span><span class="p">[</span><span class="s1">'RelEffective Spread'</span><span class="p">]</span> <span class="o">=</span> <span class="n">taq_merged</span><span class="p">[</span><span class="s1">'Effective Spread'</span><span class="p">]</span> <span class="o">/</span> <span class="n">taq_merged</span><span class="p">[</span><span class="s1">'MidQuote'</span><span class="p">]</span>
+<span class="n">taq_merged</span><span class="p">[</span><span class="s1">'RelRealized Spread'</span><span class="p">]</span> <span class="o">=</span> <span class="n">taq_merged</span><span class="p">[</span><span class="s1">'Realized Spread'</span><span class="p">]</span> <span class="o">/</span> <span class="n">taq_merged</span><span class="p">[</span><span class="s1">'MidQuote'</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [27]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">taq_merged</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">'Value'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">'RelRealized Spread'</span><span class="p">);</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Ok, so we have a few outliers, so it's hard to see what is going on. One way around this issue is to group trades in value deciles.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [28]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">taq_merged</span><span class="p">[</span><span class="s1">'Value_q10'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">qcut</span><span class="p">(</span><span class="n">taq_merged</span><span class="p">[</span><span class="s1">'Value'</span><span class="p">],</span> <span class="n">q</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [29]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">val_q10_mean</span> <span class="o">=</span> <span class="n">taq_merged</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'Value_q10'</span><span class="p">)[[</span><span class="s1">'RelEffective Spread'</span><span class="p">,</span> <span class="s1">'RelRealized Spread'</span><span class="p">,</span> 
+                                                <span class="s1">'Effective Spread'</span><span class="p">,</span> <span class="s1">'Realized Spread'</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [30]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">val_q10_mean</span><span class="p">[[</span><span class="s1">'RelEffective Spread'</span><span class="p">,</span> <span class="s1">'RelRealized Spread'</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[30]:</div>
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x11e6f8210&gt;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [31]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">val_q10_mean</span><span class="p">[[</span><span class="s1">'Effective Spread'</span><span class="p">,</span> <span class="s1">'Realized Spread'</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[31]:</div>
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.axes._subplots.AxesSubplot at 0x121157ed0&gt;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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%0AIxW/VjUHJBsfPmMr1MIwxmQZY64xxrQxtuvqkPv5fcaYa0sd95Expq0x5hJjzF98OP8dY0wnY4fU%0AdjPG+OnrROB4+eWXeeutt3j44Ye59dZbueGGG8jJyaF79+7Mnz+fjIwMRo0aRc+ePenZsydfffUV%0AADk5OUycOJEuXbqQkJDAO++8w4MPPsiJEydISkri1ltvBSAmJgaAMWPG8OGHH3rf1/ONvbi4mAce%0AeICePXuSkJDAiy++eEaM6enpxMXFERERAUBcXBxNmjQBoGXLlvz2t7+lS5cu9OrVi9TUVO/1p0yZ%0AQu/evfntb39Lbm4ud955J7169aJr1668/75thO7evZsrrriCbt260a1bN77++mvAfoGZOnUq7dq1%0AY+DAgRw8WFYvp6qxQkKg92RI+xb2plTsWp5id3ddxtxXFR0lVa386YONbNrn30XMOjapw6PXdzrn%0AMZ4Pc4/f//733H333axYsYLhw4dz0003AfZDft26dQCMGzeO+++/n8svv5wff/yRIUOGsHnzZh5/%0A/HHq1q3L999/D8Dhw4cZNWoUzz33nPfc0kaPHs1bb73FddddR0FBAUuWLGH69Om88sor1K1bl9Wr%0AV5Ofn0+/fv0YPHjwKaOOBg8ezJ///Gfatm3LwIEDGT16NFdeeaX3dU8cr776Kr/85S/53//+B9iR%0AaV9//TUul4s//OEPXH311cycOZMjR47Qq1cvBg4cSMOGDfnss8+IjIxk+/btjB07luTkZN599122%0Abt3Kpk2bOHDgAB07duTOO++8wP86Kigl3Qqf/8XulTHqpQu7hha7L0iNShhOqVWrVpkf5ueyePFi%0ANm06OUnp2LFj5OTksHjxYubNm+d9vn79MifXew0bNoxf/OIX5Ofn88knn9C/f39q1arFp59+ynff%0AfeetDxw9epTt27efkjBiYmJISUnhyy+/ZOnSpYwePZonn3ySCRMmADB27Fjvz/vvv9973s0334zL%0A5QLg008/ZeHChTz99NOAHbX2448/0qRJE6ZOncq6detwuVxs27YNgOXLlzN27FhcLhdNmjTh6quv%0ALtffTdUAkXXsAoGrX4HBj9tVbctrx+e22D34cf/HF8RqVMI4X0sgkJSUlLBy5UoiIyMrdJ3IyEgG%0ADBjAokWLmD9/PmPGjAFs18+zzz7LkCFDznm+y+ViwIABDBgwgC5dujBnzhxvwig9Uqn0/ejoaO99%0A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%0A5ZP/B+HaAnj9KTF7AAAAAElFTkSuQmCC">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To get the average value for each stock/day, we can groupby.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [32]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">spd_mean</span> <span class="o">=</span> <span class="n">taq_merged</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'#RIC'</span><span class="p">,</span> <span class="s1">'Date[L]'</span><span class="p">])[[</span><span class="s1">'RelEffective Spread'</span><span class="p">,</span> <span class="s1">'RelRealized Spread'</span><span class="p">,</span> 
+                               <span class="s1">'Effective Spread'</span><span class="p">,</span> <span class="s1">'Realized Spread'</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">spd_mean</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[32]:</div>
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+      <th></th>
+      <th>RelEffective Spread</th>
+      <th>RelRealized Spread</th>
+      <th>Effective Spread</th>
+      <th>Realized Spread</th>
+    </tr>
+<tr>
+<th>#RIC</th>
+      <th>Date[L]</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+<th>AMP.AX</th>
+      <th>2017-03-01</th>
+      <td>0.002044</td>
+      <td>-0.001045</td>
+      <td>0.010013</td>
+      <td>-0.005155</td>
+    </tr>
+<tr>
+<th>ANZ.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000346</td>
+      <td>-0.000050</td>
+      <td>0.010710</td>
+      <td>-0.001564</td>
+    </tr>
+<tr>
+<th>BHP.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000450</td>
+      <td>-0.000129</td>
+      <td>0.011135</td>
+      <td>-0.003179</td>
+    </tr>
+<tr>
+<th>BXB.AX</th>
+      <th>2017-03-01</th>
+      <td>0.001088</td>
+      <td>0.000254</td>
+      <td>0.010074</td>
+      <td>0.002352</td>
+    </tr>
+<tr>
+<th>CBA.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000203</td>
+      <td>0.000145</td>
+      <td>0.016750</td>
+      <td>0.011985</td>
+    </tr>
+<tr>
+<th>CSL.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000196</td>
+      <td>0.000057</td>
+      <td>0.023110</td>
+      <td>0.006686</td>
+    </tr>
+<tr>
+<th>IAG.AX</th>
+      <th>2017-03-01</th>
+      <td>0.001684</td>
+      <td>-0.000061</td>
+      <td>0.010101</td>
+      <td>-0.000369</td>
+    </tr>
+<tr>
+<th>MQG.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000248</td>
+      <td>-0.000365</td>
+      <td>0.021457</td>
+      <td>-0.031516</td>
+    </tr>
+<tr>
+<th>NAB.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000340</td>
+      <td>0.000127</td>
+      <td>0.010885</td>
+      <td>0.004062</td>
+    </tr>
+<tr>
+<th>QBE.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000839</td>
+      <td>-0.000248</td>
+      <td>0.010249</td>
+      <td>-0.003030</td>
+    </tr>
+<tr>
+<th>RIO.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000322</td>
+      <td>0.000195</td>
+      <td>0.019802</td>
+      <td>0.011912</td>
+    </tr>
+<tr>
+<th>SCG.AX</th>
+      <th>2017-03-01</th>
+      <td>0.002316</td>
+      <td>0.000336</td>
+      <td>0.010025</td>
+      <td>0.001453</td>
+    </tr>
+<tr>
+<th>SUN.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000766</td>
+      <td>0.000746</td>
+      <td>0.010143</td>
+      <td>0.009875</td>
+    </tr>
+<tr>
+<th>TCL.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000932</td>
+      <td>-0.000205</td>
+      <td>0.010343</td>
+      <td>-0.002301</td>
+    </tr>
+<tr>
+<th>TLS.AX</th>
+      <th>2017-03-01</th>
+      <td>0.002156</td>
+      <td>-0.001548</td>
+      <td>0.010009</td>
+      <td>-0.007170</td>
+    </tr>
+<tr>
+<th>WBC.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000330</td>
+      <td>0.000042</td>
+      <td>0.011141</td>
+      <td>0.001396</td>
+    </tr>
+<tr>
+<th>WES.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000308</td>
+      <td>-0.000024</td>
+      <td>0.013145</td>
+      <td>-0.001027</td>
+    </tr>
+<tr>
+<th>WFD.AX</th>
+      <th>2017-03-01</th>
+      <td>0.001166</td>
+      <td>-0.000661</td>
+      <td>0.010231</td>
+      <td>-0.005786</td>
+    </tr>
+<tr>
+<th>WOW.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000476</td>
+      <td>0.000640</td>
+      <td>0.012190</td>
+      <td>0.016297</td>
+    </tr>
+<tr>
+<th>WPL.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000368</td>
+      <td>0.000220</td>
+      <td>0.011397</td>
+      <td>0.006813</td>
+    </tr>
+</tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [33]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># To get trade value-weighted average instead, it's not much harder.</span>
+<span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'RelEffective Spread'</span><span class="p">,</span> <span class="s1">'RelRealized Spread'</span><span class="p">,</span>
+        <span class="s1">'Effective Spread'</span><span class="p">,</span> <span class="s1">'Realized Spread'</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
+    <span class="n">taq_merged</span><span class="p">[</span><span class="n">c</span> <span class="o">+</span> <span class="s1">'_VW'</span><span class="p">]</span> <span class="o">=</span> <span class="n">taq_merged</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">*</span> <span class="n">taq_merged</span><span class="p">[</span><span class="s1">'Value'</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
+    <span class="n">spd_mean</span><span class="p">[</span><span class="n">c</span> <span class="o">+</span> <span class="s1">'_VW'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">taq_merged</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'#RIC'</span><span class="p">,</span> <span class="s1">'Date[L]'</span><span class="p">])[</span><span class="n">c</span> <span class="o">+</span> <span class="s1">'_VW'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span>
+                          <span class="n">taq_merged</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'#RIC'</span><span class="p">,</span> <span class="s1">'Date[L]'</span><span class="p">])[</span><span class="s1">'Value'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="n">spd_mean</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[33]:</div>
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+      <th></th>
+      <th>RelEffective Spread</th>
+      <th>RelRealized Spread</th>
+      <th>Effective Spread</th>
+      <th>Realized Spread</th>
+      <th>RelEffective Spread_VW</th>
+      <th>RelRealized Spread_VW</th>
+      <th>Effective Spread_VW</th>
+      <th>Realized Spread_VW</th>
+    </tr>
+<tr>
+<th>#RIC</th>
+      <th>Date[L]</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+<th>AMP.AX</th>
+      <th>2017-03-01</th>
+      <td>0.002044</td>
+      <td>-0.001045</td>
+      <td>0.010013</td>
+      <td>-0.005155</td>
+      <td>0.001381</td>
+      <td>-0.000234</td>
+      <td>0.006765</td>
+      <td>-0.001150</td>
+    </tr>
+<tr>
+<th>ANZ.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000346</td>
+      <td>-0.000050</td>
+      <td>0.010710</td>
+      <td>-0.001564</td>
+      <td>0.000231</td>
+      <td>-0.000151</td>
+      <td>0.007151</td>
+      <td>-0.004673</td>
+    </tr>
+<tr>
+<th>BHP.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000450</td>
+      <td>-0.000129</td>
+      <td>0.011135</td>
+      <td>-0.003179</td>
+      <td>0.000333</td>
+      <td>-0.000327</td>
+      <td>0.008242</td>
+      <td>-0.008096</td>
+    </tr>
+<tr>
+<th>BXB.AX</th>
+      <th>2017-03-01</th>
+      <td>0.001088</td>
+      <td>0.000254</td>
+      <td>0.010074</td>
+      <td>0.002352</td>
+      <td>0.000795</td>
+      <td>0.000047</td>
+      <td>0.007359</td>
+      <td>0.000437</td>
+    </tr>
+<tr>
+<th>CBA.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000203</td>
+      <td>0.000145</td>
+      <td>0.016750</td>
+      <td>0.011985</td>
+      <td>0.000119</td>
+      <td>0.000088</td>
+      <td>0.009783</td>
+      <td>0.007288</td>
+    </tr>
+<tr>
+<th>CSL.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000196</td>
+      <td>0.000057</td>
+      <td>0.023110</td>
+      <td>0.006686</td>
+      <td>0.000116</td>
+      <td>0.000307</td>
+      <td>0.013725</td>
+      <td>0.036109</td>
+    </tr>
+<tr>
+<th>IAG.AX</th>
+      <th>2017-03-01</th>
+      <td>0.001684</td>
+      <td>-0.000061</td>
+      <td>0.010101</td>
+      <td>-0.000369</td>
+      <td>0.001457</td>
+      <td>-0.000154</td>
+      <td>0.008741</td>
+      <td>-0.000929</td>
+    </tr>
+<tr>
+<th>MQG.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000248</td>
+      <td>-0.000365</td>
+      <td>0.021457</td>
+      <td>-0.031516</td>
+      <td>0.000152</td>
+      <td>-0.000367</td>
+      <td>0.013151</td>
+      <td>-0.031732</td>
+    </tr>
+<tr>
+<th>NAB.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000340</td>
+      <td>0.000127</td>
+      <td>0.010885</td>
+      <td>0.004062</td>
+      <td>0.000232</td>
+      <td>-0.000049</td>
+      <td>0.007415</td>
+      <td>-0.001555</td>
+    </tr>
+<tr>
+<th>QBE.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000839</td>
+      <td>-0.000248</td>
+      <td>0.010249</td>
+      <td>-0.003030</td>
+      <td>0.000643</td>
+      <td>0.000264</td>
+      <td>0.007850</td>
+      <td>0.003172</td>
+    </tr>
+<tr>
+<th>RIO.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000322</td>
+      <td>0.000195</td>
+      <td>0.019802</td>
+      <td>0.011912</td>
+      <td>0.000175</td>
+      <td>0.000113</td>
+      <td>0.010769</td>
+      <td>0.006888</td>
+    </tr>
+<tr>
+<th>SCG.AX</th>
+      <th>2017-03-01</th>
+      <td>0.002316</td>
+      <td>0.000336</td>
+      <td>0.010025</td>
+      <td>0.001453</td>
+      <td>0.001646</td>
+      <td>0.000276</td>
+      <td>0.007118</td>
+      <td>0.001194</td>
+    </tr>
+<tr>
+<th>SUN.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000766</td>
+      <td>0.000746</td>
+      <td>0.010143</td>
+      <td>0.009875</td>
+      <td>0.000614</td>
+      <td>0.000068</td>
+      <td>0.008127</td>
+      <td>0.000902</td>
+    </tr>
+<tr>
+<th>TCL.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000932</td>
+      <td>-0.000205</td>
+      <td>0.010343</td>
+      <td>-0.002301</td>
+      <td>0.000713</td>
+      <td>0.000324</td>
+      <td>0.007914</td>
+      <td>0.003600</td>
+    </tr>
+<tr>
+<th>TLS.AX</th>
+      <th>2017-03-01</th>
+      <td>0.002156</td>
+      <td>-0.001548</td>
+      <td>0.010009</td>
+      <td>-0.007170</td>
+      <td>0.001246</td>
+      <td>-0.000609</td>
+      <td>0.005782</td>
+      <td>-0.002824</td>
+    </tr>
+<tr>
+<th>WBC.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000330</td>
+      <td>0.000042</td>
+      <td>0.011141</td>
+      <td>0.001396</td>
+      <td>0.000218</td>
+      <td>0.000043</td>
+      <td>0.007361</td>
+      <td>0.001454</td>
+    </tr>
+<tr>
+<th>WES.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000308</td>
+      <td>-0.000024</td>
+      <td>0.013145</td>
+      <td>-0.001027</td>
+      <td>0.000182</td>
+      <td>-0.000104</td>
+      <td>0.007772</td>
+      <td>-0.004427</td>
+    </tr>
+<tr>
+<th>WFD.AX</th>
+      <th>2017-03-01</th>
+      <td>0.001166</td>
+      <td>-0.000661</td>
+      <td>0.010231</td>
+      <td>-0.005786</td>
+      <td>0.000802</td>
+      <td>-0.000698</td>
+      <td>0.007034</td>
+      <td>-0.006114</td>
+    </tr>
+<tr>
+<th>WOW.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000476</td>
+      <td>0.000640</td>
+      <td>0.012190</td>
+      <td>0.016297</td>
+      <td>0.000392</td>
+      <td>0.000902</td>
+      <td>0.010044</td>
+      <td>0.023077</td>
+    </tr>
+<tr>
+<th>WPL.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000368</td>
+      <td>0.000220</td>
+      <td>0.011397</td>
+      <td>0.006813</td>
+      <td>0.000243</td>
+      <td>0.000268</td>
+      <td>0.007529</td>
+      <td>0.008257</td>
+    </tr>
+</tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Time-weighted-measures">Time-weighted measures<a class="anchor-link" href="#Time-weighted-measures">¶</a>
+</h3>
+<p>Another couple of interesting measures are the time-weighted spread and depth, which give an idea of the liquidity available. Since these are time-weighted, we take the average value, weighted by the duration of the spread or available depth.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [34]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># First, we need to compute the time interval. We cannot use diff() since we want the difference</span>
+<span class="c1"># between the next timestmap (when a new quote/depth is set) and the current timestamp.</span>
+<span class="n">quotes</span><span class="p">[</span><span class="s1">'time_d'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">quotes</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'#RIC'</span><span class="p">)[</span><span class="s1">'Quote Time'</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">quotes</span><span class="p">[</span><span class="s1">'Quote Time'</span><span class="p">])</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [35]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Next, we do as before, using 'time_d' instead of Value for our weights.</span>
+<span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Spread'</span><span class="p">,</span> <span class="s1">'RelSpread'</span><span class="p">,</span> <span class="s1">'DepthOnTop'</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
+    <span class="n">quotes</span><span class="p">[</span><span class="n">c</span> <span class="o">+</span> <span class="s1">'_TW'</span><span class="p">]</span> <span class="o">=</span> <span class="n">quotes</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">*</span> <span class="n">quotes</span><span class="p">[</span><span class="s1">'time_d'</span><span class="p">]</span>
+
+<span class="n">tw_mean</span> <span class="o">=</span> <span class="n">quotes</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'#RIC'</span><span class="p">,</span> <span class="s1">'Date[L]'</span><span class="p">])[[</span><span class="n">c</span> <span class="o">+</span> <span class="s1">'_TW'</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">]]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
+    <span class="n">tw_mean</span><span class="p">[</span><span class="n">c</span> <span class="o">+</span> <span class="s1">'_TW'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">tw_mean</span><span class="p">[</span><span class="n">c</span> <span class="o">+</span> <span class="s1">'_TW'</span><span class="p">]</span> <span class="o">/</span>
+                          <span class="n">quotes</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">'#RIC'</span><span class="p">,</span> <span class="s1">'Date[L]'</span><span class="p">])[</span><span class="s1">'time_d'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="n">tw_mean</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[35]:</div>
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+      <th></th>
+      <th>Spread_TW</th>
+      <th>RelSpread_TW</th>
+      <th>DepthOnTop_TW</th>
+    </tr>
+<tr>
+<th>#RIC</th>
+      <th>Date[L]</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+<th>AMP.AX</th>
+      <th>2017-03-01</th>
+      <td>0.152458</td>
+      <td>0.031355</td>
+      <td>3.304217e+04</td>
+    </tr>
+<tr>
+<th>ANZ.AX</th>
+      <th>2017-03-01</th>
+      <td>0.693095</td>
+      <td>0.022598</td>
+      <td>2.342880e+04</td>
+    </tr>
+<tr>
+<th>BHP.AX</th>
+      <th>2017-03-01</th>
+      <td>0.670110</td>
+      <td>0.027070</td>
+      <td>-9.483283e+02</td>
+    </tr>
+<tr>
+<th>BXB.AX</th>
+      <th>2017-03-01</th>
+      <td>0.214808</td>
+      <td>0.022807</td>
+      <td>6.224641e+03</td>
+    </tr>
+<tr>
+<th>CBA.AX</th>
+      <th>2017-03-01</th>
+      <td>2.357897</td>
+      <td>0.028510</td>
+      <td>3.567609e+02</td>
+    </tr>
+<tr>
+<th>CSL.AX</th>
+      <th>2017-03-01</th>
+      <td>2.904086</td>
+      <td>0.024721</td>
+      <td>-5.302755e+02</td>
+    </tr>
+<tr>
+<th>IAG.AX</th>
+      <th>2017-03-01</th>
+      <td>0.190692</td>
+      <td>0.031914</td>
+      <td>-9.753459e+03</td>
+    </tr>
+<tr>
+<th>MQG.AX</th>
+      <th>2017-03-01</th>
+      <td>2.201808</td>
+      <td>0.025092</td>
+      <td>-2.889100e+02</td>
+    </tr>
+<tr>
+<th>NAB.AX</th>
+      <th>2017-03-01</th>
+      <td>1.030821</td>
+      <td>0.032600</td>
+      <td>6.616314e+02</td>
+    </tr>
+<tr>
+<th>QBE.AX</th>
+      <th>2017-03-01</th>
+      <td>0.232636</td>
+      <td>0.019332</td>
+      <td>1.135209e+04</td>
+    </tr>
+<tr>
+<th>RIO.AX</th>
+      <th>2017-03-01</th>
+      <td>0.735646</td>
+      <td>0.011919</td>
+      <td>6.856744e+02</td>
+    </tr>
+<tr>
+<th>SCG.AX</th>
+      <th>2017-03-01</th>
+      <td>0.080322</td>
+      <td>0.018549</td>
+      <td>6.570007e+04</td>
+    </tr>
+<tr>
+<th>SUN.AX</th>
+      <th>2017-03-01</th>
+      <td>0.246496</td>
+      <td>0.018669</td>
+      <td>-4.458043e+03</td>
+    </tr>
+<tr>
+<th>TCL.AX</th>
+      <th>2017-03-01</th>
+      <td>0.254365</td>
+      <td>0.023107</td>
+      <td>-7.166531e+03</td>
+    </tr>
+<tr>
+<th>TLS.AX</th>
+      <th>2017-03-01</th>
+      <td>0.196423</td>
+      <td>0.041591</td>
+      <td>1.276984e+06</td>
+    </tr>
+<tr>
+<th>WBC.AX</th>
+      <th>2017-03-01</th>
+      <td>0.773666</td>
+      <td>0.023057</td>
+      <td>-1.042097e+03</td>
+    </tr>
+<tr>
+<th>WES.AX</th>
+      <th>2017-03-01</th>
+      <td>0.902391</td>
+      <td>0.021553</td>
+      <td>-3.809218e+02</td>
+    </tr>
+<tr>
+<th>WFD.AX</th>
+      <th>2017-03-01</th>
+      <td>0.189848</td>
+      <td>0.021806</td>
+      <td>2.779377e+03</td>
+    </tr>
+<tr>
+<th>WOW.AX</th>
+      <th>2017-03-01</th>
+      <td>0.322257</td>
+      <td>0.012438</td>
+      <td>-3.254923e+03</td>
+    </tr>
+<tr>
+<th>WPL.AX</th>
+      <th>2017-03-01</th>
+      <td>0.527774</td>
+      <td>0.016853</td>
+      <td>6.174753e+03</td>
+    </tr>
+</tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [36]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Now we can merge our two datasets</span>
+
+<span class="n">merged</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">spd_mean</span><span class="p">,</span> <span class="n">tw_mean</span><span class="p">,</span> <span class="n">left_index</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">merged</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[36]:</div>
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+      <th></th>
+      <th>RelEffective Spread</th>
+      <th>RelRealized Spread</th>
+      <th>Effective Spread</th>
+      <th>Realized Spread</th>
+      <th>RelEffective Spread_VW</th>
+      <th>RelRealized Spread_VW</th>
+      <th>Effective Spread_VW</th>
+      <th>Realized Spread_VW</th>
+      <th>Spread_TW</th>
+      <th>RelSpread_TW</th>
+      <th>DepthOnTop_TW</th>
+    </tr>
+<tr>
+<th>#RIC</th>
+      <th>Date[L]</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+</thead>
+<tbody>
+<tr>
+<th>AMP.AX</th>
+      <th>2017-03-01</th>
+      <td>0.002044</td>
+      <td>-0.001045</td>
+      <td>0.010013</td>
+      <td>-0.005155</td>
+      <td>0.001381</td>
+      <td>-0.000234</td>
+      <td>0.006765</td>
+      <td>-0.001150</td>
+      <td>0.152458</td>
+      <td>0.031355</td>
+      <td>3.304217e+04</td>
+    </tr>
+<tr>
+<th>ANZ.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000346</td>
+      <td>-0.000050</td>
+      <td>0.010710</td>
+      <td>-0.001564</td>
+      <td>0.000231</td>
+      <td>-0.000151</td>
+      <td>0.007151</td>
+      <td>-0.004673</td>
+      <td>0.693095</td>
+      <td>0.022598</td>
+      <td>2.342880e+04</td>
+    </tr>
+<tr>
+<th>BHP.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000450</td>
+      <td>-0.000129</td>
+      <td>0.011135</td>
+      <td>-0.003179</td>
+      <td>0.000333</td>
+      <td>-0.000327</td>
+      <td>0.008242</td>
+      <td>-0.008096</td>
+      <td>0.670110</td>
+      <td>0.027070</td>
+      <td>-9.483283e+02</td>
+    </tr>
+<tr>
+<th>BXB.AX</th>
+      <th>2017-03-01</th>
+      <td>0.001088</td>
+      <td>0.000254</td>
+      <td>0.010074</td>
+      <td>0.002352</td>
+      <td>0.000795</td>
+      <td>0.000047</td>
+      <td>0.007359</td>
+      <td>0.000437</td>
+      <td>0.214808</td>
+      <td>0.022807</td>
+      <td>6.224641e+03</td>
+    </tr>
+<tr>
+<th>CBA.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000203</td>
+      <td>0.000145</td>
+      <td>0.016750</td>
+      <td>0.011985</td>
+      <td>0.000119</td>
+      <td>0.000088</td>
+      <td>0.009783</td>
+      <td>0.007288</td>
+      <td>2.357897</td>
+      <td>0.028510</td>
+      <td>3.567609e+02</td>
+    </tr>
+<tr>
+<th>CSL.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000196</td>
+      <td>0.000057</td>
+      <td>0.023110</td>
+      <td>0.006686</td>
+      <td>0.000116</td>
+      <td>0.000307</td>
+      <td>0.013725</td>
+      <td>0.036109</td>
+      <td>2.904086</td>
+      <td>0.024721</td>
+      <td>-5.302755e+02</td>
+    </tr>
+<tr>
+<th>IAG.AX</th>
+      <th>2017-03-01</th>
+      <td>0.001684</td>
+      <td>-0.000061</td>
+      <td>0.010101</td>
+      <td>-0.000369</td>
+      <td>0.001457</td>
+      <td>-0.000154</td>
+      <td>0.008741</td>
+      <td>-0.000929</td>
+      <td>0.190692</td>
+      <td>0.031914</td>
+      <td>-9.753459e+03</td>
+    </tr>
+<tr>
+<th>MQG.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000248</td>
+      <td>-0.000365</td>
+      <td>0.021457</td>
+      <td>-0.031516</td>
+      <td>0.000152</td>
+      <td>-0.000367</td>
+      <td>0.013151</td>
+      <td>-0.031732</td>
+      <td>2.201808</td>
+      <td>0.025092</td>
+      <td>-2.889100e+02</td>
+    </tr>
+<tr>
+<th>NAB.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000340</td>
+      <td>0.000127</td>
+      <td>0.010885</td>
+      <td>0.004062</td>
+      <td>0.000232</td>
+      <td>-0.000049</td>
+      <td>0.007415</td>
+      <td>-0.001555</td>
+      <td>1.030821</td>
+      <td>0.032600</td>
+      <td>6.616314e+02</td>
+    </tr>
+<tr>
+<th>QBE.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000839</td>
+      <td>-0.000248</td>
+      <td>0.010249</td>
+      <td>-0.003030</td>
+      <td>0.000643</td>
+      <td>0.000264</td>
+      <td>0.007850</td>
+      <td>0.003172</td>
+      <td>0.232636</td>
+      <td>0.019332</td>
+      <td>1.135209e+04</td>
+    </tr>
+<tr>
+<th>RIO.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000322</td>
+      <td>0.000195</td>
+      <td>0.019802</td>
+      <td>0.011912</td>
+      <td>0.000175</td>
+      <td>0.000113</td>
+      <td>0.010769</td>
+      <td>0.006888</td>
+      <td>0.735646</td>
+      <td>0.011919</td>
+      <td>6.856744e+02</td>
+    </tr>
+<tr>
+<th>SCG.AX</th>
+      <th>2017-03-01</th>
+      <td>0.002316</td>
+      <td>0.000336</td>
+      <td>0.010025</td>
+      <td>0.001453</td>
+      <td>0.001646</td>
+      <td>0.000276</td>
+      <td>0.007118</td>
+      <td>0.001194</td>
+      <td>0.080322</td>
+      <td>0.018549</td>
+      <td>6.570007e+04</td>
+    </tr>
+<tr>
+<th>SUN.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000766</td>
+      <td>0.000746</td>
+      <td>0.010143</td>
+      <td>0.009875</td>
+      <td>0.000614</td>
+      <td>0.000068</td>
+      <td>0.008127</td>
+      <td>0.000902</td>
+      <td>0.246496</td>
+      <td>0.018669</td>
+      <td>-4.458043e+03</td>
+    </tr>
+<tr>
+<th>TCL.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000932</td>
+      <td>-0.000205</td>
+      <td>0.010343</td>
+      <td>-0.002301</td>
+      <td>0.000713</td>
+      <td>0.000324</td>
+      <td>0.007914</td>
+      <td>0.003600</td>
+      <td>0.254365</td>
+      <td>0.023107</td>
+      <td>-7.166531e+03</td>
+    </tr>
+<tr>
+<th>TLS.AX</th>
+      <th>2017-03-01</th>
+      <td>0.002156</td>
+      <td>-0.001548</td>
+      <td>0.010009</td>
+      <td>-0.007170</td>
+      <td>0.001246</td>
+      <td>-0.000609</td>
+      <td>0.005782</td>
+      <td>-0.002824</td>
+      <td>0.196423</td>
+      <td>0.041591</td>
+      <td>1.276984e+06</td>
+    </tr>
+<tr>
+<th>WBC.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000330</td>
+      <td>0.000042</td>
+      <td>0.011141</td>
+      <td>0.001396</td>
+      <td>0.000218</td>
+      <td>0.000043</td>
+      <td>0.007361</td>
+      <td>0.001454</td>
+      <td>0.773666</td>
+      <td>0.023057</td>
+      <td>-1.042097e+03</td>
+    </tr>
+<tr>
+<th>WES.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000308</td>
+      <td>-0.000024</td>
+      <td>0.013145</td>
+      <td>-0.001027</td>
+      <td>0.000182</td>
+      <td>-0.000104</td>
+      <td>0.007772</td>
+      <td>-0.004427</td>
+      <td>0.902391</td>
+      <td>0.021553</td>
+      <td>-3.809218e+02</td>
+    </tr>
+<tr>
+<th>WFD.AX</th>
+      <th>2017-03-01</th>
+      <td>0.001166</td>
+      <td>-0.000661</td>
+      <td>0.010231</td>
+      <td>-0.005786</td>
+      <td>0.000802</td>
+      <td>-0.000698</td>
+      <td>0.007034</td>
+      <td>-0.006114</td>
+      <td>0.189848</td>
+      <td>0.021806</td>
+      <td>2.779377e+03</td>
+    </tr>
+<tr>
+<th>WOW.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000476</td>
+      <td>0.000640</td>
+      <td>0.012190</td>
+      <td>0.016297</td>
+      <td>0.000392</td>
+      <td>0.000902</td>
+      <td>0.010044</td>
+      <td>0.023077</td>
+      <td>0.322257</td>
+      <td>0.012438</td>
+      <td>-3.254923e+03</td>
+    </tr>
+<tr>
+<th>WPL.AX</th>
+      <th>2017-03-01</th>
+      <td>0.000368</td>
+      <td>0.000220</td>
+      <td>0.011397</td>
+      <td>0.006813</td>
+      <td>0.000243</td>
+      <td>0.000268</td>
+      <td>0.007529</td>
+      <td>0.008257</td>
+      <td>0.527774</td>
+      <td>0.016853</td>
+      <td>6.174753e+03</td>
+    </tr>
+</tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Exercise">Exercise<a class="anchor-link" href="#Exercise">¶</a>
+</h2>
+<p>Now that we have done all of this for one day, package as a function to loop over every day in the sample (without the plots) 
+and then merge to get a complete stock/day panel, and export it to CSV.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [ ]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span> 
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+    </div>
+  </div>
+
+    </div>
+    
+            <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script><script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+    },
+    displayAlign: 'left', // Change this to 'center' to center equations.
+    "HTML-CSS": {
+        styles: {'.MathJax_Display': {"margin": 0}}
+    }
+});
+</script></article>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2018         <a href="mailto:vincent.gregoire@unimelb.edu.au">Vincent Grégoire</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-253287-9', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>
