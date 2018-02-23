@@ -48,6 +48,7 @@
                 <li><i class="fa fa-fw fa-copy" aria-hidden="true"></i> <a href="http://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1006956">SSRN</a></li>
                 <li><i class="fa fa-fw fa-google"></i> <a href="https://scholar.google.com.au/citations?user=2Ng0rToAAAAJ&hl=en">Google Scholar</a></li>
                 <li><i class="fa fa-fw fa-github" aria-hidden="true"></i> <a href="https://github.com/vgreg">Github</a></li>
+                <li><i class="fa fa-fw fa-phone" aria-hidden="true"></i> +61 (3) 90353756</li>
                 <li><i class="fa fa-fw fa-envelope" aria-hidden="true"></i> Level 12, 198 Berkeley Street, Carlton Victoria 3010 Australia</li>
             </ul>
 
@@ -55,7 +56,7 @@
 About 
 -----
 
-Hello! I joined The University of Melbourne in 2013 as an Assistant Professor (called Senior Lecturer in
+Hello! I joined the University of Melbourne in 2013 as an Assistant Professor (called Senior Lecturer in
 Australia) after obtaining a Ph.D. in Finance from the University of British Columbia.
 
 My main research interests are in information economics, mutual funds, market microstructure, big data and
