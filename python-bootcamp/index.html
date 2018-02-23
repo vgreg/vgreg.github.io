@@ -11,31 +11,16 @@
 <meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
 <link rel="canonical" href="http://www.vincentgregoire.com/python-bootcamp/">
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-    tex2jax: {
-        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
-        processEscapes: true
-    },
-    displayAlign: 'left', // Change this to 'center' to center equations.
-    "HTML-CSS": {
-        styles: {'.MathJax_Display': {"margin": 0}}
-    }
-});
-</script><!--[if lt IE 9]><script src="../assets/js/html5.js"></script><![endif]--><meta name="author" content="Vincent Grégoire">
+<!--[if lt IE 9]><script src="../assets/js/html5.js"></script><![endif]--><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<meta name="author" content="Vincent Grégoire">
 <meta property="og:site_name" content="Vincent Grégoire">
 <meta property="og:title" content="Python Bootcamp">
 <meta property="og:url" content="http://www.vincentgregoire.com/python-bootcamp/">
-<meta property="og:description" content="This is a collection of the material that I used for the Python for
-financial research  bootcamp that I taught
-to honours and PhD students at the University of Melbourne in March 2017.
-
-Outline
-The bo">
+<meta property="og:description" content="Attention!
+The 2017 Python bootcamp and related files was archived as a standalone GitHub repository.
+See on GitHub">
 <meta property="og:type" content="article">
-<meta property="article:published_time" content="2017-03-21T12:01:52+11:00">
-<meta property="article:tag" content="python-bootcamp python code teaching">
+<meta property="article:published_time" content="2018-02-22T19:56:59+11:00">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -67,18 +52,12 @@ The bo">
                 </li>
 <li>
 <a href="../CV%20Gregoire.pdf">CV</a>
-            </li>
-<li class="dropdown">
-<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Code <b class="caret"></b></a>
-            <ul class="dropdown-menu">
+                </li>
 <li>
-<a href="../standard-errors-in-python/">Standard errors in Python</a>
-                    </li>
-<li class="active">
-<a href=".">Python bootcamp <span class="sr-only">(active)</span></a>
+<a href="../code/">Code</a>
+
+                
             </li>
-</ul>
-</li>
 </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
@@ -102,81 +81,10 @@ The bo">
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div>
-<p>This is a collection of the material that I used for the Python for
-financial research  bootcamp that I taught
-to honours and PhD students at the University of Melbourne in March 2017.</p>
-<div class="section" id="outline">
-<h2>Outline</h2>
-<p>The bootcamp is divided into four blocks of three hours each:</p>
-<p><strong>1. Introduction to Python programming</strong></p>
-<p>We will discuss what is Python and you will learn the basic structure of the
-language. You will also learn your way around the programming environment,
-including the two main editors for scientific Python, Spyder and Jupyter.</p>
-<p><strong>2.    Introduction to data analysis using pandas, matplotlib</strong></p>
-<p>You will learn how to import, export and transform data using pandas, the
-panel data package for Python. You will also learn how to explore the data
-by generating summary statistics and plotting graphs using matplotlib.</p>
-<p><strong>3.    More data analysis using pandas and statsmodels</strong></p>
-<p>You will learn more advanced features of Python and pandas, including dealing
-with timestamps and estimating measures from daily and intraday data. You
-will also learn how to estimate OLS and panel regressions using statsmodels.</p>
-<p><strong>4.    Other topics</strong></p>
-<p>In this block, you will be introduced briefly to other python packages that
-can be helpful for research. The list of topics is not yet finalized, but
-will likely include text analysis, web scraping, network analysis and
-symbolic algebra.</p>
-</div>
-<div class="section" id="software">
-<h2>Software</h2>
-<p>I recommend the <a class="reference external" href="https://www.continuum.io/downloads">Anaconda distribution</a>,
-which is available for Windows, Mac OS and  Linux. We're using the Python
-2.7 version for the bootcamp.</p>
-</div>
-<div class="section" id="material">
-<h2>Material</h2>
-<div class="section" id="slides">
-<h3>Slides</h3>
-<ul class="simple">
-<li><a class="reference external" href="../bootcamp/PythonBootcampMarch2017.pdf">Python for Financial Research (PDF)</a></li>
-<li><a class="reference external" href="../bootcamp/WebScrapingPythonMarch2017.pdf">Introduction to Web Scraping with Python (PDF)</a></li>
-</ul>
-</div>
-<div class="section" id="code">
-<h3>Code</h3>
-<p><strong>Note</strong>: this code is for illustrative purpose, and does not necessarily show
-the <em>correct</em> or <em>best</em> way to do something, the main goal is to illustrate
-the Python language, its libraries and some common use cases in research.</p>
-<p><strong>Block 1:</strong></p>
-<ul class="simple">
-<li>
-<a class="reference external" href="../listings/bootcamp/PythonIntro.py.html">PythonIntro.py</a>: Introduction to the Python language.</li>
-<li>
-<a class="reference external" href="../listings/bootcamp/TurtleTutorial.py.html">TurtleTutorial.py</a>: Some exercises with the turtle package.</li>
-</ul>
-<p><strong>Block 2:</strong></p>
-<ul class="simple">
-<li>
-<a class="reference external" href="../introduction-to-pandas/">Introduction to pandas</a>: Short intro to pandas using Yahoo Finance data.</li>
-<li>
-<a class="reference external" href="../crsp-example-dividends/">CRSP Example - Dividends</a>: A quick event study around dividends announcements</li>
-</ul>
-<p><strong>Block 3:</strong></p>
-<ul class="simple">
-<li>
-<a class="reference external" href="../introduction-to-empirical-market-microstructure-in-python/">Introduction to empirical market microstructure in Python</a>: Intro to using pandas with intraday data.</li>
-<li>
-<a class="reference external" href="../standard-errors-in-python/">Estimating standard errors in Python</a>: Using statsmodels and pandas for panel regressions.</li>
-</ul>
-<p><strong>Block 4:</strong></p>
-<ul class="simple">
-<li>
-<a class="reference external" href="../trump-tweets-and-the-stock-market/">Trump's tweets and the stock market</a>: Merge and analyze twitter data, apply textual (sentiment) analysis and process intraday stock market data.</li>
-<li>
-<a class="reference external" href="../listings/bootcamp/DownloadEdgar.py.html">DownloadEdgar.py</a>: Batch downloading 10-Ks from EDGAR.</li>
-</ul>
-</div>
-</div>
+    <div class="admonition attention">
+<p class="first admonition-title">Attention!</p>
+<p>The 2017 Python bootcamp and related files was archived as a standalone GitHub repository.</p>
+<div class="last"><a href="https://github.com/vgreg/python-finance-unimelb2017" class="btn btn-primary btn-lg">See on GitHub</a></div>
 </div>
     </div>
     

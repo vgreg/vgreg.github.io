@@ -1,8 +1,8 @@
 .. title: Python Bootcamp
-.. slug: python-bootcamp
+.. slug: introduction-to-pandas
 .. date: 2018-02-22 19:56:59 UTC+11:00
 .. tags: 
-.. category: python
+.. category: 
 .. link:
 .. description:
 .. type: text
