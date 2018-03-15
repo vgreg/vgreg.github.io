@@ -22,16 +22,14 @@ With `Charles Martineau <http://www.charlesmartineau.com>`__
 
 [`Available on SSRN <https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3060094>`__]
 
-    We study price formation around earnings announcements for S&P 1500 stocks from 2011 to
-    2015 using high-frequency, order-level data. We find that price discovery takes place
-    in the after-hours market and is complete before the opening auction, or by 10 a.m. for
-    stocks that have no after-hours trades. Initial price reactions occur upon the arrival
-    of the first trades and are explained by earnings surprises, not by liquidity-taking
-    order flow, consistent with the theoretical view that news can incorporate prices
-    instantly. Moreover, sophisticated liquidity providers are active and profitable at 
-    that time. Despite fast price discovery, we find significant price drifts following 
-    big surprises in the after-hours market, which we relate to theoretical work on 
-    information processing.
+    We study price formation in the after-hours market following earnings announcements for S&P 1500 
+    stocks from 2011 to 2015 using high-frequency, order-level data. Price discovery is generally 
+    complete before the opening auction, or by 10 a.m. for stocks with no after-hours trades. 
+    Initial price reactions following announcements are explained by earnings surprises, not 
+    by liquidity-taking order flow, consistent with the theoretical view that prices can incorporate 
+    news instantly. Moreover, sophisticated liquidity providers are active and profitable at that 
+    time. We find significant price drifts following big surprises in the after-hours market, 
+    which we relate to theoretical work on information processing. 
 
 Inverted Fee Venues and Market Quality
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -39,18 +37,19 @@ Inverted Fee Venues and Market Quality
 With `Carole Comerton-Forde <http://findanexpert.unimelb.edu.au/display/person532357>`__ and
 `Zhuo Zhong <https://sites.google.com/site/zzhong225/>`__
 
+Revise and resubmit, Journal of Financial Economics
+
 [`Available on SSRN <http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2939012>`__]
 [`Online Appendix <https://www.dropbox.com/s/jtyjrm131jne47k/adf-tsp-appendix-blind.pdf?dl=0>`__]
 
-    Stock exchanges compete for order flow through their fee models. A traditional model 
-    pays a rebate to the liquidity supplier, and an inverted model pays a rebate to liquidity 
-    demanders. We examine the impact of inverted fee models on market quality using an 
-    exogenous shock to inverted venue market share created by a regulatory intervention, 
-    the SEC Tick Size Pilot. We find that trading on inverted venues improves pricing 
-    efficiency and liquidity when the minimum tick size is binding. We show that by 
-    offering traders sub-tick price improvement, inverted fee venues enhance competition 
-    for liquidity provision and increase information impounded into prices through 
-    limit orders.
+    Stock exchanges compete for order flow through their fee models. A traditional model pays a 
+    rebate to the liquidity supplier, and an inverted model pays a rebate to liquidity demanders. 
+    We examine the impact of inverted fee models on market quality using an exogenous shock to 
+    inverted venue market share created by a regulatory intervention, the SEC Tick Size Pilot. 
+    We find that trading on inverted venues improves pricing efficiency and liquidity when the 
+    minimum tick size is binding. We show that by offering traders sub-tick price improvement, 
+    inverted fee venues enhance competition for liquidity provision and increase information 
+    impounded into prices through limit orders. 
 
 
 Shaping Expectations and Coordinating Attention: The Unintended Consequences of FOMC Press Conferences
@@ -58,6 +57,8 @@ Shaping Expectations and Coordinating Attention: The Unintended Consequences of 
 
 With `Oliver Boguth <http://www.public.asu.edu/~oboguth/>`__ and
 `Charles Martineau <http://www.charlesmartineau.com>`__
+
+Revise and resubmit, Journal of Financial and Quantitative Analysis
 
 [`Available on SSRN <http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2698477>`__]
 
@@ -111,6 +112,8 @@ Do Mutual Fund Managers Adjust NAV for Stale Prices?
 
 Indexers and Comovement
 ~~~~~~~~~~~~~~~~~~~~~~~
+
+Revise and resubmit, Financial Management
 
 [`Available on SSRN <http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2308695>`__]
 [`Online Appendix </research-files/indexers_appendix.pdf>`__]
