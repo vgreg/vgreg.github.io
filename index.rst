@@ -1,6 +1,6 @@
 .. title: Vincent Grégoire
 .. slug: index
-.. date: 2017-03-20 19:56:59 UTC+11:00
+.. date: 2018-07-8 19:56:59 UTC+11:00
 .. tags:
 .. category:
 .. link:
@@ -9,7 +9,7 @@
 
 
 
-**Finance Department, University of Melbourne**
+**Department of Finance, HEC Montréal**
 
 .. container:: row
 
@@ -42,22 +42,20 @@
         .. raw:: html
 
             <ul style="list-style-type: none;">
-                <li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i>Melbourne, Australia</li>
-                <li><i class="fa fa-fw fa-at" aria-hidden="true"></i> <a href='mailto:vincent.gregoire@unimelb.edu.au'>vincent.gregoire@unimelb.edu.au</a></li>
-                <li><i class="fa fa-fw fa-key" aria-hidden="true"></i> <a href="/BAD8B2EE.asc">PGP Public Key</a></li>
+                <li><i class="fa fa-fw fa-map-marker" aria-hidden="true"></i>Montréal, Canada</li>
+                <li><i class="fa fa-fw fa-at" aria-hidden="true"></i> <a href='mailto:vincent.3.gregoire@hec.ca'>vincent.3.gregoire@hec.ca</a></li>
                 <li><i class="fa fa-fw fa-copy" aria-hidden="true"></i> <a href="http://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=1006956">SSRN</a></li>
                 <li><i class="fa fa-fw fa-google"></i> <a href="https://scholar.google.com.au/citations?user=2Ng0rToAAAAJ&hl=en">Google Scholar</a></li>
                 <li><i class="fa fa-fw fa-github" aria-hidden="true"></i> <a href="https://github.com/vgreg">Github</a></li>
-                <li><i class="fa fa-fw fa-phone" aria-hidden="true"></i> +61 (3) 90353756</li>
-                <li><i class="fa fa-fw fa-envelope" aria-hidden="true"></i> Level 12, 198 Berkeley Street, Carlton Victoria 3010 Australia</li>
+                <li><i class="fa fa-fw fa-phone" aria-hidden="true"></i> (514) 340-6595</li>
+                <li><i class="fa fa-fw fa-envelope" aria-hidden="true"></i>  3000, chemin de la Côte-Sainte-Catherine, Montréal (Québec) Canada H3T 2A7</li>
             </ul>
 
 
 About 
 -----
 
-Hello! I joined the University of Melbourne in 2013 as an Assistant Professor (called Senior Lecturer in
-Australia) after obtaining a Ph.D. in Finance from the University of British Columbia.
+Hello! I joined the HEC Montréal in 2018.
 
 My main research interests are in information economics, mutual funds, market microstructure, big data and
 financial technologies.

@@ -58,7 +58,7 @@ Shaping Expectations and Coordinating Attention: The Unintended Consequences of 
 With `Oliver Boguth <http://www.public.asu.edu/~oboguth/>`__ and
 `Charles Martineau <http://www.charlesmartineau.com>`__
 
-Revise and resubmit, Journal of Financial and Quantitative Analysis
+Conditionally accepted, Journal of Financial and Quantitative Analysis
 
 [`Available on SSRN <http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2698477>`__]
 
