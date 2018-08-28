@@ -1,6 +1,6 @@
 .. title: Research
 .. slug: research
-.. date: 2018-08-14 05:53:29 UTC+11:00
+.. date: 2018-08-28 05:53:29 UTC+11:00
 .. tags:
 .. category:
 .. link:
@@ -22,26 +22,14 @@ With `Carole Comerton-Forde <https://www.business.unsw.edu.au/our-people/carole-
 [`Online Appendix <https://www.dropbox.com/s/89zm4donfrfto6e/adf-tsp-appendix.pdf?dl=0>`__]
 
 
-Working Papers
-~~~~~~~~~~~~~~
-
-
-**Shaping Expectations and Coordinating Attention: The Unintended Consequences of FOMC Press Conferences**
+**Shaping Expectations and Coordinating Attention: The Unintended Consequences of FOMC Press Conferences**, *Journal of Financial and Quantitative Analysis, Forthcoming*
 
 With `Oliver Boguth <http://www.public.asu.edu/~oboguth/>`__ and
 `Charles Martineau <http://www.charlesmartineau.com>`__
-
-Conditionally accepted, Journal of Financial and Quantitative Analysis
-
 [`Available on SSRN <http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2698477>`__]
 
-In an effort to increase transparency, the Chair of the Federal Reserve now holds a press conference 
-following some, but not all, FOMC announcements. Evidence from financial markets shows that investors 
-lower their expectations of important decisions on days without press conferences and that these 
-announcements convey less price-relevant information. Using different proxies, we show that investors 
-pay more attention to upcoming announcements with press conferences. This coordination of attention 
-can reduce welfare in models of the social value of public information. Consistent with theories of 
-investor attention, the market risk premium is larger on days with press conferences. 
+Working Papers
+~~~~~~~~~~~~~~
 
 
 **How is Earnings News Transmitted to Stock Prices?**
