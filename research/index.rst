@@ -27,6 +27,7 @@ With `Carole Comerton-Forde <https://www.business.unsw.edu.au/our-people/carole-
 With `Oliver Boguth <http://www.public.asu.edu/~oboguth/>`__ and
 `Charles Martineau <http://www.charlesmartineau.com>`__
 [`Available on SSRN <http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2698477>`__]
+[`Internet Appendix </research-files/FOMC_PC_InternetAppendix.pdf>`__]
 
 Working Papers
 ~~~~~~~~~~~~~~

@@ -55,7 +55,7 @@
 About 
 -----
 
-Hello! I joined the HEC Montréal in 2018.
+Hello! I joined HEC Montréal in 2018.
 
 My main research interests are in information economics, mutual funds, market microstructure, big data and
 financial technologies.
