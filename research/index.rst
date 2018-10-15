@@ -29,6 +29,9 @@ With `Oliver Boguth <http://www.public.asu.edu/~oboguth/>`__ and
 [`Available on SSRN <http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2698477>`__]
 [`Internet Appendix </research-files/FOMC_PC_InternetAppendix.pdf>`__]
 
+*Note:* From January 2019, the Chairman of the Federal Reserve will `now hold a press conference after each meeting <https://www.cnbc.com/2018/06/13/feds-powell-says-he-will-begin-press-conferences-following-each-meeting-starting-in-january.html>`__. A postscript at the end of the paper addresses this point.
+
+
 Working Papers
 ~~~~~~~~~~~~~~
 
