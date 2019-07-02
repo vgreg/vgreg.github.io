@@ -62,6 +62,22 @@ investor attention, the market risk premium is larger on days with PCs.
 * Live interview with Sky Business News, 2015
 * `Mention in LA Times <http://www.latimes.com/business/la-fi-yellen-hike-analysis-20151216-story.html/>`__, 2015
 
+
+Pre-PhD Publications
+~~~~~~~~~~~~~~~~~~~~
+
+**Using copulas to model price dependence in energy markets**, *Energy Risk, 2008*
+with Christian Genest and Michel Gendron
+
+[`CiteSeerX <http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.461.3276&rep=rep1&type=pdf>`__]
+
+
+**Visible and infrared imagery for surveillance applications: software and hardware considerations**, *Quantitative InfraRed Thermography Journal, 2007*
+with Amar El-Maadi, Louis St-Laurent, Hélène Torresan, Benoit Turgeon, Donald Prévost, Patrick Hébert, Denis Laurendeau, Benoit Ricard and Xavier Maldague
+
+[`Taylor & Francis <http://dx.doi.org/10.3166/qirt.4.25-40>`__]
+
+
 Working Papers
 ~~~~~~~~~~~~~~
 
