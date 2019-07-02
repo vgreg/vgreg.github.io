@@ -7,66 +7,118 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>http://www.vincentgregoire.com/</loc>
-  <lastmod>2018-08-28T20:04:00Z</lastmod>
+  <lastmod>2019-07-02T02:10:00Z</lastmod>
  </url>
  <url>
   <loc>http://www.vincentgregoire.com/archive.html</loc>
-  <lastmod>2018-08-14T18:03:00Z</lastmod>
+  <lastmod>2019-07-02T17:56:00Z</lastmod>
  </url>
  <url>
   <loc>http://www.vincentgregoire.com/blog/</loc>
-  <lastmod>2018-08-13T20:37:00Z</lastmod>
+  <lastmod>2019-01-14T20:18:00Z</lastmod>
  </url>
  <url>
   <loc>http://www.vincentgregoire.com/categories/</loc>
-  <lastmod>2018-08-13T20:37:00Z</lastmod>
+  <lastmod>2019-01-14T20:18:00Z</lastmod>
  </url>
  <url>
   <loc>http://www.vincentgregoire.com/code/</loc>
-  <lastmod>2018-08-13T20:37:00Z</lastmod>
+  <lastmod>2019-01-14T20:18:00Z</lastmod>
  </url>
  <url>
   <loc>http://www.vincentgregoire.com/contact/</loc>
-  <lastmod>2018-08-13T20:37:00Z</lastmod>
+  <lastmod>2019-01-14T20:18:00Z</lastmod>
  </url>
  <url>
   <loc>http://www.vincentgregoire.com/crsp-example-dividends/</loc>
-  <lastmod>2018-08-13T20:37:00Z</lastmod>
+  <lastmod>2019-01-14T20:18:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://www.vincentgregoire.com/fr/</loc>
+  <lastmod>2019-07-02T02:10:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://www.vincentgregoire.com/fr/archive.html</loc>
+  <lastmod>2019-07-02T02:10:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://www.vincentgregoire.com/fr/blog/</loc>
+  <lastmod>2019-07-02T02:10:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://www.vincentgregoire.com/fr/categories/</loc>
+  <lastmod>2019-07-02T02:10:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://www.vincentgregoire.com/fr/code/</loc>
+  <lastmod>2019-07-02T02:10:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://www.vincentgregoire.com/fr/contact/</loc>
+  <lastmod>2019-07-02T02:10:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://www.vincentgregoire.com/fr/crsp-example-dividends/</loc>
+  <lastmod>2019-07-02T02:10:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://www.vincentgregoire.com/fr/introduction-to-empirical-market-microstructure-in-python/</loc>
+  <lastmod>2019-07-02T02:10:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://www.vincentgregoire.com/fr/introduction-to-pandas/</loc>
+  <lastmod>2019-07-02T02:10:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://www.vincentgregoire.com/fr/python-bootcamp/</loc>
+  <lastmod>2019-07-02T02:10:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://www.vincentgregoire.com/fr/research/</loc>
+  <lastmod>2019-07-02T02:10:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://www.vincentgregoire.com/fr/standard-errors-in-python/</loc>
+  <lastmod>2019-07-02T02:10:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://www.vincentgregoire.com/fr/trump-tweets-and-the-stock-market/</loc>
+  <lastmod>2019-07-02T02:10:00Z</lastmod>
  </url>
  <url>
   <loc>http://www.vincentgregoire.com/galleries/</loc>
-  <lastmod>2018-08-13T20:37:00Z</lastmod>
+  <lastmod>2019-01-14T20:18:00Z</lastmod>
  </url>
  <url>
   <loc>http://www.vincentgregoire.com/introduction-to-empirical-market-microstructure-in-python/</loc>
-  <lastmod>2018-08-13T20:37:00Z</lastmod>
+  <lastmod>2019-01-14T20:18:00Z</lastmod>
  </url>
  <url>
   <loc>http://www.vincentgregoire.com/introduction-to-pandas/</loc>
-  <lastmod>2018-08-13T20:37:00Z</lastmod>
+  <lastmod>2019-01-14T20:18:00Z</lastmod>
  </url>
  <url>
   <loc>http://www.vincentgregoire.com/listings/</loc>
-  <lastmod>2018-08-13T20:37:00Z</lastmod>
+  <lastmod>2019-01-14T20:18:00Z</lastmod>
  </url>
  <url>
   <loc>http://www.vincentgregoire.com/listings/__pycache__/</loc>
-  <lastmod>2018-08-13T20:37:00Z</lastmod>
+  <lastmod>2019-01-14T20:18:00Z</lastmod>
  </url>
  <url>
   <loc>http://www.vincentgregoire.com/python-bootcamp/</loc>
-  <lastmod>2018-08-13T20:37:00Z</lastmod>
+  <lastmod>2019-01-14T20:18:00Z</lastmod>
  </url>
  <url>
   <loc>http://www.vincentgregoire.com/research/</loc>
-  <lastmod>2018-08-13T20:37:00Z</lastmod>
+  <lastmod>2019-01-14T20:18:00Z</lastmod>
  </url>
  <url>
   <loc>http://www.vincentgregoire.com/standard-errors-in-python/</loc>
-  <lastmod>2018-08-13T20:37:00Z</lastmod>
+  <lastmod>2019-01-14T20:18:00Z</lastmod>
  </url>
  <url>
   <loc>http://www.vincentgregoire.com/trump-tweets-and-the-stock-market/</loc>
-  <lastmod>2018-08-13T20:37:00Z</lastmod>
+  <lastmod>2019-01-14T20:18:00Z</lastmod>
  </url>
 </urlset>
