@@ -97,7 +97,10 @@ this activity, but order flow-based measures do not. We find evidence that uninf
 professional traders traded in the same direction, amplifying the impact of informed 
 trading. 
 
-*Media*: `Article on Bloomberg.com <https://www.bloomberg.com/news/articles/2019-04-22/the-market-knew-about-the-press-release-hackers-before-the-cops>`__, 2019
+*Media*: 
+
+* `Article on Bloomberg.com <https://www.bloomberg.com/news/articles/2019-04-22/the-market-knew-about-the-press-release-hackers-before-the-cops>`__, 2019
+* `Article on Columbia Law’s Blue Sky blog <http://clsbluesky.law.columbia.edu/2019/07/10/price-revelation-from-insider-trading-evidence-from-hacked-earnings-news/>`__, 2019
 
 **How is Earnings News Transmitted to Stock Prices?**
 
