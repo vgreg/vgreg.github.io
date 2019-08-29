@@ -63,7 +63,7 @@ investor attention, the market risk premium is larger on days with PCs.
 * `Mention in LA Times <http://www.latimes.com/business/la-fi-yellen-hike-analysis-20151216-story.html/>`__, 2015
 
 
-**Indexers and Comovement**, *North American Journal of Economics and Finance, Forthcoming*
+**The Rise of Passive Investing and Index-linked Comovement**, *North American Journal of Economics and Finance, Forthcoming*
 
 [`SSRN <http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2308695>`__]
 [`Online Appendix </research-files/indexers_appendix.pdf>`__]
