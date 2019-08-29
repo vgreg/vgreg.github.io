@@ -63,6 +63,18 @@ investor attention, the market risk premium is larger on days with PCs.
 * `Mention in LA Times <http://www.latimes.com/business/la-fi-yellen-hike-analysis-20151216-story.html/>`__, 2015
 
 
+**Indexers and Comovement**, *North American Journal of Economics and Finance, Forthcoming*
+
+[`SSRN <http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2308695>`__]
+[`Online Appendix </research-files/indexers_appendix.pdf>`__]
+
+I introduce a general equilibrium model with active investors and indexers. Indexing causes market segmentation, and the degree of segmentation is a function of the relative wealth of indexers 
+in the economy. Shocks to this relative wealth induce correlated shocks to discount rates of index stocks. The wealthier indexers are, the greater the resulting comovement is. 
+I confirm empirically that S&P 500 stocks comove more with other index stocks and less with non-index stocks, and that changes in passive holdings of S&P 500 stocks predict changes 
+in comovement of index stocks.
+
+
+
 Pre-PhD Publications
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -158,21 +170,6 @@ unobserved actions of fund managers. I also show that predictability increases
 significantly when information sources suggested by prior literature, such as
 index and futures returns, are supplemented by premiums on related exchange
 traded funds).
-
-**Indexers and Comovement**
-
-[`SSRN <http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2308695>`__]
-[`Online Appendix </research-files/indexers_appendix.pdf>`__]
-
-I introduce a general equilibrium model with active investors and indexers.
-Indexing causes market segmentation, and the degree of segmentation is a
-function of the relative wealth of indexers in the economy. Shocks to this
-relative wealth induce correlated shocks to discount rates of index stocks.
-The wealthier indexers are, the greater the resulting comovement is. I confirm
-empirically that S&P 500 stocks comove more with other index stocks and less
-with non-index stocks, and that changes in passive holdings of S&P 500 stocks
-predict changes in comovement of index stocks.
-
 
 Work in Progress
 ~~~~~~~~~~~~~~~~
