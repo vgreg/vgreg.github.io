@@ -13,7 +13,7 @@ My papers are available online on `SSRN <http://papers.ssrn.com/sol3/cf_dev/AbsB
 Publications
 ~~~~~~~~~~~~
 
-**Inverted Fee Structures, Tick Size, and Market Quality**, *Journal of Financial Economics, Forthcoming*
+**Inverted Fee Structures, Tick Size, and Market Quality**, *Journal of Financial Economics* Volume 134, Issue 1, 2019, Pages 141-164
 
 With `Carole Comerton-Forde <https://www.business.unsw.edu.au/our-people/carole-comerton-forde>`__ and
 `Zhuo Zhong <https://sites.google.com/site/zzhong225/>`__
