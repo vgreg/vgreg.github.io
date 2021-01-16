@@ -4,36 +4,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Standard errors in Python | Vincent Grégoire</title>
+<title>standard-errors-in-python | Vincent Grégoire</title>
 <link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link href="../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
 <link href="../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../rss.xml">
 <link rel="canonical" href="http://www.vincentgregoire.com/standard-errors-in-python/">
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-    tex2jax: {
-        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
-        processEscapes: true
-    },
-    displayAlign: 'left', // Change this to 'center' to center equations.
-    "HTML-CSS": {
-        styles: {'.MathJax_Display': {"margin": 0}}
-    }
-});
-</script><!--[if lt IE 9]><script src="../assets/js/html5.js"></script><![endif]--><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<!--[if lt IE 9]><script src="../assets/js/html5.js"></script><![endif]--><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 <meta name="author" content="Vincent Grégoire">
 <meta property="og:site_name" content="Vincent Grégoire">
-<meta property="og:title" content="Standard errors in Python">
+<meta property="og:title" content="standard-errors-in-python">
 <meta property="og:url" content="http://www.vincentgregoire.com/standard-errors-in-python/">
-<meta property="og:description" content="Attention!
-This page was moved to a standalone GitHub repository.
-See on GitHub">
+<meta property="og:description" content="Estimating standard errors in Python¶Prepared by Vincent Grégoire, Department of Finance, HEC Montréal.
+You can download the latest version as a Jupyter notebook at https://github.com/vgreg/python-se.">
 <meta property="og:type" content="article">
-<meta property="article:published_time" content="2017-03-21T14:28:37+11:00">
+<meta property="article:published_time" content="2021-01-16T00:04:29-05:00">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -41,10 +28,11 @@ See on GitHub">
 <!-- Menubar -->
 
 <nav class="navbar navbar-expand-md static-top mb-4
-navbar-dark bg-dark
+navbar-dark
+bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
-        <a class="navbar-brand" href="http://www.vincentgregoire.com/">
+        <a class="navbar-brand" href="../">
 
             <span id="blog-title">Vincent Grégoire</span>
         </a>
@@ -71,7 +59,7 @@ navbar-dark bg-dark
 </ul>
 <ul class="navbar-nav navbar-right">
 <li class="nav-item">
-    <a href="index.rst" id="sourcelink" class="nav-link">Source</a>
+    <a href="index.ipynb" id="sourcelink" class="nav-link">Source</a>
     </li>
 
 
@@ -86,36 +74,1890 @@ navbar-dark bg-dark
         <!--Body content-->
         
         
-<article class="post-text storypage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Standard errors in Python</a></h1>
+        
+<article class="post-text storypage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">standard-errors-in-python</a></h1>
 
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
-    <div class="admonition attention">
-<p class="first admonition-title">Attention!</p>
-<p>This page was moved to a standalone GitHub repository.</p>
-<div class="last"><a href="https://github.com/vgreg/python-se" class="btn btn-primary btn-lg">See on GitHub</a></div>
+    <div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Estimating-standard-errors-in-Python">Estimating standard errors in Python<a class="anchor-link" href="#Estimating-standard-errors-in-Python">¶</a>
+</h2>
+<p>Prepared by <a href="http://www.vincentgregoire.com">Vincent Grégoire</a>, Department of Finance, HEC Montréal.</p>
+<p>You can download the latest version as a Jupyter notebook at <a href="https://github.com/vgreg/python-se">https://github.com/vgreg/python-se</a>. Last update: December 3, 2019.</p>
+<p><strong>Contact</strong>: <a href="mailto:vincent.3.gregoire@hec.ca">vincent.3.gregoire@hec.ca</a></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A common problem faced by financial economists when transitioning to Python is the <em>apparent</em> inability to easily do things that we have built-in functions for in either Stata, SAS or R. This page aims to alleviate this pain by providing code samples replicating <em>most</em> of the methods discussed on <a href="http://www.kellogg.northwestern.edu/faculty/petersen/htm/papers/se/se_programming.htm">Mitchell A. Petersen's standard errors programming advice page</a>, and more.</p>
+<p>This page is a perpetual work in progress, and I am sure there are probably better/cleaner/faster/more efficient ways to do things, please email me if you have any comments or suggestions. I tested this notebook with Python 3.6, but these examples should work with Python 2.7 as well without too much work.</p>
+<p>The four main modules that serve as the basis for data analysis in Python are <a href="http://pandas.pydata.org">pandas</a>, <a href="https://www.statsmodels.org/">statsmodel</a>, <a href="http://www.numpy.org/">numpy</a> and <a href="https://www.scipy.org/scipylib/index.html">scipy</a>. For linear models with fixed effects and clustered standard errors, <a href="https://github.com/bashtage/linearmodels">linearmodels</a> is also very useful. Note that <code>linearmodels</code> isn't pre-installed with Anaconda and needs to be installed separately with <code>pip</code>.</p>
+<p>Most of these examples rely on the covariance adjustments of the <code>fit()</code> function for OLS regressions in statsmodels. Unfortunately, the documentation is quite sparse, but some information can be gathered from the <a href="http://www.statsmodels.org/dev/generated/statsmodels.regression.linear_model.RegressionResults.get_robustcov_results.html">documentation for <code>get_robustcov_results()</code></a>.</p>
+<p>Special thanks to <a href="http://www.charlesmartineau.com/">Charles Martineau</a> for providing some of the examples.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="kn">import</span> <span class="nn">statsmodels.stats.sandwich_covariance</span> <span class="k">as</span> <span class="nn">sw</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">statsmodels</span> <span class="k">as</span> <span class="nn">statsmodels</span>
+<span class="kn">from</span> <span class="nn">linearmodels</span> <span class="kn">import</span> <span class="n">PanelOLS</span><span class="p">,</span> <span class="n">FamaMacBeth</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Print the versions used</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'pandas: '</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">__version__</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'numpy: '</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">__version__</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'statsmodels: '</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">statsmodels</span><span class="o">.</span><span class="n">__version__</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>pandas: 0.25.1
+numpy: 1.17.2
+statsmodels: 0.10.1
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In order to have a basis for comparison, we'll use Petersen's <a href="http://www.kellogg.northwestern.edu/faculty/petersen/htm/papers/se/test_data.txt">sample dataset</a> and compare our results with those <a href="http://www.kellogg.northwestern.edu/faculty/petersen/htm/papers/se/test_data.htm">reported on his page</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s1">'http://www.kellogg.northwestern.edu/faculty/petersen/htm/papers/se/test_data.txt'</span><span class="p">,</span>
+                   <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">'firmid'</span><span class="p">,</span><span class="s1">'year'</span><span class="p">,</span><span class="s1">'x'</span><span class="p">,</span><span class="s1">'y'</span><span class="p">],</span>
+                   <span class="n">delim_whitespace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="OLS-and-statsmodels">OLS and statsmodels<a class="anchor-link" href="#OLS-and-statsmodels">¶</a>
+</h2>
+<h3 id="OLS-Coefficients-and-Standard-Errors">OLS Coefficients and Standard Errors<a class="anchor-link" href="#OLS-Coefficients-and-Standard-Errors">¶</a>
+</h3>
+<p>There are many, many ways to run a simple OLS regression in Python. This example uses the formula API from statmodels that lets you use R-style formulas. The <code>use_t</code> parameter tells statsmodels to use $t$-statistics to compute the $p$-values. For more information on formula construction, see the <a href="http://patsy.readthedocs.org/en/latest/">patsy documentation</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ols</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">formula</span><span class="o">=</span><span class="s1">'y ~ x'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">use_t</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ols</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[4]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+<th>Dep. Variable:</th>            <td>y</td>        <th>  R-squared:         </th> <td>   0.208</td> 
+</tr>
+<tr>
+<th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.208</td> 
+</tr>
+<tr>
+<th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   1311.</td> 
+</tr>
+<tr>
+<th>Date:</th>             <td>Tue, 03 Dec 2019</td> <th>  Prob (F-statistic):</th> <td>4.25e-255</td>
+</tr>
+<tr>
+<th>Time:</th>                 <td>14:19:19</td>     <th>  Log-Likelihood:    </th> <td> -10573.</td> 
+</tr>
+<tr>
+<th>No. Observations:</th>      <td>  5000</td>      <th>  AIC:               </th> <td>2.115e+04</td>
+</tr>
+<tr>
+<th>Df Residuals:</th>          <td>  4998</td>      <th>  BIC:               </th> <td>2.116e+04</td>
+</tr>
+<tr>
+<th>Df Model:</th>              <td>     1</td>      <th>                     </th>     <td> </td>    
+</tr>
+<tr>
+<th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+<td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P&gt;|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+<th>Intercept</th> <td>    0.0297</td> <td>    0.028</td> <td>    1.047</td> <td> 0.295</td> <td>   -0.026</td> <td>    0.085</td>
+</tr>
+<tr>
+<th>x</th>         <td>    1.0348</td> <td>    0.029</td> <td>   36.204</td> <td> 0.000</td> <td>    0.979</td> <td>    1.091</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+<th>Omnibus:</th>       <td> 4.912</td> <th>  Durbin-Watson:     </th> <td>   1.096</td>
+</tr>
+<tr>
+<th>Prob(Omnibus):</th> <td> 0.086</td> <th>  Jarque-Bera (JB):  </th> <td>   4.862</td>
+</tr>
+<tr>
+<th>Skew:</th>          <td> 0.070</td> <th>  Prob(JB):          </th> <td>  0.0880</td>
+</tr>
+<tr>
+<th>Kurtosis:</th>      <td> 3.063</td> <th>  Cond. No.          </th> <td>    1.01</td>
+</tr>
+</table>
+<br><br>Warnings:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="OLS-Coefficients-and-White-Standard-Errors">OLS Coefficients and White Standard Errors<a class="anchor-link" href="#OLS-Coefficients-and-White-Standard-Errors">¶</a>
+</h3>
+<p>Adding heteroscedasticity-consistent standard errors is not much harder. The <code>cov_type</code> parameter can take many values, for heteroscedasticity-consistent standard errors different implementations take the values <code>HC0</code> (the original White estimator) to <code>HC3</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">robust_ols</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">formula</span><span class="o">=</span><span class="s1">'y ~ x'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">'HC1'</span><span class="p">,</span> <span class="n">use_t</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">robust_ols</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[5]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+<th>Dep. Variable:</th>            <td>y</td>        <th>  R-squared:         </th> <td>   0.208</td> 
+</tr>
+<tr>
+<th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.208</td> 
+</tr>
+<tr>
+<th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   1328.</td> 
+</tr>
+<tr>
+<th>Date:</th>             <td>Tue, 03 Dec 2019</td> <th>  Prob (F-statistic):</th> <td>4.29e-258</td>
+</tr>
+<tr>
+<th>Time:</th>                 <td>14:19:19</td>     <th>  Log-Likelihood:    </th> <td> -10573.</td> 
+</tr>
+<tr>
+<th>No. Observations:</th>      <td>  5000</td>      <th>  AIC:               </th> <td>2.115e+04</td>
+</tr>
+<tr>
+<th>Df Residuals:</th>          <td>  4998</td>      <th>  BIC:               </th> <td>2.116e+04</td>
+</tr>
+<tr>
+<th>Df Model:</th>              <td>     1</td>      <th>                     </th>     <td> </td>    
+</tr>
+<tr>
+<th>Covariance Type:</th>         <td>HC1</td>       <th>                     </th>     <td> </td>    
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+<td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P&gt;|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+<th>Intercept</th> <td>    0.0297</td> <td>    0.028</td> <td>    1.047</td> <td> 0.295</td> <td>   -0.026</td> <td>    0.085</td>
+</tr>
+<tr>
+<th>x</th>         <td>    1.0348</td> <td>    0.028</td> <td>   36.444</td> <td> 0.000</td> <td>    0.979</td> <td>    1.091</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+<th>Omnibus:</th>       <td> 4.912</td> <th>  Durbin-Watson:     </th> <td>   1.096</td>
+</tr>
+<tr>
+<th>Prob(Omnibus):</th> <td> 0.086</td> <th>  Jarque-Bera (JB):  </th> <td>   4.862</td>
+</tr>
+<tr>
+<th>Skew:</th>          <td> 0.070</td> <th>  Prob(JB):          </th> <td>  0.0880</td>
+</tr>
+<tr>
+<th>Kurtosis:</th>      <td> 3.063</td> <th>  Cond. No.          </th> <td>    1.01</td>
+</tr>
+</table>
+<br><br>Warnings:<br>[1] Standard Errors are heteroscedasticity robust (HC1)
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="OLS-Coefficients-and-Standard-Errors-Clustered-by-Firm-or-Year">OLS Coefficients and Standard Errors Clustered by Firm or Year<a class="anchor-link" href="#OLS-Coefficients-and-Standard-Errors-Clustered-by-Firm-or-Year">¶</a>
+</h3>
+<p>Clustering can also be acheived by passing <code>cluster</code> to the <code>cov_type</code> parameter. You also need to give an additional parameter <code>cov_kwds</code>, which indicates which group to cluster on. The parameters takes an arrays of labels, which can be the columns of a pandas DataFrame as in this example.</p>
+<p><em>Warning</em>: <code>patsy</code> automatically throws out missing values from the regression, but this does not affect the clustering groups, which may result in misaligned rows. The easy solution is to manually remove missing values from the dataset using <code>.dropna()</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cluster_firm_ols</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">formula</span><span class="o">=</span><span class="s1">'y ~ x'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">'cluster'</span><span class="p">,</span>
+                                                        <span class="n">cov_kwds</span><span class="o">=</span><span class="p">{</span><span class="s1">'groups'</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">'firmid'</span><span class="p">]},</span>
+                                                        <span class="n">use_t</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">cluster_firm_ols</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[6]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+<th>Dep. Variable:</th>            <td>y</td>        <th>  R-squared:         </th> <td>   0.208</td> 
+</tr>
+<tr>
+<th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.208</td> 
+</tr>
+<tr>
+<th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   418.3</td> 
+</tr>
+<tr>
+<th>Date:</th>             <td>Tue, 03 Dec 2019</td> <th>  Prob (F-statistic):</th> <td>5.61e-68</td> 
+</tr>
+<tr>
+<th>Time:</th>                 <td>14:19:19</td>     <th>  Log-Likelihood:    </th> <td> -10573.</td> 
+</tr>
+<tr>
+<th>No. Observations:</th>      <td>  5000</td>      <th>  AIC:               </th> <td>2.115e+04</td>
+</tr>
+<tr>
+<th>Df Residuals:</th>          <td>  4998</td>      <th>  BIC:               </th> <td>2.116e+04</td>
+</tr>
+<tr>
+<th>Df Model:</th>              <td>     1</td>      <th>                     </th>     <td> </td>    
+</tr>
+<tr>
+<th>Covariance Type:</th>       <td>cluster</td>     <th>                     </th>     <td> </td>    
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+<td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P&gt;|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+<th>Intercept</th> <td>    0.0297</td> <td>    0.067</td> <td>    0.443</td> <td> 0.658</td> <td>   -0.102</td> <td>    0.161</td>
+</tr>
+<tr>
+<th>x</th>         <td>    1.0348</td> <td>    0.051</td> <td>   20.453</td> <td> 0.000</td> <td>    0.935</td> <td>    1.134</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+<th>Omnibus:</th>       <td> 4.912</td> <th>  Durbin-Watson:     </th> <td>   1.096</td>
+</tr>
+<tr>
+<th>Prob(Omnibus):</th> <td> 0.086</td> <th>  Jarque-Bera (JB):  </th> <td>   4.862</td>
+</tr>
+<tr>
+<th>Skew:</th>          <td> 0.070</td> <th>  Prob(JB):          </th> <td>  0.0880</td>
+</tr>
+<tr>
+<th>Kurtosis:</th>      <td> 3.063</td> <th>  Cond. No.          </th> <td>    1.01</td>
+</tr>
+</table>
+<br><br>Warnings:<br>[1] Standard Errors are robust to cluster correlation (cluster)
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cluster_year_ols</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">formula</span><span class="o">=</span><span class="s1">'y ~ x'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">'cluster'</span><span class="p">,</span>
+                                                        <span class="n">cov_kwds</span><span class="o">=</span><span class="p">{</span><span class="s1">'groups'</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">'year'</span><span class="p">]},</span>
+                                                        <span class="n">use_t</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">cluster_year_ols</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[7]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+<th>Dep. Variable:</th>            <td>y</td>        <th>  R-squared:         </th> <td>   0.208</td> 
+</tr>
+<tr>
+<th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.208</td> 
+</tr>
+<tr>
+<th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   960.6</td> 
+</tr>
+<tr>
+<th>Date:</th>             <td>Tue, 03 Dec 2019</td> <th>  Prob (F-statistic):</th> <td>1.86e-10</td> 
+</tr>
+<tr>
+<th>Time:</th>                 <td>14:19:19</td>     <th>  Log-Likelihood:    </th> <td> -10573.</td> 
+</tr>
+<tr>
+<th>No. Observations:</th>      <td>  5000</td>      <th>  AIC:               </th> <td>2.115e+04</td>
+</tr>
+<tr>
+<th>Df Residuals:</th>          <td>  4998</td>      <th>  BIC:               </th> <td>2.116e+04</td>
+</tr>
+<tr>
+<th>Df Model:</th>              <td>     1</td>      <th>                     </th>     <td> </td>    
+</tr>
+<tr>
+<th>Covariance Type:</th>       <td>cluster</td>     <th>                     </th>     <td> </td>    
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+<td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P&gt;|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+<th>Intercept</th> <td>    0.0297</td> <td>    0.023</td> <td>    1.269</td> <td> 0.236</td> <td>   -0.023</td> <td>    0.083</td>
+</tr>
+<tr>
+<th>x</th>         <td>    1.0348</td> <td>    0.033</td> <td>   30.993</td> <td> 0.000</td> <td>    0.959</td> <td>    1.110</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+<th>Omnibus:</th>       <td> 4.912</td> <th>  Durbin-Watson:     </th> <td>   1.096</td>
+</tr>
+<tr>
+<th>Prob(Omnibus):</th> <td> 0.086</td> <th>  Jarque-Bera (JB):  </th> <td>   4.862</td>
+</tr>
+<tr>
+<th>Skew:</th>          <td> 0.070</td> <th>  Prob(JB):          </th> <td>  0.0880</td>
+</tr>
+<tr>
+<th>Kurtosis:</th>      <td> 3.063</td> <th>  Cond. No.          </th> <td>    1.01</td>
+</tr>
+</table>
+<br><br>Warnings:<br>[1] Standard Errors are robust to cluster correlation (cluster)
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="OLS-Coefficients-and-Standard-Errors-Clustered-by-Firm-and-Year">OLS Coefficients and Standard Errors Clustered by Firm and Year<a class="anchor-link" href="#OLS-Coefficients-and-Standard-Errors-Clustered-by-Firm-and-Year">¶</a>
+</h3>
+<p>Clustering along two dimensions is as easy as clustering along one dimension, all you have to do is pass an array of two colums as the group. The only caveat is that the group cannot be a <code>pandas</code> <code>DataFrame</code> (while it can be a <code>Series</code>), you need to encapsulate it in <code>numpy.array()</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">cluster_2ways_ols</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">formula</span><span class="o">=</span><span class="s1">'y ~ x'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">'cluster'</span><span class="p">,</span>
+                                                         <span class="n">cov_kwds</span><span class="o">=</span><span class="p">{</span><span class="s1">'groups'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">'firmid'</span><span class="p">,</span> <span class="s1">'year'</span><span class="p">]])},</span>
+                                                         <span class="n">use_t</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">cluster_2ways_ols</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[8]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+<th>Dep. Variable:</th>            <td>y</td>        <th>  R-squared:         </th> <td>   0.208</td> 
+</tr>
+<tr>
+<th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.208</td> 
+</tr>
+<tr>
+<th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   373.3</td> 
+</tr>
+<tr>
+<th>Date:</th>             <td>Tue, 03 Dec 2019</td> <th>  Prob (F-statistic):</th> <td>1.23e-08</td> 
+</tr>
+<tr>
+<th>Time:</th>                 <td>14:19:19</td>     <th>  Log-Likelihood:    </th> <td> -10573.</td> 
+</tr>
+<tr>
+<th>No. Observations:</th>      <td>  5000</td>      <th>  AIC:               </th> <td>2.115e+04</td>
+</tr>
+<tr>
+<th>Df Residuals:</th>          <td>  4998</td>      <th>  BIC:               </th> <td>2.116e+04</td>
+</tr>
+<tr>
+<th>Df Model:</th>              <td>     1</td>      <th>                     </th>     <td> </td>    
+</tr>
+<tr>
+<th>Covariance Type:</th>       <td>cluster</td>     <th>                     </th>     <td> </td>    
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+<td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P&gt;|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+<th>Intercept</th> <td>    0.0297</td> <td>    0.065</td> <td>    0.456</td> <td> 0.659</td> <td>   -0.118</td> <td>    0.177</td>
+</tr>
+<tr>
+<th>x</th>         <td>    1.0348</td> <td>    0.054</td> <td>   19.322</td> <td> 0.000</td> <td>    0.914</td> <td>    1.156</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+<th>Omnibus:</th>       <td> 4.912</td> <th>  Durbin-Watson:     </th> <td>   1.096</td>
+</tr>
+<tr>
+<th>Prob(Omnibus):</th> <td> 0.086</td> <th>  Jarque-Bera (JB):  </th> <td>   4.862</td>
+</tr>
+<tr>
+<th>Skew:</th>          <td> 0.070</td> <th>  Prob(JB):          </th> <td>  0.0880</td>
+</tr>
+<tr>
+<th>Kurtosis:</th>      <td> 3.063</td> <th>  Cond. No.          </th> <td>    1.01</td>
+</tr>
+</table>
+<br><br>Warnings:<br>[1] Standard Errors are robust to cluster correlation (cluster)
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="OLS-Standard-Errors-Clustering-with-N-dimensions">OLS Standard Errors Clustering with N dimensions<a class="anchor-link" href="#OLS-Standard-Errors-Clustering-with-N-dimensions">¶</a>
+</h3>
+<p>As far as I know, there is no built-in function for $N$-way clustering in Python when $N&gt;2$. One workaround suggested by my former colleague <a href="https://sites.google.com/site/zzhong225/">Zhuo Zhong</a> is to use the <code>rpy2</code> package to link Python with <code>R</code> and estimate the standard errors with the <code>multiwayvcov</code> library. The following example replicates the previous one with 2-way clustering, but can easily be extended to more than 2 groups (just pass more than two groups to the function).</p>
+<p>You first need to have <code>R</code> installed. If you are using the Anaconda environment, see <a href="http://conda.pydata.org/docs/r-with-conda.html">http://conda.pydata.org/docs/r-with-conda.html</a>.</p>
+<p>To install the required <code>R</code> libraries, you can use the following code, which you only need to run once:</p>
+
+<pre><code>from rpy2.robjects.packages import importr
+utils = importr('utils')
+utils.chooseCRANmirror(ind=12)
+utils.install_packages('multiwayvcov')
+utils.install_packages('lmtest')
+
+</code></pre>
+<p>Here is a sample function that lets you retreive coefficient estimates, standard errors, $t$-values and $p$-values.</p>
+<p><strong>Note</strong>: An update to <code>pandas</code> or <code>rpy2</code> broke the code. I left it here for reference and will fix it eventually.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">pandas2ri</span>
+<span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="k">as</span> <span class="nn">ro</span>
+
+<span class="c1"># Hide warnings (R is quite verbose). Comment out to keep the warnings</span>
+<span class="n">ro</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">'options'</span><span class="p">](</span><span class="n">warn</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">pandas2ri</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># model is a string (R-style regression model)</span>
+<span class="c1"># clusters is a list a strings</span>
+<span class="c1"># returns a pandas DataFrame</span>
+<span class="k">def</span> <span class="nf">multiway_cluster</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">clusters</span><span class="p">):</span>
+    <span class="n">rdf</span> <span class="o">=</span> <span class="n">pandas2ri</span><span class="o">.</span><span class="n">py2ri</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">ro</span><span class="o">.</span><span class="n">globalenv</span><span class="p">[</span><span class="s1">'rdf'</span><span class="p">]</span> <span class="o">=</span> <span class="n">rdf</span>
+
+    <span class="n">clusters_grp</span> <span class="o">=</span> <span class="s1">' + '</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s1">'rdf$'</span> <span class="o">+</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">clusters</span><span class="p">])</span>
+    <span class="n">reg_command</span> <span class="o">=</span> <span class="s1">'reg &lt;- lm('</span> <span class="o">+</span> <span class="n">model</span> <span class="o">+</span> <span class="s1">', data = rdf)</span><span class="se">\n</span><span class="s1">'</span>
+    <span class="n">vcov_command</span> <span class="o">=</span> <span class="s1">'reg$vcov &lt;- cluster.vcov(reg, ~ '</span> <span class="o">+</span> <span class="n">clusters_grp</span> <span class="o">+</span> <span class="s1">')</span><span class="se">\n</span><span class="s1">'</span>
+    <span class="n">libraries</span> <span class="o">=</span> <span class="s1">'''</span>
+<span class="s1">library(zoo)</span>
+<span class="s1">library(multiwayvcov)</span>
+<span class="s1">library(lmtest)</span>
+<span class="s1">'''</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="s1">'''</span>
+<span class="s1">result &lt;- coeftest(reg, reg$vcov)</span>
+<span class="s1">regnames &lt;- attributes(result)$dimnames[[1]]</span>
+<span class="s1">colnames &lt;- attributes(result)$dimnames[[2]]</span>
+<span class="s1">'''</span>
+
+    <span class="n">command</span> <span class="o">=</span> <span class="n">libraries</span> <span class="o">+</span> <span class="n">reg_command</span> <span class="o">+</span> <span class="n">vcov_command</span> <span class="o">+</span> <span class="n">output</span>
+    <span class="n">ro</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">ro</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">'result'</span><span class="p">))</span>
+    <span class="n">res</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">ro</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">'colnames'</span><span class="p">)</span>
+    <span class="n">res</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">ro</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">'regnames'</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">res</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># An update to pandas or rpy2 broke the code. I left it here for reference and will fix it eventually.</span>
+
+<span class="c1">#multiway_cluster(df, 'y ~ x', clusters=['firmid', 'year'])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="OLS-Coefficients-and-Standard-Errors-with-Firm-and/or-Year-Fixed-Effects">OLS Coefficients and Standard Errors with Firm and/or Year Fixed Effects<a class="anchor-link" href="#OLS-Coefficients-and-Standard-Errors-with-Firm-and/or-Year-Fixed-Effects">¶</a>
+</h3>
+<h4 id="With-linearmodels">With linearmodels<a class="anchor-link" href="#With-linearmodels">¶</a>
+</h4>
+<p>The package <code>linearmodels</code> has built-in functions for panel OLS including support for up to two-way fixed effects and clustering (see the documentation for fixed effects not on entity or date).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># linearmodels needs the index to be entity/date.</span>
+<span class="n">df2</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">'firmid'</span><span class="p">,</span> <span class="s1">'year'</span><span class="p">])</span>
+
+<span class="n">firm_fe_panel</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">'y ~ x + EntityEffects'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df2</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">firm_fe_panel</span><span class="o">.</span><span class="n">summary</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[12]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<table class="simpletable">
+<caption>PanelOLS Estimation Summary</caption>
+<tr>
+<th>Dep. Variable:</th>            <td>y</td>        <th>  R-squared:         </th>    <td>0.1916</td>  
+</tr>
+<tr>
+<th>Estimator:</th>            <td>PanelOLS</td>     <th>  R-squared (Between):</th>   <td>0.2187</td>  
+</tr>
+<tr>
+<th>No. Observations:</th>       <td>5000</td>       <th>  R-squared (Within):</th>    <td>0.1916</td>  
+</tr>
+<tr>
+<th>Date:</th>             <td>Tue, Dec 03 2019</td> <th>  R-squared (Overall):</th>   <td>0.2070</td>  
+</tr>
+<tr>
+<th>Time:</th>                 <td>14:19:19</td>     <th>  Log-likelihood     </th>    <td>-8532.8</td> 
+</tr>
+<tr>
+<th>Cov. Estimator:</th>      <td>Unadjusted</td>    <th>                     </th>       <td></td>     
+</tr>
+<tr>
+<th></th>                          <td></td>         <th>  F-statistic:       </th>    <td>1066.3</td>  
+</tr>
+<tr>
+<th>Entities:</th>                <td>500</td>       <th>  P-value            </th>    <td>0.0000</td>  
+</tr>
+<tr>
+<th>Avg Obs:</th>               <td>10.0000</td>     <th>  Distribution:      </th>   <td>F(1,4499)</td>
+</tr>
+<tr>
+<th>Min Obs:</th>               <td>10.0000</td>     <th>                     </th>       <td></td>     
+</tr>
+<tr>
+<th>Max Obs:</th>               <td>10.0000</td>     <th>  F-statistic (robust):</th>  <td>1066.3</td>  
+</tr>
+<tr>
+<th></th>                          <td></td>         <th>  P-value            </th>    <td>0.0000</td>  
+</tr>
+<tr>
+<th>Time periods:</th>            <td>10</td>        <th>  Distribution:      </th>   <td>F(1,4499)</td>
+</tr>
+<tr>
+<th>Avg Obs:</th>               <td>500.00</td>      <th>                     </th>       <td></td>     
+</tr>
+<tr>
+<th>Min Obs:</th>               <td>500.00</td>      <th>                     </th>       <td></td>     
+</tr>
+<tr>
+<th>Max Obs:</th>               <td>500.00</td>      <th>                     </th>       <td></td>     
+</tr>
+<tr>
+<th></th>                          <td></td>         <th>                     </th>       <td></td>     
+</tr>
+</table>
+<table class="simpletable">
+<caption>Parameter Estimates</caption>
+<tr>
+<td></td>  <th>Parameter</th> <th>Std. Err.</th> <th>T-stat</th> <th>P-value</th> <th>Lower CI</th> <th>Upper CI</th>
+</tr>
+<tr>
+<th>x</th>  <td>0.9699</td>    <td>0.0297</td>   <td>32.654</td> <td>0.0000</td>   <td>0.9116</td>   <td>1.0281</td> 
+</tr>
+</table>
+<br><br>F-test for Poolability: 11.372<br>P-value: 0.0000<br>Distribution: F(499,4499)<br><br>Included effects: Entity
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">year_fe_panel</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">'y ~ x + TimeEffects'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df2</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">year_fe_panel</span><span class="o">.</span><span class="n">summary</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[13]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<table class="simpletable">
+<caption>PanelOLS Estimation Summary</caption>
+<tr>
+<th>Dep. Variable:</th>            <td>y</td>        <th>  R-squared:         </th>     <td>0.2077</td>  
+</tr>
+<tr>
+<th>Estimator:</th>            <td>PanelOLS</td>     <th>  R-squared (Between):</th>    <td>0.2208</td>  
+</tr>
+<tr>
+<th>No. Observations:</th>       <td>5000</td>       <th>  R-squared (Within):</th>     <td>0.1907</td>  
+</tr>
+<tr>
+<th>Date:</th>             <td>Tue, Dec 03 2019</td> <th>  R-squared (Overall):</th>    <td>0.2078</td>  
+</tr>
+<tr>
+<th>Time:</th>                 <td>14:19:19</td>     <th>  Log-likelihood     </th>   <td>-1.057e+04</td>
+</tr>
+<tr>
+<th>Cov. Estimator:</th>      <td>Unadjusted</td>    <th>                     </th>        <td></td>     
+</tr>
+<tr>
+<th></th>                          <td></td>         <th>  F-statistic:       </th>     <td>1307.5</td>  
+</tr>
+<tr>
+<th>Entities:</th>                <td>500</td>       <th>  P-value            </th>     <td>0.0000</td>  
+</tr>
+<tr>
+<th>Avg Obs:</th>               <td>10.0000</td>     <th>  Distribution:      </th>    <td>F(1,4989)</td>
+</tr>
+<tr>
+<th>Min Obs:</th>               <td>10.0000</td>     <th>                     </th>        <td></td>     
+</tr>
+<tr>
+<th>Max Obs:</th>               <td>10.0000</td>     <th>  F-statistic (robust):</th>   <td>1307.5</td>  
+</tr>
+<tr>
+<th></th>                          <td></td>         <th>  P-value            </th>     <td>0.0000</td>  
+</tr>
+<tr>
+<th>Time periods:</th>            <td>10</td>        <th>  Distribution:      </th>    <td>F(1,4989)</td>
+</tr>
+<tr>
+<th>Avg Obs:</th>               <td>500.00</td>      <th>                     </th>        <td></td>     
+</tr>
+<tr>
+<th>Min Obs:</th>               <td>500.00</td>      <th>                     </th>        <td></td>     
+</tr>
+<tr>
+<th>Max Obs:</th>               <td>500.00</td>      <th>                     </th>        <td></td>     
+</tr>
+<tr>
+<th></th>                          <td></td>         <th>                     </th>        <td></td>     
+</tr>
+</table>
+<table class="simpletable">
+<caption>Parameter Estimates</caption>
+<tr>
+<td></td>  <th>Parameter</th> <th>Std. Err.</th> <th>T-stat</th> <th>P-value</th> <th>Lower CI</th> <th>Upper CI</th>
+</tr>
+<tr>
+<th>x</th>  <td>1.0351</td>    <td>0.0286</td>   <td>36.160</td> <td>0.0000</td>   <td>0.9789</td>   <td>1.0912</td> 
+</tr>
+</table>
+<br><br>F-test for Poolability: 0.6799<br>P-value: 0.7279<br>Distribution: F(9,4989)<br><br>Included effects: Time
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">firm_year_fe_panel</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">'y ~ x + EntityEffects + TimeEffects'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df2</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+<span class="n">firm_year_fe_panel</span><span class="o">.</span><span class="n">summary</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[14]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<table class="simpletable">
+<caption>PanelOLS Estimation Summary</caption>
+<tr>
+<th>Dep. Variable:</th>            <td>y</td>        <th>  R-squared:         </th>    <td>0.1913</td>  
+</tr>
+<tr>
+<th>Estimator:</th>            <td>PanelOLS</td>     <th>  R-squared (Between):</th>   <td>0.2187</td>  
+</tr>
+<tr>
+<th>No. Observations:</th>       <td>5000</td>       <th>  R-squared (Within):</th>    <td>0.1916</td>  
+</tr>
+<tr>
+<th>Date:</th>             <td>Tue, Dec 03 2019</td> <th>  R-squared (Overall):</th>   <td>0.2070</td>  
+</tr>
+<tr>
+<th>Time:</th>                 <td>14:19:19</td>     <th>  Log-likelihood     </th>    <td>-8525.9</td> 
+</tr>
+<tr>
+<th>Cov. Estimator:</th>      <td>Unadjusted</td>    <th>                     </th>       <td></td>     
+</tr>
+<tr>
+<th></th>                          <td></td>         <th>  F-statistic:       </th>    <td>1062.0</td>  
+</tr>
+<tr>
+<th>Entities:</th>                <td>500</td>       <th>  P-value            </th>    <td>0.0000</td>  
+</tr>
+<tr>
+<th>Avg Obs:</th>               <td>10.0000</td>     <th>  Distribution:      </th>   <td>F(1,4490)</td>
+</tr>
+<tr>
+<th>Min Obs:</th>               <td>10.0000</td>     <th>                     </th>       <td></td>     
+</tr>
+<tr>
+<th>Max Obs:</th>               <td>10.0000</td>     <th>  F-statistic (robust):</th>  <td>1062.0</td>  
+</tr>
+<tr>
+<th></th>                          <td></td>         <th>  P-value            </th>    <td>0.0000</td>  
+</tr>
+<tr>
+<th>Time periods:</th>            <td>10</td>        <th>  Distribution:      </th>   <td>F(1,4490)</td>
+</tr>
+<tr>
+<th>Avg Obs:</th>               <td>500.00</td>      <th>                     </th>       <td></td>     
+</tr>
+<tr>
+<th>Min Obs:</th>               <td>500.00</td>      <th>                     </th>       <td></td>     
+</tr>
+<tr>
+<th>Max Obs:</th>               <td>500.00</td>      <th>                     </th>       <td></td>     
+</tr>
+<tr>
+<th></th>                          <td></td>         <th>                     </th>       <td></td>     
+</tr>
+</table>
+<table class="simpletable">
+<caption>Parameter Estimates</caption>
+<tr>
+<td></td>  <th>Parameter</th> <th>Std. Err.</th> <th>T-stat</th> <th>P-value</th> <th>Lower CI</th> <th>Upper CI</th>
+</tr>
+<tr>
+<th>x</th>  <td>0.9700</td>    <td>0.0298</td>   <td>32.589</td> <td>0.0000</td>   <td>0.9117</td>   <td>1.0284</td> 
+</tr>
+</table>
+<br><br>F-test for Poolability: 11.203<br>P-value: 0.0000<br>Distribution: F(508,4490)<br><br>Included effects: Entity, Time
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="With-statsmodels">With statsmodels<a class="anchor-link" href="#With-statsmodels">¶</a>
+</h4>
+<p>As far as I know, <code>statsmodels</code> doesn't support fixed effects. One way to add fixed effects is by adding the corresponding dummy variables. Thankfully this is quite easy to do within a formula by using <code>C(var)</code> where <code>var</code> is the label variable. Note that this will work with a few entities/dates, but this will become numerically unstable if there is a large number of entities/dates.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">firm_fe_ols</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">formula</span><span class="o">=</span><span class="s1">'y ~ x + C(firmid)'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">use_t</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1">#firm_fe_ols.summary()  </span>
+<span class="c1"># The summary is ommitted because the large number </span>
+<span class="c1"># of dummy variables make it unpleasant to look at.</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">year_fe_ols</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">formula</span><span class="o">=</span><span class="s1">'y ~ x + C(year)'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">use_t</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">year_fe_ols</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[16]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+<th>Dep. Variable:</th>            <td>y</td>        <th>  R-squared:         </th> <td>   0.209</td> 
+</tr>
+<tr>
+<th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.207</td> 
+</tr>
+<tr>
+<th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   131.6</td> 
+</tr>
+<tr>
+<th>Date:</th>             <td>Tue, 03 Dec 2019</td> <th>  Prob (F-statistic):</th> <td>7.13e-245</td>
+</tr>
+<tr>
+<th>Time:</th>                 <td>14:19:20</td>     <th>  Log-Likelihood:    </th> <td> -10570.</td> 
+</tr>
+<tr>
+<th>No. Observations:</th>      <td>  5000</td>      <th>  AIC:               </th> <td>2.116e+04</td>
+</tr>
+<tr>
+<th>Df Residuals:</th>          <td>  4989</td>      <th>  BIC:               </th> <td>2.123e+04</td>
+</tr>
+<tr>
+<th>Df Model:</th>              <td>    10</td>      <th>                     </th>     <td> </td>    
+</tr>
+<tr>
+<th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+<td></td>           <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P&gt;|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+<th>Intercept</th>     <td>    0.1411</td> <td>    0.090</td> <td>    1.573</td> <td> 0.116</td> <td>   -0.035</td> <td>    0.317</td>
+</tr>
+<tr>
+<th>C(year)[T.2]</th>  <td>   -0.0119</td> <td>    0.127</td> <td>   -0.094</td> <td> 0.925</td> <td>   -0.261</td> <td>    0.237</td>
+</tr>
+<tr>
+<th>C(year)[T.3]</th>  <td>   -0.1453</td> <td>    0.127</td> <td>   -1.145</td> <td> 0.252</td> <td>   -0.394</td> <td>    0.103</td>
+</tr>
+<tr>
+<th>C(year)[T.4]</th>  <td>   -0.2038</td> <td>    0.127</td> <td>   -1.607</td> <td> 0.108</td> <td>   -0.453</td> <td>    0.045</td>
+</tr>
+<tr>
+<th>C(year)[T.5]</th>  <td>   -0.0604</td> <td>    0.127</td> <td>   -0.476</td> <td> 0.634</td> <td>   -0.309</td> <td>    0.188</td>
+</tr>
+<tr>
+<th>C(year)[T.6]</th>  <td>   -0.1312</td> <td>    0.127</td> <td>   -1.034</td> <td> 0.301</td> <td>   -0.380</td> <td>    0.118</td>
+</tr>
+<tr>
+<th>C(year)[T.7]</th>  <td>   -0.1975</td> <td>    0.127</td> <td>   -1.557</td> <td> 0.120</td> <td>   -0.446</td> <td>    0.051</td>
+</tr>
+<tr>
+<th>C(year)[T.8]</th>  <td>   -0.1555</td> <td>    0.127</td> <td>   -1.225</td> <td> 0.220</td> <td>   -0.404</td> <td>    0.093</td>
+</tr>
+<tr>
+<th>C(year)[T.9]</th>  <td>   -0.1535</td> <td>    0.127</td> <td>   -1.210</td> <td> 0.226</td> <td>   -0.402</td> <td>    0.095</td>
+</tr>
+<tr>
+<th>C(year)[T.10]</th> <td>   -0.0556</td> <td>    0.127</td> <td>   -0.438</td> <td> 0.661</td> <td>   -0.304</td> <td>    0.193</td>
+</tr>
+<tr>
+<th>x</th>             <td>    1.0351</td> <td>    0.029</td> <td>   36.160</td> <td> 0.000</td> <td>    0.979</td> <td>    1.091</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+<th>Omnibus:</th>       <td> 4.804</td> <th>  Durbin-Watson:     </th> <td>   1.096</td>
+</tr>
+<tr>
+<th>Prob(Omnibus):</th> <td> 0.091</td> <th>  Jarque-Bera (JB):  </th> <td>   4.752</td>
+</tr>
+<tr>
+<th>Skew:</th>          <td> 0.069</td> <th>  Prob(JB):          </th> <td>  0.0929</td>
+</tr>
+<tr>
+<th>Kurtosis:</th>      <td> 3.061</td> <th>  Cond. No.          </th> <td>    10.9</td>
+</tr>
+</table>
+<br><br>Warnings:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">firm_year_fe_ols</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">formula</span><span class="o">=</span><span class="s1">'y ~ x + C(firmid) + C(year)'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">use_t</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1">#firm_year_fe_ols.summary() </span>
+<span class="c1"># The summary is ommitted because the large number </span>
+<span class="c1"># of dummy variables make it unpleasant to look at.</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Fixed-Effects-and-Clustered-Standard-Errors">Fixed Effects and Clustered Standard Errors<a class="anchor-link" href="#Fixed-Effects-and-Clustered-Standard-Errors">¶</a>
+</h3>
+<p>By combining the previous examples, you can have fixed effects and clustered standard errors at the same time.</p>
+<h4 id="With-linearmodels">With linearmodels<a class="anchor-link" href="#With-linearmodels">¶</a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">firm_year_fe_panel</span> <span class="o">=</span> <span class="n">PanelOLS</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">'y ~ x + TimeEffects'</span><span class="p">,</span>
+                                           <span class="n">data</span><span class="o">=</span><span class="n">df2</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">'clustered'</span><span class="p">,</span> <span class="n">cluster_entity</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cluster_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">firm_year_fe_panel</span><span class="o">.</span><span class="n">summary</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[18]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<table class="simpletable">
+<caption>PanelOLS Estimation Summary</caption>
+<tr>
+<th>Dep. Variable:</th>            <td>y</td>        <th>  R-squared:         </th>     <td>0.2077</td>  
+</tr>
+<tr>
+<th>Estimator:</th>            <td>PanelOLS</td>     <th>  R-squared (Between):</th>    <td>0.2208</td>  
+</tr>
+<tr>
+<th>No. Observations:</th>       <td>5000</td>       <th>  R-squared (Within):</th>     <td>0.1907</td>  
+</tr>
+<tr>
+<th>Date:</th>             <td>Tue, Dec 03 2019</td> <th>  R-squared (Overall):</th>    <td>0.2078</td>  
+</tr>
+<tr>
+<th>Time:</th>                 <td>14:19:20</td>     <th>  Log-likelihood     </th>   <td>-1.057e+04</td>
+</tr>
+<tr>
+<th>Cov. Estimator:</th>       <td>Clustered</td>    <th>                     </th>        <td></td>     
+</tr>
+<tr>
+<th></th>                          <td></td>         <th>  F-statistic:       </th>     <td>1307.5</td>  
+</tr>
+<tr>
+<th>Entities:</th>                <td>500</td>       <th>  P-value            </th>     <td>0.0000</td>  
+</tr>
+<tr>
+<th>Avg Obs:</th>               <td>10.0000</td>     <th>  Distribution:      </th>    <td>F(1,4989)</td>
+</tr>
+<tr>
+<th>Min Obs:</th>               <td>10.0000</td>     <th>                     </th>        <td></td>     
+</tr>
+<tr>
+<th>Max Obs:</th>               <td>10.0000</td>     <th>  F-statistic (robust):</th>   <td>387.33</td>  
+</tr>
+<tr>
+<th></th>                          <td></td>         <th>  P-value            </th>     <td>0.0000</td>  
+</tr>
+<tr>
+<th>Time periods:</th>            <td>10</td>        <th>  Distribution:      </th>    <td>F(1,4989)</td>
+</tr>
+<tr>
+<th>Avg Obs:</th>               <td>500.00</td>      <th>                     </th>        <td></td>     
+</tr>
+<tr>
+<th>Min Obs:</th>               <td>500.00</td>      <th>                     </th>        <td></td>     
+</tr>
+<tr>
+<th>Max Obs:</th>               <td>500.00</td>      <th>                     </th>        <td></td>     
+</tr>
+<tr>
+<th></th>                          <td></td>         <th>                     </th>        <td></td>     
+</tr>
+</table>
+<table class="simpletable">
+<caption>Parameter Estimates</caption>
+<tr>
+<td></td>  <th>Parameter</th> <th>Std. Err.</th> <th>T-stat</th> <th>P-value</th> <th>Lower CI</th> <th>Upper CI</th>
+</tr>
+<tr>
+<th>x</th>  <td>1.0351</td>    <td>0.0526</td>   <td>19.681</td> <td>0.0000</td>   <td>0.9320</td>   <td>1.1382</td> 
+</tr>
+</table>
+<br><br>F-test for Poolability: 0.6799<br>P-value: 0.7279<br>Distribution: F(9,4989)<br><br>Included effects: Time
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="With-statsmodels">With statsmodels<a class="anchor-link" href="#With-statsmodels">¶</a>
+</h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">firm_cluster_year_fe_ols</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">formula</span><span class="o">=</span><span class="s1">'y ~ x + C(year)'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">'cluster'</span><span class="p">,</span>
+                                                                          <span class="n">cov_kwds</span><span class="o">=</span><span class="p">{</span><span class="s1">'groups'</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">'firmid'</span><span class="p">]},</span>
+                                                                          <span class="n">use_t</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">firm_cluster_year_fe_ols</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[19]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+<th>Dep. Variable:</th>            <td>y</td>        <th>  R-squared:         </th> <td>   0.209</td> 
+</tr>
+<tr>
+<th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.207</td> 
+</tr>
+<tr>
+<th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   43.23</td> 
+</tr>
+<tr>
+<th>Date:</th>             <td>Tue, 03 Dec 2019</td> <th>  Prob (F-statistic):</th> <td>1.93e-61</td> 
+</tr>
+<tr>
+<th>Time:</th>                 <td>14:19:20</td>     <th>  Log-Likelihood:    </th> <td> -10570.</td> 
+</tr>
+<tr>
+<th>No. Observations:</th>      <td>  5000</td>      <th>  AIC:               </th> <td>2.116e+04</td>
+</tr>
+<tr>
+<th>Df Residuals:</th>          <td>  4989</td>      <th>  BIC:               </th> <td>2.123e+04</td>
+</tr>
+<tr>
+<th>Df Model:</th>              <td>    10</td>      <th>                     </th>     <td> </td>    
+</tr>
+<tr>
+<th>Covariance Type:</th>       <td>cluster</td>     <th>                     </th>     <td> </td>    
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+<td></td>           <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P&gt;|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+<th>Intercept</th>     <td>    0.1411</td> <td>    0.089</td> <td>    1.587</td> <td> 0.113</td> <td>   -0.034</td> <td>    0.316</td>
+</tr>
+<tr>
+<th>C(year)[T.2]</th>  <td>   -0.0119</td> <td>    0.086</td> <td>   -0.139</td> <td> 0.890</td> <td>   -0.181</td> <td>    0.157</td>
+</tr>
+<tr>
+<th>C(year)[T.3]</th>  <td>   -0.1453</td> <td>    0.086</td> <td>   -1.690</td> <td> 0.092</td> <td>   -0.314</td> <td>    0.024</td>
+</tr>
+<tr>
+<th>C(year)[T.4]</th>  <td>   -0.2038</td> <td>    0.089</td> <td>   -2.288</td> <td> 0.023</td> <td>   -0.379</td> <td>   -0.029</td>
+</tr>
+<tr>
+<th>C(year)[T.5]</th>  <td>   -0.0604</td> <td>    0.087</td> <td>   -0.697</td> <td> 0.486</td> <td>   -0.231</td> <td>    0.110</td>
+</tr>
+<tr>
+<th>C(year)[T.6]</th>  <td>   -0.1312</td> <td>    0.084</td> <td>   -1.562</td> <td> 0.119</td> <td>   -0.296</td> <td>    0.034</td>
+</tr>
+<tr>
+<th>C(year)[T.7]</th>  <td>   -0.1975</td> <td>    0.087</td> <td>   -2.275</td> <td> 0.023</td> <td>   -0.368</td> <td>   -0.027</td>
+</tr>
+<tr>
+<th>C(year)[T.8]</th>  <td>   -0.1555</td> <td>    0.094</td> <td>   -1.662</td> <td> 0.097</td> <td>   -0.339</td> <td>    0.028</td>
+</tr>
+<tr>
+<th>C(year)[T.9]</th>  <td>   -0.1535</td> <td>    0.088</td> <td>   -1.752</td> <td> 0.080</td> <td>   -0.326</td> <td>    0.019</td>
+</tr>
+<tr>
+<th>C(year)[T.10]</th> <td>   -0.0556</td> <td>    0.088</td> <td>   -0.634</td> <td> 0.526</td> <td>   -0.228</td> <td>    0.117</td>
+</tr>
+<tr>
+<th>x</th>             <td>    1.0351</td> <td>    0.051</td> <td>   20.361</td> <td> 0.000</td> <td>    0.935</td> <td>    1.135</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+<th>Omnibus:</th>       <td> 4.804</td> <th>  Durbin-Watson:     </th> <td>   1.096</td>
+</tr>
+<tr>
+<th>Prob(Omnibus):</th> <td> 0.091</td> <th>  Jarque-Bera (JB):  </th> <td>   4.752</td>
+</tr>
+<tr>
+<th>Skew:</th>          <td> 0.069</td> <th>  Prob(JB):          </th> <td>  0.0929</td>
+</tr>
+<tr>
+<th>Kurtosis:</th>      <td> 3.061</td> <th>  Cond. No.          </th> <td>    10.9</td>
+</tr>
+</table>
+<br><br>Warnings:<br>[1] Standard Errors are robust to cluster correlation (cluster)
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Fama-MacBeth-Coefficients-and-Standard-Errors">Fama-MacBeth Coefficients and Standard Errors<a class="anchor-link" href="#Fama-MacBeth-Coefficients-and-Standard-Errors">¶</a>
+</h3>
+<p>There is an undocumented Fama-MacBeth function in pandas. However, it is planned to be deprecated and from my (limited) experience, I was unable to replicate standard errors obtained using other packages. However, <code>linearmodels</code> provides a nice function.</p>
+<p>The default behaviour of this function is no adjustment to standard errors.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">FamaMacBeth</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">'y ~ 1+x'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df2</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[20]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<table class="simpletable">
+<caption>FamaMacBeth Estimation Summary</caption>
+<tr>
+<th>Dep. Variable:</th>              <td>y</td>          <th>  R-squared:         </th>     <td>0.2078</td>  
+</tr>
+<tr>
+<th>Estimator:</th>             <td>FamaMacBeth</td>     <th>  R-squared (Between):</th>    <td>0.2208</td>  
+</tr>
+<tr>
+<th>No. Observations:</th>         <td>5000</td>         <th>  R-squared (Within):</th>     <td>0.1907</td>  
+</tr>
+<tr>
+<th>Date:</th>               <td>Tue, Dec 03 2019</td>   <th>  R-squared (Overall):</th>    <td>0.2078</td>  
+</tr>
+<tr>
+<th>Time:</th>                   <td>14:19:20</td>       <th>  Log-likelihood     </th>   <td>-1.057e+04</td>
+</tr>
+<tr>
+<th>Cov. Estimator:</th>   <td>Fama-MacBeth Std Cov</td> <th>                     </th>        <td></td>     
+</tr>
+<tr>
+<th></th>                            <td></td>           <th>  F-statistic:       </th>     <td>1310.7</td>  
+</tr>
+<tr>
+<th>Entities:</th>                  <td>500</td>         <th>  P-value            </th>     <td>0.0000</td>  
+</tr>
+<tr>
+<th>Avg Obs:</th>                 <td>10.0000</td>       <th>  Distribution:      </th>    <td>F(1,4998)</td>
+</tr>
+<tr>
+<th>Min Obs:</th>                 <td>10.0000</td>       <th>                     </th>        <td></td>     
+</tr>
+<tr>
+<th>Max Obs:</th>                 <td>10.0000</td>       <th>  F-statistic (robust):</th>   <td>964.72</td>  
+</tr>
+<tr>
+<th></th>                            <td></td>           <th>  P-value            </th>     <td>0.0000</td>  
+</tr>
+<tr>
+<th>Time periods:</th>              <td>10</td>          <th>  Distribution:      </th>    <td>F(1,4998)</td>
+</tr>
+<tr>
+<th>Avg Obs:</th>                 <td>500.00</td>        <th>                     </th>        <td></td>     
+</tr>
+<tr>
+<th>Min Obs:</th>                 <td>500.00</td>        <th>                     </th>        <td></td>     
+</tr>
+<tr>
+<th>Max Obs:</th>                 <td>500.00</td>        <th>                     </th>        <td></td>     
+</tr>
+<tr>
+<th></th>                            <td></td>           <th>                     </th>        <td></td>     
+</tr>
+</table>
+<table class="simpletable">
+<caption>Parameter Estimates</caption>
+<tr>
+<td></td>      <th>Parameter</th> <th>Std. Err.</th> <th>T-stat</th> <th>P-value</th> <th>Lower CI</th> <th>Upper CI</th>
+</tr>
+<tr>
+<th>Intercept</th>  <td>0.0313</td>    <td>0.0234</td>   <td>1.3392</td> <td>0.1806</td>   <td>-0.0145</td>  <td>0.0771</td> 
+</tr>
+<tr>
+<th>x</th>          <td>1.0356</td>    <td>0.0333</td>   <td>31.060</td> <td>0.0000</td>   <td>0.9702</td>   <td>1.1010</td> 
+</tr>
+</table>
+<br>id: 0x1a25972750
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>It is very easy to apply a Newey-West correction with 3 lags.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">FamaMacBeth</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="s1">'y ~ 1 + x'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df2</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">'kernel'</span><span class="p">,</span>
+                                                    <span class="n">kernel</span><span class="o">=</span><span class="s1">'bartlett'</span><span class="p">,</span>
+                                                    <span class="n">bandwidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[21]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<table class="simpletable">
+<caption>FamaMacBeth Estimation Summary</caption>
+<tr>
+<th>Dep. Variable:</th>               <td>y</td>            <th>  R-squared:         </th>     <td>0.2078</td>  
+</tr>
+<tr>
+<th>Estimator:</th>              <td>FamaMacBeth</td>       <th>  R-squared (Between):</th>    <td>0.2208</td>  
+</tr>
+<tr>
+<th>No. Observations:</th>          <td>5000</td>           <th>  R-squared (Within):</th>     <td>0.1907</td>  
+</tr>
+<tr>
+<th>Date:</th>                <td>Tue, Dec 03 2019</td>     <th>  R-squared (Overall):</th>    <td>0.2078</td>  
+</tr>
+<tr>
+<th>Time:</th>                    <td>14:19:20</td>         <th>  Log-likelihood     </th>   <td>-1.057e+04</td>
+</tr>
+<tr>
+<th>Cov. Estimator:</th>   <td>Fama-MacBeth Kernel Cov</td> <th>                     </th>        <td></td>     
+</tr>
+<tr>
+<th></th>                             <td></td>             <th>  F-statistic:       </th>     <td>1310.7</td>  
+</tr>
+<tr>
+<th>Entities:</th>                   <td>500</td>           <th>  P-value            </th>     <td>0.0000</td>  
+</tr>
+<tr>
+<th>Avg Obs:</th>                  <td>10.0000</td>         <th>  Distribution:      </th>    <td>F(1,4998)</td>
+</tr>
+<tr>
+<th>Min Obs:</th>                  <td>10.0000</td>         <th>                     </th>        <td></td>     
+</tr>
+<tr>
+<th>Max Obs:</th>                  <td>10.0000</td>         <th>  F-statistic (robust):</th>   <td>1440.8</td>  
+</tr>
+<tr>
+<th></th>                             <td></td>             <th>  P-value            </th>     <td>0.0000</td>  
+</tr>
+<tr>
+<th>Time periods:</th>               <td>10</td>            <th>  Distribution:      </th>    <td>F(1,4998)</td>
+</tr>
+<tr>
+<th>Avg Obs:</th>                  <td>500.00</td>          <th>                     </th>        <td></td>     
+</tr>
+<tr>
+<th>Min Obs:</th>                  <td>500.00</td>          <th>                     </th>        <td></td>     
+</tr>
+<tr>
+<th>Max Obs:</th>                  <td>500.00</td>          <th>                     </th>        <td></td>     
+</tr>
+<tr>
+<th></th>                             <td></td>             <th>                     </th>        <td></td>     
+</tr>
+</table>
+<table class="simpletable">
+<caption>Parameter Estimates</caption>
+<tr>
+<td></td>      <th>Parameter</th> <th>Std. Err.</th> <th>T-stat</th> <th>P-value</th> <th>Lower CI</th> <th>Upper CI</th>
+</tr>
+<tr>
+<th>Intercept</th>  <td>0.0313</td>    <td>0.0224</td>   <td>1.3934</td> <td>0.1636</td>   <td>-0.0127</td>  <td>0.0753</td> 
+</tr>
+<tr>
+<th>x</th>          <td>1.0356</td>    <td>0.0273</td>   <td>37.958</td> <td>0.0000</td>   <td>0.9821</td>   <td>1.0891</td> 
+</tr>
+</table>
+<br>id: 0x1a25a48b10
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Newey-West-Adjustment-for-Standard-Errors">Newey-West Adjustment for Standard Errors<a class="anchor-link" href="#Newey-West-Adjustment-for-Standard-Errors">¶</a>
+</h3>
+<p>The Newey-West adjustment for standard errors is built-in statsmodels with <code>cov_type=HAC</code> and the <code>maxlags</code> argument passed in the <code>cov_kwds</code> parameter. For much more details, see <a href="http://stackoverflow.com/questions/23420454/newey-west-standard-errors-for-ols-in-python">http://stackoverflow.com/questions/23420454/newey-west-standard-errors-for-ols-in-python</a>.</p>
+<p><strong>Comparison with R</strong>:
+The default in R for the Newey-West estimator is to do pre-whitening, which statsmodels does not support yet. The current implementation is equivalent to turning off the pre-whitening in R:
+<code>coeftest(model, NeweyWest(model, lag=3, prewhite = FALSE))</code></p>
+<p><strong>Comparison with Stata</strong>:
+The default behavior of the <code>newey</code> function in Stata is to apply small sample correction. The default in statsmodels is the opposite, but you can activate the small sample correction by adding <code>'use_correction': True</code> to the <code>cov_kwds</code> parameters.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Note: this adjustment doesn't really make sense for our sample dataset, it's just an illustration.</span>
+<span class="n">nw_ols</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">formula</span><span class="o">=</span><span class="s1">'y ~ x'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">'HAC'</span><span class="p">,</span>
+                                              <span class="n">cov_kwds</span><span class="o">=</span><span class="p">{</span><span class="s1">'maxlags'</span><span class="p">:</span> <span class="mi">3</span><span class="p">},</span>
+                                              <span class="n">use_t</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">nw_ols</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[22]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+<th>Dep. Variable:</th>            <td>y</td>        <th>  R-squared:         </th> <td>   0.208</td> 
+</tr>
+<tr>
+<th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.208</td> 
+</tr>
+<tr>
+<th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   831.8</td> 
+</tr>
+<tr>
+<th>Date:</th>             <td>Tue, 03 Dec 2019</td> <th>  Prob (F-statistic):</th> <td>2.48e-169</td>
+</tr>
+<tr>
+<th>Time:</th>                 <td>14:19:20</td>     <th>  Log-Likelihood:    </th> <td> -10573.</td> 
+</tr>
+<tr>
+<th>No. Observations:</th>      <td>  5000</td>      <th>  AIC:               </th> <td>2.115e+04</td>
+</tr>
+<tr>
+<th>Df Residuals:</th>          <td>  4998</td>      <th>  BIC:               </th> <td>2.116e+04</td>
+</tr>
+<tr>
+<th>Df Model:</th>              <td>     1</td>      <th>                     </th>     <td> </td>    
+</tr>
+<tr>
+<th>Covariance Type:</th>         <td>HAC</td>       <th>                     </th>     <td> </td>    
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+<td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P&gt;|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+<th>Intercept</th> <td>    0.0297</td> <td>    0.043</td> <td>    0.695</td> <td> 0.487</td> <td>   -0.054</td> <td>    0.113</td>
+</tr>
+<tr>
+<th>x</th>         <td>    1.0348</td> <td>    0.036</td> <td>   28.841</td> <td> 0.000</td> <td>    0.964</td> <td>    1.105</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+<th>Omnibus:</th>       <td> 4.912</td> <th>  Durbin-Watson:     </th> <td>   1.096</td>
+</tr>
+<tr>
+<th>Prob(Omnibus):</th> <td> 0.086</td> <th>  Jarque-Bera (JB):  </th> <td>   4.862</td>
+</tr>
+<tr>
+<th>Skew:</th>          <td> 0.070</td> <th>  Prob(JB):          </th> <td>  0.0880</td>
+</tr>
+<tr>
+<th>Kurtosis:</th>      <td> 3.063</td> <th>  Cond. No.          </th> <td>    1.01</td>
+</tr>
+</table>
+<br><br>Warnings:<br>[1] Standard Errors are heteroscedasticity and autocorrelation robust (HAC) using 3 lags and without small sample correction
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Driscoll-Kraay-Standard-Errors">Driscoll-Kraay Standard Errors<a class="anchor-link" href="#Driscoll-Kraay-Standard-Errors">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dk_ols</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="n">formula</span><span class="o">=</span><span class="s1">'y ~ x'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">cov_type</span><span class="o">=</span><span class="s1">'nw-groupsum'</span><span class="p">,</span>
+                                              <span class="n">cov_kwds</span><span class="o">=</span><span class="p">{</span><span class="s1">'time'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">year</span><span class="p">),</span>
+                                                        <span class="s1">'groups'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">firmid</span><span class="p">),</span>
+                                                        <span class="s1">'maxlags'</span><span class="p">:</span> <span class="mi">5</span><span class="p">},</span>
+                                              <span class="n">use_t</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">dk_ols</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[23]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+<th>Dep. Variable:</th>            <td>y</td>        <th>  R-squared:         </th> <td>   0.208</td> 
+</tr>
+<tr>
+<th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.208</td> 
+</tr>
+<tr>
+<th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   2633.</td> 
+</tr>
+<tr>
+<th>Date:</th>             <td>Tue, 03 Dec 2019</td> <th>  Prob (F-statistic):</th> <td>3.50e-201</td>
+</tr>
+<tr>
+<th>Time:</th>                 <td>14:19:20</td>     <th>  Log-Likelihood:    </th> <td> -10573.</td> 
+</tr>
+<tr>
+<th>No. Observations:</th>      <td>  5000</td>      <th>  AIC:               </th> <td>2.115e+04</td>
+</tr>
+<tr>
+<th>Df Residuals:</th>          <td>  4998</td>      <th>  BIC:               </th> <td>2.116e+04</td>
+</tr>
+<tr>
+<th>Df Model:</th>              <td>     1</td>      <th>                     </th>     <td> </td>    
+</tr>
+<tr>
+<th>Covariance Type:</th>    <td>hac-groupsum</td>   <th>                     </th>     <td> </td>    
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+<td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P&gt;|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+<th>Intercept</th> <td>    0.0297</td> <td>    0.023</td> <td>    1.301</td> <td> 0.194</td> <td>   -0.015</td> <td>    0.075</td>
+</tr>
+<tr>
+<th>x</th>         <td>    1.0348</td> <td>    0.020</td> <td>   51.317</td> <td> 0.000</td> <td>    0.995</td> <td>    1.074</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+<th>Omnibus:</th>       <td> 4.912</td> <th>  Durbin-Watson:     </th> <td>   1.096</td>
+</tr>
+<tr>
+<th>Prob(Omnibus):</th> <td> 0.086</td> <th>  Jarque-Bera (JB):  </th> <td>   4.862</td>
+</tr>
+<tr>
+<th>Skew:</th>          <td> 0.070</td> <th>  Prob(JB):          </th> <td>  0.0880</td>
+</tr>
+<tr>
+<th>Kurtosis:</th>      <td> 3.063</td> <th>  Cond. No.          </th> <td>    1.01</td>
+</tr>
+</table>
+<br><br>Warnings:<br>[1] Driscoll and Kraay Standard Errors are robust to cluster correlation (HAC-Groupsum)
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [ ]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
 </div>
     </div>
     
-
-</article><!--End of body content--><footer id="footer">
-            Contents © 2019         <a href="mailto:vincent.3.gregoire@hec.ca">Vincent Grégoire</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML" integrity="sha384-3lJUsx1TJHt7BA4udB5KPnDrlkO8T6J6v/op7ui0BbCjvZ9WqV4Xm6DTP6kQ/iBH" crossorigin="anonymous"></script><script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+    },
+    displayAlign: 'left', // Change this to 'center' to center equations.
+    "HTML-CSS": {
+        styles: {'.MathJax_Display': {"margin": 0}}
+    }
+});
+</script></article><!--End of body content--><footer id="footer">
+            Contents © 2021         <a href="mailto:vincent.3.gregoire@hec.ca">Vincent Grégoire</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
             
         </footer>
 </div>
 </div>
 
 
-        <script src="../assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
-    moment.locale("en");
-    fancydates(0, "YYYY-MM-DD HH:mm");
-    </script><!-- end fancy dates --><script>
+        <script src="../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
-        captions: function(element) {
-            return element.getElementsByTagName('img')[0].alt;
-    }});
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
     </script><script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

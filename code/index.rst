@@ -10,25 +10,19 @@
 
 My publicly available code is distributed through `GitHub <https://github.com/vgreg>`__.
 
+.. container:: row
 
+    .. admonition:: `Standard errors in Python </standard-errors-in-python/>`__ 
 
-`Standard errors in Python <https://github.com/vgreg/python-se>`__
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        Examples for regression standard errors in Python with statsmodels and linearmodels.
 
-Examples for regression standard errors in Python with statsmodels.
+    .. admonition:: `The Market Empirical Analysis Toolbox for Python <https://meatpy.readthedocs.io/en/latest/>`__
 
+        The goal of this project is to provide a standard framework for processing and analysing high-frequency financial data.
 
-[`See on GitHub <https://github.com/vgreg/python-se>`__]
+        MeatPy currently supports Nasdaq ITCH 5.0. It can easily be adapted to process event-time data from multiple financial exchanges and formats.
 
-
-
-`Python for Financial Research Workshop <https://github.com/vgreg/python-finance-unimelb2017>`__
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-This repository contains material for a Python for financial research workshop I taught to honours and Ph.D. students at the University of Melbourne in 2018.
-
-[`See on GitHub <https://github.com/vgreg/python-finance-unimelb2018>`__]
+        [`See the code on GitHub <https://github.com/vgreg/MeatPy>`__]
 
 
 

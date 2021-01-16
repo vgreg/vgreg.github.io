@@ -7,54 +7,34 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>http://www.vincentgregoire.com/</loc>
-  <lastmod>2019-07-02T18:21:00Z</lastmod>
+  <lastmod>2021-01-16T05:07:00Z</lastmod>
  </url>
  <url>
   <loc>http://www.vincentgregoire.com/archive.html</loc>
-  <lastmod>2019-07-02T18:21:00Z</lastmod>
+  <lastmod>2021-01-16T05:07:00Z</lastmod>
  </url>
  <url>
   <loc>http://www.vincentgregoire.com/blog/</loc>
-  <lastmod>2019-07-02T18:21:00Z</lastmod>
+  <lastmod>2021-01-16T05:07:00Z</lastmod>
  </url>
  <url>
   <loc>http://www.vincentgregoire.com/categories/</loc>
-  <lastmod>2019-07-02T18:21:00Z</lastmod>
+  <lastmod>2021-01-16T05:07:00Z</lastmod>
  </url>
  <url>
   <loc>http://www.vincentgregoire.com/code/</loc>
-  <lastmod>2019-07-02T18:21:00Z</lastmod>
+  <lastmod>2021-01-16T05:07:00Z</lastmod>
  </url>
  <url>
   <loc>http://www.vincentgregoire.com/contact/</loc>
-  <lastmod>2019-07-02T18:21:00Z</lastmod>
- </url>
- <url>
-  <loc>http://www.vincentgregoire.com/crsp-example-dividends/</loc>
-  <lastmod>2019-07-02T18:21:00Z</lastmod>
- </url>
- <url>
-  <loc>http://www.vincentgregoire.com/introduction-to-empirical-market-microstructure-in-python/</loc>
-  <lastmod>2019-07-02T18:21:00Z</lastmod>
- </url>
- <url>
-  <loc>http://www.vincentgregoire.com/introduction-to-pandas/</loc>
-  <lastmod>2019-07-02T18:21:00Z</lastmod>
- </url>
- <url>
-  <loc>http://www.vincentgregoire.com/python-bootcamp/</loc>
-  <lastmod>2019-07-02T18:21:00Z</lastmod>
+  <lastmod>2021-01-16T05:07:00Z</lastmod>
  </url>
  <url>
   <loc>http://www.vincentgregoire.com/research/</loc>
-  <lastmod>2019-07-02T18:21:00Z</lastmod>
+  <lastmod>2021-01-16T05:07:00Z</lastmod>
  </url>
  <url>
   <loc>http://www.vincentgregoire.com/standard-errors-in-python/</loc>
-  <lastmod>2019-07-02T18:21:00Z</lastmod>
- </url>
- <url>
-  <loc>http://www.vincentgregoire.com/trump-tweets-and-the-stock-market/</loc>
-  <lastmod>2019-07-02T18:21:00Z</lastmod>
+  <lastmod>2021-01-16T05:07:00Z</lastmod>
  </url>
 </urlset>

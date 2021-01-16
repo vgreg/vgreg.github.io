@@ -10,33 +10,21 @@
 <link href="../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS" hreflang="en" href="../rss.xml">
 <link rel="canonical" href="http://www.vincentgregoire.com/code/">
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-    tex2jax: {
-        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
-        processEscapes: true
-    },
-    displayAlign: 'left', // Change this to 'center' to center equations.
-    "HTML-CSS": {
-        styles: {'.MathJax_Display': {"margin": 0}}
-    }
-});
-</script><!--[if lt IE 9]><script src="../assets/js/html5.js"></script><![endif]--><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<!--[if lt IE 9]><script src="../assets/js/html5.js"></script><![endif]--><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 <meta name="author" content="Vincent Grégoire">
 <meta property="og:site_name" content="Vincent Grégoire">
 <meta property="og:title" content="Code">
 <meta property="og:url" content="http://www.vincentgregoire.com/code/">
 <meta property="og:description" content="My publicly available code is distributed through GitHub.
 
+
 Standard errors in Python
-Examples for regression standard errors in Python with statsmodels.
-[See on GitHub]
+Examples for regression standard errors in Python with statsmodels and linearmodels.
 
 
-Python for Financial Research">
+The Market Empirical Analys">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2019-07-01T19:56:59-05:00">
 </head>
@@ -46,10 +34,11 @@ Python for Financial Research">
 <!-- Menubar -->
 
 <nav class="navbar navbar-expand-md static-top mb-4
-navbar-dark bg-dark
+navbar-dark
+bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
-        <a class="navbar-brand" href="http://www.vincentgregoire.com/">
+        <a class="navbar-brand" href="../">
 
             <span id="blog-title">Vincent Grégoire</span>
         </a>
@@ -91,6 +80,7 @@ navbar-dark bg-dark
         <!--Body content-->
         
         
+        
 <article class="post-text storypage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Code</a></h1>
 
         
@@ -98,37 +88,35 @@ navbar-dark bg-dark
     </header><div class="e-content entry-content" itemprop="articleBody text">
     <div>
 <p>My publicly available code is distributed through <a class="reference external" href="https://github.com/vgreg">GitHub</a>.</p>
-<div class="section" id="standard-errors-in-python">
-<h2><a class="reference external" href="https://github.com/vgreg/python-se">Standard errors in Python</a></h2>
-<p>Examples for regression standard errors in Python with statsmodels.</p>
-<p>[<a class="reference external" href="https://github.com/vgreg/python-se">See on GitHub</a>]</p>
+<div class="row docutils container">
+<div class="admonition admonition-standard-errors-in-python-standard-errors-in-python">
+<p class="admonition-title"><a class="reference external" href="../standard-errors-in-python/">Standard errors in Python</a></p>
+<p>Examples for regression standard errors in Python with statsmodels and linearmodels.</p>
 </div>
-<div class="section" id="python-for-financial-research-workshop">
-<h2><a class="reference external" href="https://github.com/vgreg/python-finance-unimelb2017">Python for Financial Research Workshop</a></h2>
-<p>This repository contains material for a Python for financial research workshop I taught to honours and Ph.D. students at the University of Melbourne in 2018.</p>
-<p>[<a class="reference external" href="https://github.com/vgreg/python-finance-unimelb2018">See on GitHub</a>]</p>
+<div class="admonition admonition-the-market-empirical-analysis-toolbox-for-python-https-meatpy-readthedocs-io-en-latest">
+<p class="admonition-title"><a class="reference external" href="https://meatpy.readthedocs.io/en/latest/">The Market Empirical Analysis Toolbox for Python</a></p>
+<p>The goal of this project is to provide a standard framework for processing and analysing high-frequency financial data.</p>
+<p>MeatPy currently supports Nasdaq ITCH 5.0. It can easily be adapted to process event-time data from multiple financial exchanges and formats.</p>
+<p>[<a class="reference external" href="https://github.com/vgreg/MeatPy">See the code on GitHub</a>]</p>
+</div>
 </div>
 </div>
     </div>
     
 
 </article><!--End of body content--><footer id="footer">
-            Contents © 2019         <a href="mailto:vincent.3.gregoire@hec.ca">Vincent Grégoire</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2021         <a href="mailto:vincent.3.gregoire@hec.ca">Vincent Grégoire</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
             
         </footer>
 </div>
 </div>
 
 
-        <script src="../assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
-    moment.locale("en");
-    fancydates(0, "YYYY-MM-DD HH:mm");
-    </script><!-- end fancy dates --><script>
+        <script src="../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
-        captions: function(element) {
-            return element.getElementsByTagName('img')[0].alt;
-    }});
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
     </script><script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

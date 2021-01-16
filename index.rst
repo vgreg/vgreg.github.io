@@ -9,22 +9,13 @@
 
 
 
-**Department of Finance, HEC Montréal**
+**Associate professor, Department of Finance, HEC Montréal**
 
 
-.. container::
 
-            .. image:: /images/5028(v.2)_small.jpg
-                :alt: Vincent Gregoire
-
-
-About 
------
-
-I'm an assistant professor of finance at HEC Montréal since 2018.
-
-My main research interests are in information economics, mutual funds, market microstructure, big data and
-financial technologies.
+.. image:: /images/Vincent_Gregroire_5x7_square_small.png
+    :width: 300
+    :alt: Vincent Grégoire
 
 
 .. container:: row
