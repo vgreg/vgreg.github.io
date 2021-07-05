@@ -18,6 +18,25 @@ Publications
 
 .. container:: row
 
+    .. admonition:: How is Earnings News Transmitted to Stock Prices?
+
+        Conditionally accepted at *Journal of Accounting Research*
+
+        With `Charles Martineau <http://www.charlesmartineau.com>`__
+
+        [`SSRN <https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3060094>`__]
+
+        Most corporate news occurs in the after-hours market, a very illiquid trading environment. 
+        We examine the relationship between liquidity and price discovery around after-hours earnings 
+        announcements. Prices reflect earnings surprises through changes in quotes rather than through 
+        trades. Following announcements, ask (bid) prices adjust quickly to positive (negative) surprises 
+        while bid (ask) prices are slower to adjust. Returns computed from trade prices underestimate the 
+        speed and magnitude of price reactions following announcements relative to midquote returns. 
+        These findings emphasize the importance of using quotes and not trade prices when studying 
+        price discovery in the after-hours market. This is especially crucial when there are confounding 
+        events, which we illustrate using analyst recommendation revisions. 
+
+
     .. admonition:: Inverted Fee Structures, Tick Size, and Market Quality
 
         *Journal of Financial Economics* Volume 134, Issue 1, 2019, Pages 141-164
@@ -109,25 +128,6 @@ Working Papers
 
         * `Article on Bloomberg.com <https://www.bloomberg.com/news/articles/2019-04-22/the-market-knew-about-the-press-release-hackers-before-the-cops>`__, 2019
         * `Article on Columbia Law’s Blue Sky blog <http://clsbluesky.law.columbia.edu/2019/07/10/price-revelation-from-insider-trading-evidence-from-hacked-earnings-news/>`__, 2019
-
-
-    .. admonition:: How is Earnings News Transmitted to Stock Prices?
-
-        Revise and resubmit at *Journal of Accounting Research*
-
-        With `Charles Martineau <http://www.charlesmartineau.com>`__
-
-        [`SSRN <https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3060094>`__]
-
-        Most corporate news occurs in the after-hours market, a very illiquid trading environment. 
-        We examine the relationship between liquidity and price discovery around after-hours earnings 
-        announcements. Prices reflect earnings surprises through changes in quotes rather than through 
-        trades. Following announcements, ask (bid) prices adjust quickly to positive (negative) surprises 
-        while bid (ask) prices are slower to adjust. Returns computed from trade prices underestimate the 
-        speed and magnitude of price reactions following announcements relative to midquote returns. 
-        These findings emphasize the importance of using quotes and not trade prices when studying 
-        price discovery in the after-hours market. This is especially crucial when there are confounding 
-        events, which we illustrate using analyst recommendation revisions. 
 
 
     .. admonition:: Double Bonus? Implicit Incentives for Money Managers with Explicit incentives
