@@ -20,11 +20,12 @@ Publications
 
     .. admonition:: How is Earnings News Transmitted to Stock Prices?
 
-        Conditionally accepted at *Journal of Accounting Research*
+        Forthcoming at the *Journal of Accounting Research*
 
         With `Charles Martineau <http://www.charlesmartineau.com>`__
 
         [`SSRN <https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3060094>`__]
+        [`Code <https://github.com/vgreg/earnings_news_jar>`__]
 
         Most corporate news occurs in the after-hours market, a very illiquid trading environment. 
         We examine the relationship between liquidity and price discovery around after-hours earnings 
