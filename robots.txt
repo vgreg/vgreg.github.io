@@ -1,4 +1,1 @@
-Sitemap: http://www.vincentgregoire.com/sitemapindex.xml
-
-User-Agent: *
-Host: www.vincentgregoire.com
+Sitemap: https://www.vincentgregoire.com/sitemap.xml

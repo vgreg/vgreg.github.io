@@ -1,40 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-    xmlns:xhtml="http://www.w3.org/1999/xhtml"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-                        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
- <url>
-  <loc>http://www.vincentgregoire.com/</loc>
-  <lastmod>2021-01-16T05:07:00Z</lastmod>
- </url>
- <url>
-  <loc>http://www.vincentgregoire.com/archive.html</loc>
-  <lastmod>2021-07-19T23:33:00Z</lastmod>
- </url>
- <url>
-  <loc>http://www.vincentgregoire.com/blog/</loc>
-  <lastmod>2021-01-16T05:07:00Z</lastmod>
- </url>
- <url>
-  <loc>http://www.vincentgregoire.com/categories/</loc>
-  <lastmod>2021-01-16T05:07:00Z</lastmod>
- </url>
- <url>
-  <loc>http://www.vincentgregoire.com/code/</loc>
-  <lastmod>2021-01-16T05:07:00Z</lastmod>
- </url>
- <url>
-  <loc>http://www.vincentgregoire.com/contact/</loc>
-  <lastmod>2021-01-16T05:07:00Z</lastmod>
- </url>
- <url>
-  <loc>http://www.vincentgregoire.com/research/</loc>
-  <lastmod>2021-01-16T05:07:00Z</lastmod>
- </url>
- <url>
-  <loc>http://www.vincentgregoire.com/standard-errors-in-python/</loc>
-  <lastmod>2021-01-16T05:07:00Z</lastmod>
- </url>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+<loc>https://www.vincentgregoire.com/teaching/2014-spring-teaching-1</loc>
+<lastmod>2014-01-01T00:00:00-08:00</lastmod>
+</url>
+<url>
+<loc>https://www.vincentgregoire.com/teaching/2015-spring-teaching-1</loc>
+<lastmod>2015-01-01T00:00:00-08:00</lastmod>
+</url>
+<url>
+<loc>https://www.vincentgregoire.com/code/</loc>
+</url>
+<url>
+<loc>https://www.vincentgregoire.com/</loc>
+</url>
+<url>
+<loc>https://www.vincentgregoire.com/sitemap/</loc>
+</url>
+<url>
+<loc>https://www.vincentgregoire.com/files/CV_Gregoire.pdf</loc>
+<lastmod>2022-05-23T12:49:09-07:00</lastmod>
+</url>
+<url>
+<loc>https://www.vincentgregoire.com/files/appendices/FOMC_PC_InternetAppendix.pdf</loc>
+<lastmod>2022-05-22T19:12:11-07:00</lastmod>
+</url>
+<url>
+<loc>https://www.vincentgregoire.com/files/appendices/adf-tsp-appendix.pdf</loc>
+<lastmod>2022-05-23T06:24:03-07:00</lastmod>
+</url>
+<url>
+<loc>https://www.vincentgregoire.com/files/appendices/indexers_appendix.pdf</loc>
+<lastmod>2022-05-22T19:12:11-07:00</lastmod>
+</url>
 </urlset>
