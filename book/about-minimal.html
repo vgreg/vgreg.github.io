@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Vincent Grégoire, Ph.D. – research</title>
+<title>Empirical Finance with Python - 1&nbsp; About this book</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -26,6 +26,12 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./introduction-to-python/install/index.html" rel="next">
+<link href="./index.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -38,6 +44,12 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -54,163 +66,140 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
-    <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Vincent Grégoire, Ph.D.</span>
-    </a>
-  </div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link active" href="./research.html" rel="" target="" aria-current="page">
- <span class="menu-text">Research</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./students.html" rel="" target="">
- <span class="menu-text">Students</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./code.html" rel="" target="">
- <span class="menu-text">Code</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./CV_Gregoire.pdf" rel="" target="">
- <span class="menu-text">CV</span></a>
-  </li>  
-</ul>
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="./fr" rel="" target="">
- <span class="menu-text">Français</span></a>
-  </li>  
-</ul>
-            <div class="quarto-navbar-tools">
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
-          </div> <!-- /navcollapse -->
-      </div> <!-- /container-fluid -->
-    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./about-minimal.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">About this book</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Empirical Finance with Python</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Get started</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./about-minimal.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">About this book</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Introduction to Python</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./introduction-to-python/install/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Installing Python</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./introduction-to-python/python-basics/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Python Basics</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#purpose-and-audience" id="toc-purpose-and-audience" class="nav-link active" data-scroll-target="#purpose-and-audience"><span class="header-section-number">1.1</span> Purpose and Audience</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">About this book</span></h1>
+</div>
 
 
-<section id="research" class="level1">
-<h1>Research</h1>
-<section id="working-papers" class="level2">
-<h2 class="anchored" data-anchor-id="working-papers">Working Papers</h2>
-<ul>
-<li><p><strong>Price Informativeness and FOMC Return Reversals</strong><br>
-with <a href="http://www.public.asu.edu/~oboguth/">Oliver Boguth</a>, <a href="https://sites.google.com/view/adlai-fisher">Adlai Fisher</a>, and <a href="http://www.charlesmartineau.com">Charles Martineau</a><br>
-[<a href="https://osf.io/preprints/socarxiv/zurfk/">SocArXiv <i class="ai ai-osf ai-fw "></i></a>] [<a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4131740">SSRN</a>]</p>
-<ul>
-<li>Best Paper on Asset Pricing Award, NFA 2022</li>
-</ul></li>
-<li><p><strong>Double Bonus? Implicit Incentives for Money Managers with Explicit Incentives</strong><br>
-with <a href="https://sites.google.com/site/jmsotespaladino/home">Juan Sotes-Paladino</a><br>
-[<a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2980599">SSRN</a>]</p></li>
-</ul>
-</section>
-<section id="publications" class="level2">
-<h2 class="anchored" data-anchor-id="publications">Publications</h2>
-<ul>
-<li><p><strong>Price Revelation from Insider Trading: Evidence from Hacked Earnings News</strong><br>
-<em>Journal of Financial Economics</em>, Volume 143, Issue 3, 2022,<br>
-with <a href="http://patakeyfinance.com">Pat Akey</a> and <a href="http://www.charlesmartineau.com">Charles Martineau</a>,<br>
-[<a href="https://doi.org/10.1016/j.jfineco.2021.12.006">JFE <i class="ai ai-open-access ai-fw "></i></a>] [<a href="https://osf.io/preprints/socarxiv/qe6tu/">SocArXiv <i class="ai ai-osf ai-fw "></i></a>] [<a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3365024">SSRN</a>] [<a href="https://github.com/vgreg/hacked_earnings_jfe">Code <i class="fab fa-fw fa-github" aria-hidden="true"></i></a>]</p>
-<ul>
-<li><a href="https://www.bloomberg.com/news/articles/2019-04-22/the-market-knew-about-the-press-release-hackers-before-the-cops">Article on Bloomberg.com</a>, 2019</li>
-<li><a href="http://clsbluesky.law.columbia.edu/2019/07/10/price-revelation-from-insider-trading-evidence-from-hacked-earnings-news/">Article on Columbia Law’s Blue Sky blog</a>, 2019</li>
-</ul></li>
-<li><p><strong>How is Earnings News Transmitted to Stock Prices?</strong><br>
-<em>Journal of Accounting Research</em>, Volume 60, Issue 1, 2022,<br>
-with <a href="http://www.charlesmartineau.com">Charles Martineau</a>,<br>
-[<a href="https://doi.org/10.1111/1475-679X.12394">JAR <i class="ai ai-open-access ai-fw "></i></a>] [<a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3060094">SSRN</a>] [<a href="https://github.com/vgreg/earnings_news_jar">Code <i class="fab fa-fw fa-github" aria-hidden="true"></i></a>]</p></li>
-<li><p><strong>Inverted Fee Structures, Tick Size, and Market Quality</strong><br>
-<em>Journal of Financial Economics</em>, Volume 134, Issue 1, 2019,<br>
-with <a href="https://fbe.unimelb.edu.au/our-people/staff/finance/carole-comerton-forde2">Carole Comerton-Forde</a> and <a href="http://www.joe-zh.com/">Zhuo Zhong</a>,<br>
-[<a href="https://doi.org/10.1016/j.jfineco.2019.03.005">JFE</a>] [<a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2939012">SSRN</a>] [<a href="./files/appendices/adf-tsp-appendix.pdf">Online Appendix</a>]</p>
-<ul>
-<li>Best Paper on Market Microstructure Award, NFA 2017</li>
-</ul></li>
-<li><p><strong>Shaping Expectations and Coordinating Attention: The Unintended Consequences of FOMC Press Conferences</strong><br>
-<em>Journal of Financial and Quantitative Analysis</em>, Volume 54, Issue 6, 2019,<br>
-with <a href="http://www.public.asu.edu/~oboguth/">Oliver Boguth</a> and <a href="http://www.charlesmartineau.com">Charles Martineau</a>,<br>
-[<a href="https://doi.org/10.1017/S0022109018001357">JFQA</a>] [<a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2698477">SSRN</a>] [<a href="./files/appendices/FOMC_PC_InternetAppendix.pdf">Internet Appendix</a>]</p>
-<p><strong>Note</strong>: Since January 2019, the Chairman of the Federal Reserve now holds a press conference after each meeting, which is the main policy recommendation of the paper. A postscript at the end of the paper addresses this point.</p>
-<ul>
-<li>Best Paper on Financial Institutions and Markets Award, 7th Financial Markets and Corporate Governance Conference (2016)</li>
-<li><a href="https://www.theglobeandmail.com/business/careers/business-education/article-greater-transparency-in-business-can-have-unintended-consequences/">Article in The Globe and Mail</a>, 2019</li>
-<li>Live interview with Sky Business News, 2015</li>
-<li><a href="http://www.latimes.com/business/la-fi-yellen-hike-analysis-20151216-story.html/">Mention in LA Times</a>, 2015</li>
-</ul></li>
-<li><p><strong>The Rise of Passive Investing and Index-linked Comovement</strong><br>
-<em>North American Journal of Economics and Finance</em>, Volume 51, 101059, 2020,<br>
-[<a href="https://doi.org/10.1016/j.najef.2019.101059">NAJEF</a>] [<a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2308695">SSRN</a>] [<a href="./files/appendices/indexers_appendix.pdf">Internet Appendix</a>]</p></li>
-</ul>
-</section>
-<section id="supervised-student-work" class="level2">
-<h2 class="anchored" data-anchor-id="supervised-student-work">Supervised Student Work</h2>
-<ul>
-<li><p><strong>HFTViz: Visualization for the exploration of high frequency trading data</strong><br>
-<em>Information Visualization</em>, Volume 21, Issue 2, 2022,<br>
-with <a href="https://www.linkedin.com/in/javadyaali/">Javad Yaali</a> and <a href="http://www.professeurs.polymtl.ca/thomas.hurtut/">Thomas Hurtut</a>,<br>
-[<a href="https://doi.org/10.1177/14738716211064921">InfoVis <i class="ai ai-open-access ai-fw "></i></a>]</p></li>
-<li><p><strong>Alternative Data</strong> (book chapter)<br>
-In <a href="https://link.springer.com/book/10.1007/978-3-031-12240-8">Big Data in Finance: Opportunities and Challenges of Financial Digitalization</a>, Palgrave Macmillan, pp.&nbsp;13-33, 2022,<br>
-with <a href="https://www.linkedin.com/in/noahjep/">Noah Jepson</a>,<br>
-[<a href="https://link.springer.com/chapter/10.1007/978-3-031-12240-8_2">Springer</a>]</p></li>
-</ul>
-</section>
-<section id="other-research-contributions" class="level2">
-<h2 class="anchored" data-anchor-id="other-research-contributions">Other Research Contributions</h2>
-<ul>
-<li><p><strong>Non-Standard Errors</strong><br>
-Forthcoming in <em>Journal of Finance</em>,<br>
-coordinated by <a href="https://albertjmenkveld.com/">Albert J. Menkveld</a>, <a href="https://sites.google.com/site/annadreber/">Anna Dreber</a>, <a href="https://www.holzmeister.biz/">Felix Holzmeister</a>, <a href="https://www.uibk.ac.at/ibf/team/huberj.html.en">Juergen Huber</a>, <a href="https://www.hhs.se/en/persons/j/johannesson-magnus/">Magnus Johannesson</a>, <a href="https://www.uibk.ac.at/ibf/team/kirchler.html.en">Michael Kirchler</a>, <a href="https://www.uibk.ac.at/ibf/mitarbeiter/razen.html">Michael Razen</a>, and <a href="https://research.vu.nl/en/persons/utz-weitzel">Utz Weitzel</a>. (300+ co-authors)<br>
-[<a href="https://dx.doi.org/10.2139/ssrn.3961574">SSRN</a>]</p>
-<ul>
-<li>I was part of a team that was responsible for doing the data analysis and writing a summary paper. Our <em>paper</em> was one of the five best rated papers that were shared with all the teams in the last phase of the project. Our code is available <a href="https://github.com/vgreg/fincap">on GitHub</a>.</li>
-</ul></li>
-</ul>
-</section>
-<section id="forever-working-papers" class="level2">
-<h2 class="anchored" data-anchor-id="forever-working-papers">Forever Working Papers</h2>
-<ul>
-<li>Do Mutual Fund Managers Adjust NAV for Stale Prices?<br>
-[<a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=1928321">SSRN</a>]</li>
-</ul>
-</section>
-<section id="pre-phd-publications" class="level2">
-<h2 class="anchored" data-anchor-id="pre-phd-publications">Pre-PhD Publications</h2>
-<ul>
-<li><p><strong>Using copulas to model price dependence in energy markets</strong><br>
-<em>Energy risk</em>, Volume 5, Issue 5, 2008,<br>
-with <a href="https://www.math.mcgill.ca/cgenest/">Christian Genest</a> and Michel Gendron,<br>
-[<a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.461.3276&amp;rep=rep1&amp;type=pdf">CiteSeerX</a>]</p></li>
-<li><p><strong>Visible and infrared imagery for surveillance applications: software and hardware considerations</strong><br>
-<em>Quantitative InfraRed Thermography Journal</em>, Volume 4, Issue 1, 2007,<br>
-with Amar El-Maadi, Louis St-Laurent, Hélène Torresan, Benoit Turgeon, Donald Prévost, Patrick Hébert, Denis Laurendeau, Benoit Ricard and Xavier Maldague,<br>
-[<a href="https://doi.org/10.3166/qirt.4.25-40">Taylor &amp; Francis</a>]</p></li>
-</ul>
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Work in Progress
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This book is still a work in progress. We are constantly adding new content and refining existing content. If you have any suggestions or feedback, please feel free to reach out at <a href="mailto:vincent.gregoire@hec.ca">vincent.gregoire@hec.ca</a>.</p>
+</div>
+</div>
+<section id="purpose-and-audience" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="purpose-and-audience"><span class="header-section-number">1.1</span> Purpose and Audience</h2>
+<p>The principal objective of this book is to offer a thorough and accessible guide to the statistical and econometric techniques used in empirical finance. This book has been written for advanced undergraduate and graduate students with a robust understanding of finance and economics, but who may be novices in programming and econometrics.</p>
+<p>We understand that students in finance often aspire to bolster their analytical capabilities with more advanced statistical techniques, but may find it challenging to navigate the technical complexities of econometrics. This book aims to demystify these techniques, making them accessible and relatable to problems and scenarios commonly encountered in finance.</p>
+<p>In addition, “Empirical Finance with Python” provides an introduction to Python programming, demonstrating how it can be harnessed to implement the statistical and econometric methods discussed. No prior programming experience is required, making this book a valuable asset for students beginning their journey in Python, as well as finance professionals and academics seeking to incorporate Python programming into their analytical toolbox.</p>
+<p>Even those with some familiarity with Python will find this book useful, as it offers practical insights into the application of programming in empirical finance, supported by cutting-edge AI-based tools like ChatGPT and GitHub Copilot.</p>
+<p>A unique feature of our approach is the integration of Python into the practical applications of statistical and econometric methods in finance. We believe that learning by doing is the most effective way to master new skills. Thus, we present real-world scenarios and datasets, enabling you to see the power and efficacy of these techniques in action.</p>
+<p>Our goal is that by the end of this book, you will not only have a solid grounding in modern Python programming, but you will also have a comprehensive understanding of its application in empirical finance using statistical and econometric techniques. We look forward to guiding you through this exciting journey into the world of empirical finance, statistics, econometrics, and Python programming.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -503,25 +492,90 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
+      // Handle positioning of the toggle
+      window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
           }
-        });
+        };
+      }
+      const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
+      for (let i=0; i<annoteTargets.length; i++) {
+        const annoteTarget = annoteTargets[i];
+        const targetCell = annoteTarget.getAttribute("data-target-cell");
+        const targetAnnotation = annoteTarget.getAttribute("data-target-annotation");
+        const contentFn = () => {
+          const content = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          if (content) {
+            const tipContent = content.cloneNode(true);
+            tipContent.classList.add("code-annotation-tip-content");
+            return tipContent.outerHTML;
+          }
+        }
+        const config = {
+          allowHTML: true,
+          content: contentFn,
+          onShow: (instance) => {
+            selectCodeLines(instance.reference);
+            instance.reference.classList.add('code-annotation-active');
+            window.tippy.hideAll();
+          },
+          onHide: (instance) => {
+            unselectCodeLines();
+            instance.reference.classList.remove('code-annotation-active');
+          },
+          maxWidth: 300,
+          delay: [50, 0],
+          duration: [200, 0],
+          offset: [5, 10],
+          arrow: true,
+          appendTo: function(el) {
+            return el.parentElement.parentElement.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'quarto',
+          placement: 'right',
+          popperOptions: {
+            modifiers: [
+            {
+              name: 'flip',
+              options: {
+                flipVariations: false, // true by default
+                allowedAutoPlacements: ['right'],
+                fallbackPlacements: ['right', 'top', 'top-start', 'top-end'],
+              },
+            },
+            {
+              name: 'preventOverflow',
+              options: {
+                mainAxis: false,
+                altAxis: false
+              }
+            }
+            ]        
+          }      
+        };
+        window.tippy(annoteTarget, config); 
       }
   const findCites = (el) => {
     const parentEl = el.parentElement;
@@ -562,6 +616,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Get started</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./introduction-to-python/install/index.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Installing Python</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 
 
