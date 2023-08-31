@@ -251,6 +251,8 @@ Python in the cloud
 <div class="tab-content" data-group="platform">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <p>Mac OS comes with Python pre-installed. However, it might not be the latest version of Python, so I recommend installing a fresh version from the official distribution at <a href="https://www.python.org/downloads/">python.org</a>.</p>
+<p>To complete the installation, go to <code>Applications/Python 3.11</code> and double-click <code>Install Certificates.command</code>.</p>
+<p>See <a href="https://stackoverflow.com/questions/42098126/mac-osx-python-ssl-sslerror-ssl-certificate-verify-failed-certificate-verify">this thread on StackOverflow</a> for more details.</p>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <p>Most Linux distributions come with Python pre-installed. However, it might not be the latest version of Python, so I recommend installing a fresh version from the official distribution at <a href="https://www.python.org/downloads/">python.org</a>.</p>
@@ -269,14 +271,19 @@ Python in the cloud
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <p>Most Python projects use external libraries. For example, we use the <a href="https://pandas.pydata.org/">pandas</a> library for data analysis. To manage these libraries, we need a package manager. I recommend using <a href="https://python-poetry.org/">Poetry</a>.</p>
 <p>Installation instructions can be found <a href="https://python-poetry.org/docs/#installation">here</a>.</p>
+<p><strong>Note:</strong> If you get an SSH-related issue, go back up to the Python installation instruction and run <code>Install Certificates.command</code>.</p>
 <p>By default, Poetry installs Python for each project in the <code>~/Library/Caches/pypoetry/virtualenvs/</code> directory. I prefer to have it in the project directory, that way if, I delete the directory, then the environmnent is deleted as well. To enable this, run the following command in the <a href="https://www.youtube.com/watch?v=8OFD_F5L_vk">Terminal app</a>:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">poetry</span> config virtualenvs.in-project true</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If you get an error message that <code>poetry</code> is not found, you need to add it to your path. To do so, open the Terminal app and run the following command:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">PATH</span><span class="op">=</span><span class="st">"/Users/{user}/.local/bin:</span><span class="va">$PATH</span><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>where <code>{user}</code> is your username. You can find it by running the following command in the Terminal app:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">whoami</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
 <p>Most Python projects use external libraries. For example, we use the <a href="https://pandas.pydata.org/">pandas</a> library for data analysis. To manage these libraries, we need a package manager. I recommend using <a href="https://python-poetry.org/">Poetry</a>.</p>
 <p>Installation instructions can be found <a href="https://python-poetry.org/docs/#installation">here</a>.</p>
 <p>By default, Poetry installs Python for each project in the <code>~/.cache/pypoetry/virtualenvs/</code> directory. I prefer to have it in the project directory, that way if, I delete the directory, then the environmnent is deleted as well. To enable this, run the following command in the terminal:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">poetry</span> config virtualenvs.in-project true</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">poetry</span> config virtualenvs.in-project true</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
 <p>Most Python projects use external libraries. For example, we use the <a href="https://pandas.pydata.org/">pandas</a> library for data analysis. To manage these libraries, we need a package manager. I recommend using <a href="https://python-poetry.org/">Poetry</a>.</p>
@@ -285,7 +292,7 @@ Python in the cloud
 <p>Most Python projects use external libraries. For example, we use the <a href="https://pandas.pydata.org/">pandas</a> library for data analysis. To manage these libraries, we need a package manager. I recommend using <a href="https://python-poetry.org/">Poetry</a>.</p>
 <p>Installation instructions can be found <a href="https://python-poetry.org/docs/#installation">here</a>.</p>
 <p>By default, Poetry installs Python for each project in the <code>~/.cache/pypoetry/virtualenvs/</code> directory. I prefer to have it in the project directory, that way if, I delete the directory, then the environmnent is deleted as well. To enable this, run the following command in Powershell:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">poetry</span> config virtualenvs.in-project true</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">poetry</span> config virtualenvs.in-project true</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
