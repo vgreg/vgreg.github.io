@@ -1,0 +1,31 @@
+project:
+  title: "Vincent Grégoire, Ph.D."
+  output-dir: ./_site/
+
+website:
+  description: "Vincent Grégoire, Ph.D. Professor of Finance at Montréal"
+  twitter-card: true
+  open-graph:
+    locale: en_US
+    site-name: "Vincent Grégoire, Ph.D."
+  site-url: https://www.vincentgregoire.com/
+  page-footer: 
+    left: "Copyright 2024, Vincent Grégoire" 
+  navbar:
+    left:
+      - href: research.qmd
+        text: Research
+      - href: students.qmd
+        text: Students
+      - href: code.qmd
+        text: Code
+      - href: CV_Gregoire.pdf
+        text: CV
+      - href: https://vincent.codes.finance
+        text: Blog
+      - href: https://www.youtube.com/channel/UCuNrwdpvF1LBGJ2cNL5b68w
+        text: YouTube
+    right:
+      - href: /fr
+        text: Français
+lang: en
