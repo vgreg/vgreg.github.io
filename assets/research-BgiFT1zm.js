@@ -1,23 +1,23 @@
-import{j as a}from"./main-bGsyMkp4.js";import{R as t}from"./ResearchSection-RHDOB6cT.js";import"./github-B8fGFe8p.js";const r={pageTitle:"Research",sections:{workingPapers:{title:"Working Papers",items:[{title:"Noisy FOMC Returns? Information, Price Pressure, and Post-Announcement Reversals",authors:[{name:"Oliver Boguth",url:"http://www.public.asu.edu/~oboguth/"},{name:"Adlai Fisher",url:"https://sites.google.com/view/adlai-fisher"},{name:"Charles Martineau",url:"http://www.charlesmartineau.com"}],links:[{label:"SSRN",url:"https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4131740"}],awards:["Best Paper on Asset Pricing Award, NFA 2022"],bibtex:`@unpublished{boguth2022noisy,
+import{j as a}from"./main-DJeWclZs.js";import{R as t}from"./ResearchSection-D82oxVmB.js";import"./github-MfiWhPs2.js";const r={pageTitle:"Research",sections:{workingPapers:{title:"Working Papers",items:[{title:"Noisy FOMC Returns? Information, Price Pressure, and Post-Announcement Reversals",authors:[{name:"Oliver Boguth",url:"http://www.public.asu.edu/~oboguth/"},{name:"Adlai Fisher",url:"https://sites.google.com/view/adlai-fisher"},{name:"Charles Martineau",url:"http://www.charlesmartineau.com"}],links:[{label:"SSRN",url:"https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4131740"}],awards:["Best Paper on Asset Pricing Award, NFA 2022"],bibtex:`@unpublished{boguth2025noisy,
   title={Noisy FOMC Returns? Information, Price Pressure, and Post-Announcement Reversals},
   author={Boguth, Oliver and Fisher, Adlai and Gr{\\'e}goire, Vincent and Martineau, Charles},
   note={Working Paper},
-  year={2022}
-}`},{title:"Relative Performance Evaluation for Asset Managers: A Quantitative Assessment",authors:[{name:"Juan Sotes-Paladino",url:"https://sites.google.com/site/jmsotespaladino/home"}],links:[{label:"SSRN",url:"https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5414638"}],bibtex:`@unpublished{gregoire2024rpe,
+  year={2025}
+}`},{title:"Relative Performance Evaluation for Asset Managers: A Quantitative Assessment",authors:[{name:"Juan Sotes-Paladino",url:"https://sites.google.com/site/jmsotespaladino/home"}],links:[{label:"SSRN",url:"https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5414638"}],bibtex:`@unpublished{gregoire2025rpe,
   title={Relative Performance Evaluation for Asset Managers: A Quantitative Assessment},
   author={Gr{\\'e}goire, Vincent and Sotes-Paladino, Juan},
   note={Working Paper},
-  year={2024}
-}`},{title:"Size Distortions in Robust Estimators: Implications for Asset Pricing",authors:[{name:"Nicolas Harvie",url:"https://itsnh98.github.io/"},{name:"Anthony Sanford",url:"https://www.anthonysanford.com/"}],links:[{label:"SSRN",url:"https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4640678"}],bibtex:`@unpublished{gregoire2023size,
+  year={2025}
+}`},{title:"Size Distortions in Robust Estimators: Implications for Asset Pricing",authors:[{name:"Nicolas Harvie",url:"https://itsnh98.github.io/"},{name:"Anthony Sanford",url:"https://www.anthonysanford.com/"}],links:[{label:"SSRN",url:"https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4640678"}],bibtex:`@unpublished{gregoire2025size,
   title={Size Distortions in Robust Estimators: Implications for Asset Pricing},
   author={Gr{\\'e}goire, Vincent and Harvie, Nicolas and Sanford, Anthony},
   note={Working Paper},
-  year={2023}
-}`},{title:"MeatPy: A Python Framework for Limit Order Book Reconstruction and Analysis",authors:[{name:"Charles Martineau",url:"http://www.charlesmartineau.com"}],links:[{label:"GitHub",url:"https://raw.githubusercontent.com/openjournals/joss-papers/joss.08882/joss.08882/10.21105.joss.08882.pdf"}],bibtex:`@unpublished{gregoire2024meatpy,
+  year={2025}
+}`},{title:"MeatPy: A Python Framework for Limit Order Book Reconstruction and Analysis",authors:[{name:"Charles Martineau",url:"http://www.charlesmartineau.com"}],links:[{label:"GitHub",url:"https://raw.githubusercontent.com/openjournals/joss-papers/joss.08882/joss.08882/10.21105.joss.08882.pdf"}],bibtex:`@unpublished{gregoire2025meatpy,
   title={MeatPy: A Python Framework for Limit Order Book Reconstruction and Analysis},
   author={Gr{\\'e}goire, Vincent and Martineau, Charles},
   note={Working Paper},
-  year={2024}
+  year={2025}
 }`}]},publications:{title:"Publications",items:[{title:"Price Revelation from Insider Trading: Evidence from Hacked Earnings News",journal:"Journal of Financial Economics",volume:"Volume 143, Issue 3",year:2022,authors:[{name:"Pat Akey",url:"http://patakeyfinance.com"},{name:"Charles Martineau",url:"http://www.charlesmartineau.com"}],links:[{label:"JFE",url:"https://doi.org/10.1016/j.jfineco.2021.12.006",openAccess:!0},{label:"SSRN",url:"https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3365024"},{label:"Code",url:"https://github.com/vgreg/hacked_earnings_jfe"}],media:[{title:"Article on Bloomberg.com",url:"https://www.bloomberg.com/news/articles/2019-04-22/the-market-knew-about-the-press-release-hackers-before-the-cops",year:2019},{title:"Article on Columbia Law's Blue Sky blog",url:"http://clsbluesky.law.columbia.edu/2019/07/10/price-revelation-from-insider-trading-evidence-from-hacked-earnings-news/",year:2019}],bibtex:`@article{akey2022price,
   title={Price revelation from insider trading: Evidence from hacked earnings news},
   author={Akey, Pat and Gr{\\'e}goire, Vincent and Martineau, Charles},
