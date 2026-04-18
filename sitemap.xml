@@ -3,7 +3,7 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://www.vincentgregoire.com/</loc>
-    <lastmod>2026-01-13</lastmod>
+    <lastmod>2026-04-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/" />
@@ -11,15 +11,23 @@
   </url>
   <url>
     <loc>https://www.vincentgregoire.com/code/</loc>
-    <lastmod>2026-01-13</lastmod>
+    <lastmod>2026-04-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/code/" />
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/code/" />
   </url>
   <url>
+    <loc>https://www.vincentgregoire.com/colophon/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/colophon/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/colophon/" />
+  </url>
+  <url>
     <loc>https://www.vincentgregoire.com/fr/</loc>
-    <lastmod>2026-01-13</lastmod>
+    <lastmod>2026-04-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/" />
@@ -27,23 +35,191 @@
   </url>
   <url>
     <loc>https://www.vincentgregoire.com/fr/code/</loc>
-    <lastmod>2026-01-13</lastmod>
+    <lastmod>2026-04-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/code/" />
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/code/" />
   </url>
   <url>
+    <loc>https://www.vincentgregoire.com/fr/colophon/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/colophon/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/colophon/" />
+  </url>
+  <url>
     <loc>https://www.vincentgregoire.com/fr/research/</loc>
-    <lastmod>2026-01-13</lastmod>
+    <lastmod>2026-04-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/" />
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/" />
   </url>
   <url>
+    <loc>https://www.vincentgregoire.com/fr/research/alternative-data/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/alternative-data/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/alternative-data/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/fr/research/circular-economy-a-fintech-driven-solution-for-sustainable-practices/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/circular-economy-a-fintech-driven-solution-for-sustainable-practices/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/circular-economy-a-fintech-driven-solution-for-sustainable-practices/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/fr/research/do-mutual-fund-managers-adjust-nav-for-stale-prices/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/do-mutual-fund-managers-adjust-nav-for-stale-prices/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/do-mutual-fund-managers-adjust-nav-for-stale-prices/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/fr/research/extracting-the-structure-of-press-releases-for-predicting-earnings-announcement-/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/extracting-the-structure-of-press-releases-for-predicting-earnings-announcement-/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/extracting-the-structure-of-press-releases-for-predicting-earnings-announcement-/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/fr/research/hftviz-visualization-for-the-exploration-of-high-frequency-trading-data/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/hftviz-visualization-for-the-exploration-of-high-frequency-trading-data/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/hftviz-visualization-for-the-exploration-of-high-frequency-trading-data/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/fr/research/how-is-earnings-news-transmitted-to-stock-prices/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/how-is-earnings-news-transmitted-to-stock-prices/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/how-is-earnings-news-transmitted-to-stock-prices/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/fr/research/inverted-fee-structures-tick-size-and-market-quality/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/inverted-fee-structures-tick-size-and-market-quality/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/inverted-fee-structures-tick-size-and-market-quality/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/fr/research/investing-in-artificial-general-intelligence/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/investing-in-artificial-general-intelligence/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/investing-in-artificial-general-intelligence/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/fr/research/meatpy-a-python-framework-for-limit-order-book-reconstruction-and-analysis/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/meatpy-a-python-framework-for-limit-order-book-reconstruction-and-analysis/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/meatpy-a-python-framework-for-limit-order-book-reconstruction-and-analysis/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/fr/research/mitigating-spillover-effects-of-ransomware-in-financial-markets-lessons-from-the/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/mitigating-spillover-effects-of-ransomware-in-financial-markets-lessons-from-the/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/mitigating-spillover-effects-of-ransomware-in-financial-markets-lessons-from-the/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/fr/research/noisy-fomc-returns-information-price-pressure-and-post-announcement-reversals/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/noisy-fomc-returns-information-price-pressure-and-post-announcement-reversals/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/noisy-fomc-returns-information-price-pressure-and-post-announcement-reversals/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/fr/research/nonstandard-errors/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/nonstandard-errors/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/nonstandard-errors/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/fr/research/price-revelation-from-insider-trading-evidence-from-hacked-earnings-news/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/price-revelation-from-insider-trading-evidence-from-hacked-earnings-news/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/price-revelation-from-insider-trading-evidence-from-hacked-earnings-news/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/fr/research/relative-performance-evaluation-for-asset-managers-a-quantitative-assessment/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/relative-performance-evaluation-for-asset-managers-a-quantitative-assessment/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/relative-performance-evaluation-for-asset-managers-a-quantitative-assessment/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/fr/research/shaping-expectations-and-coordinating-attention-the-unintended-consequences-of-f/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/shaping-expectations-and-coordinating-attention-the-unintended-consequences-of-f/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/shaping-expectations-and-coordinating-attention-the-unintended-consequences-of-f/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/fr/research/size-distortions-in-robust-estimators-implications-for-asset-pricing/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/size-distortions-in-robust-estimators-implications-for-asset-pricing/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/size-distortions-in-robust-estimators-implications-for-asset-pricing/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/fr/research/the-rise-of-passive-investing-and-index-linked-comovement/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/the-rise-of-passive-investing-and-index-linked-comovement/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/the-rise-of-passive-investing-and-index-linked-comovement/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/fr/research/using-copulas-to-model-price-dependence-in-energy-markets/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/using-copulas-to-model-price-dependence-in-energy-markets/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/using-copulas-to-model-price-dependence-in-energy-markets/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/fr/research/visible-and-infrared-imagery-for-surveillance-applications-software-and-hardware/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/visible-and-infrared-imagery-for-surveillance-applications-software-and-hardware/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/visible-and-infrared-imagery-for-surveillance-applications-software-and-hardware/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/fr/research/who-wins-and-who-loses-in-prediction-markets-evidence-from-polymarket/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/who-wins-and-who-loses-in-prediction-markets-evidence-from-polymarket/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/who-wins-and-who-loses-in-prediction-markets-evidence-from-polymarket/" />
+  </url>
+  <url>
     <loc>https://www.vincentgregoire.com/fr/students/</loc>
-    <lastmod>2026-01-13</lastmod>
+    <lastmod>2026-04-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/students/" />
@@ -51,15 +227,175 @@
   </url>
   <url>
     <loc>https://www.vincentgregoire.com/research/</loc>
-    <lastmod>2026-01-13</lastmod>
+    <lastmod>2026-04-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/" />
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/" />
   </url>
   <url>
+    <loc>https://www.vincentgregoire.com/research/alternative-data/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/alternative-data/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/alternative-data/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/research/circular-economy-a-fintech-driven-solution-for-sustainable-practices/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/circular-economy-a-fintech-driven-solution-for-sustainable-practices/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/circular-economy-a-fintech-driven-solution-for-sustainable-practices/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/research/do-mutual-fund-managers-adjust-nav-for-stale-prices/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/do-mutual-fund-managers-adjust-nav-for-stale-prices/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/do-mutual-fund-managers-adjust-nav-for-stale-prices/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/research/extracting-the-structure-of-press-releases-for-predicting-earnings-announcement-/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/extracting-the-structure-of-press-releases-for-predicting-earnings-announcement-/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/extracting-the-structure-of-press-releases-for-predicting-earnings-announcement-/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/research/hftviz-visualization-for-the-exploration-of-high-frequency-trading-data/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/hftviz-visualization-for-the-exploration-of-high-frequency-trading-data/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/hftviz-visualization-for-the-exploration-of-high-frequency-trading-data/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/research/how-is-earnings-news-transmitted-to-stock-prices/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/how-is-earnings-news-transmitted-to-stock-prices/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/how-is-earnings-news-transmitted-to-stock-prices/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/research/inverted-fee-structures-tick-size-and-market-quality/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/inverted-fee-structures-tick-size-and-market-quality/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/inverted-fee-structures-tick-size-and-market-quality/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/research/investing-in-artificial-general-intelligence/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/investing-in-artificial-general-intelligence/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/investing-in-artificial-general-intelligence/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/research/meatpy-a-python-framework-for-limit-order-book-reconstruction-and-analysis/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/meatpy-a-python-framework-for-limit-order-book-reconstruction-and-analysis/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/meatpy-a-python-framework-for-limit-order-book-reconstruction-and-analysis/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/research/mitigating-spillover-effects-of-ransomware-in-financial-markets-lessons-from-the/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/mitigating-spillover-effects-of-ransomware-in-financial-markets-lessons-from-the/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/mitigating-spillover-effects-of-ransomware-in-financial-markets-lessons-from-the/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/research/noisy-fomc-returns-information-price-pressure-and-post-announcement-reversals/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/noisy-fomc-returns-information-price-pressure-and-post-announcement-reversals/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/noisy-fomc-returns-information-price-pressure-and-post-announcement-reversals/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/research/nonstandard-errors/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/nonstandard-errors/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/nonstandard-errors/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/research/price-revelation-from-insider-trading-evidence-from-hacked-earnings-news/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/price-revelation-from-insider-trading-evidence-from-hacked-earnings-news/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/price-revelation-from-insider-trading-evidence-from-hacked-earnings-news/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/research/relative-performance-evaluation-for-asset-managers-a-quantitative-assessment/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/relative-performance-evaluation-for-asset-managers-a-quantitative-assessment/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/relative-performance-evaluation-for-asset-managers-a-quantitative-assessment/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/research/shaping-expectations-and-coordinating-attention-the-unintended-consequences-of-f/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/shaping-expectations-and-coordinating-attention-the-unintended-consequences-of-f/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/shaping-expectations-and-coordinating-attention-the-unintended-consequences-of-f/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/research/size-distortions-in-robust-estimators-implications-for-asset-pricing/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/size-distortions-in-robust-estimators-implications-for-asset-pricing/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/size-distortions-in-robust-estimators-implications-for-asset-pricing/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/research/the-rise-of-passive-investing-and-index-linked-comovement/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/the-rise-of-passive-investing-and-index-linked-comovement/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/the-rise-of-passive-investing-and-index-linked-comovement/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/research/using-copulas-to-model-price-dependence-in-energy-markets/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/using-copulas-to-model-price-dependence-in-energy-markets/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/using-copulas-to-model-price-dependence-in-energy-markets/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/research/visible-and-infrared-imagery-for-surveillance-applications-software-and-hardware/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/visible-and-infrared-imagery-for-surveillance-applications-software-and-hardware/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/visible-and-infrared-imagery-for-surveillance-applications-software-and-hardware/" />
+  </url>
+  <url>
+    <loc>https://www.vincentgregoire.com/research/who-wins-and-who-loses-in-prediction-markets-evidence-from-polymarket/</loc>
+    <lastmod>2026-04-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/research/who-wins-and-who-loses-in-prediction-markets-evidence-from-polymarket/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.vincentgregoire.com/fr/research/who-wins-and-who-loses-in-prediction-markets-evidence-from-polymarket/" />
+  </url>
+  <url>
     <loc>https://www.vincentgregoire.com/students/</loc>
-    <lastmod>2026-01-13</lastmod>
+    <lastmod>2026-04-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.vincentgregoire.com/students/" />

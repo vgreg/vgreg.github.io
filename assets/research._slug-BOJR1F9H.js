@@ -1,0 +1,1 @@
+import{b as r,j as t}from"./main-2swBi0-8.js";import{P as e}from"./PaperModalRoute-DdV_3QZp.js";import{r as n}from"./research-sE5rDVSb.js";import"./research-utils-CVvcpCWR.js";function u(){const{slug:o}=r.useParams();return t.jsx(e,{content:n,lang:"fr",slug:o})}export{u as component};

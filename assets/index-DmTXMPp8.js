@@ -1,1 +1,0 @@
-import{j as t,h as o}from"./main-DJeWclZs.js";import{P as a}from"./ProfileCard-BdowkTPi.js";import"./github-MfiWhPs2.js";function i(){return t.jsx("div",{className:"container mx-auto px-4 py-12 md:py-16",children:t.jsx(a,{name:o.name,imageUrl:"/profile.webp",about:o.about,socialLinks:o.socialLinks,buttons:o.buttons})})}export{i as component};
