@@ -1,0 +1,1 @@
+import{b as r,j as t}from"./main-bYYpvp93.js";import{P as e}from"./PaperModalRoute-DfS6_rMR.js";import{r as n}from"./research-B0oUkgfq.js";import"./media-format-DosB8jZc.js";import"./research-utils-CVvcpCWR.js";function i(){const{slug:o}=r.useParams();return t.jsx(e,{content:n,lang:"fr",slug:o})}export{i as component};
