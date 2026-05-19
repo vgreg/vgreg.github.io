@@ -876,12 +876,22 @@ the level series in <code>pnl_daily</code> yourself.</p>
 </tr>
 </tbody>
 </table>
+<div class="admonition warning">
+<p class="admonition-title">+1 day right-boundary labelling</p>
+<p><code>day</code> and <code>month</code> use the same +1-day right-boundary convention as
+<code>pnl_daily.snapshot_time</code> — see the
+<a href="../../#time-convention">Time convention section</a> on the home
+page. A row labelled <code>day = 2025-06-15 00:00 UTC</code> is the change
+accumulated <strong>during 2025-06-14</strong>, not during 2025-06-15. The Hive
+partition path always matches the column value.</p>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Relation to <code>pnl_daily</code></p>
 <p><code>pnl_daily</code> stores the cumulative PnL <strong>level</strong>, sparsely (only rows
 where it changed). <code>pnl_change_daily</code> stores the daily <strong>delta</strong>.
-Summing <code>pnl_change_daily</code> for a user from the start of the sample
-reconstructs the level series.</p>
+By construction <code>pnl_change_daily(day = X) = pnl_daily(snapshot_time = X) - pnl_daily(snapshot_time = X − 1)</code> (treating absent rows
+as forward-filled). Summing <code>pnl_change_daily</code> for a user from the
+start of the sample reconstructs the level series.</p>
 </div>
 
 

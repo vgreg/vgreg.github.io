@@ -973,12 +973,17 @@ inflates denominators on <code>concentration_by_category</code>,
 </table>
 <p>Schema and layout are identical to the corresponding base panel; only
 the subset of markets contributing to each row differs.</p>
-<div class="admonition note">
-<p class="admonition-title">Snapshot time convention</p>
-<p><code>snapshot_time</code> is shifted +1 day from the trading day it represents.
-A row with <code>snapshot_time = 2024-03-30 00:00:00 UTC</code> is the close of
-<strong>2024-03-29</strong>. This convention is chosen for compatibility with
-<code>polars.join_asof</code> against daily price grids.</p>
+<div class="admonition warning">
+<p class="admonition-title">Snapshot time convention (+1 day right-boundary)</p>
+<p><code>snapshot_time</code> is labelled with the <strong>right boundary</strong> of the day it
+summarizes. A row with <code>snapshot_time = 2024-03-30 00:00:00 UTC</code> is
+the close of <strong>2024-03-29</strong> (equivalently, the open of 2024-03-30).
+The Hive partition path matches the column value (<code>day=30</code> ↔
+<code>2024-03-30 00:00 UTC</code>), so the partition is one day <em>after</em> the
+calendar day whose state is captured. The convention is chosen for
+compatibility with <code>polars.join_asof</code> against daily price grids — see
+the <a href="../../#time-convention">Time convention section</a> on the
+home page for the full picture including the <code>pnl_change_*</code> panels.</p>
 </div>
 <h2 id="why-sparse">Why sparse?<a class="headerlink" href="#why-sparse" title="Permanent link">&para;</a></h2>
 <p>Storing PnL only when it changes shrinks the panel by an order of magnitude
