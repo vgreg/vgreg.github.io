@@ -765,41 +765,74 @@ fee flags, resolution outcome, and lifecycle timestamps.</p>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">markets</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;vgregoire/polymarket-users&quot;</span><span class="p">,</span> <span class="s2">&quot;markets&quot;</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="schema">Schema<a class="headerlink" href="#schema" title="Permanent link">&para;</a></h2>
-<p>Columns are populated via the canonical <code>load_clean_markets</code> loader. The
-exact schema is documented in the source repo's
-<a href="https://github.com/fintech-research/polymarket-users/blob/main/docs/data.md">data dictionary</a>;
-high-level categories below.</p>
 <table>
 <thead>
 <tr>
-<th>Group</th>
-<th>Examples</th>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Identifiers</td>
-<td><code>question_id</code>, <code>event_id</code>, <code>token_id</code> (per outcome)</td>
+<td><code>market_id</code></td>
+<td><code>int64</code></td>
+<td>Market identifier (matches <code>predictions.market_id</code> and <code>trades.market_id</code>)</td>
 </tr>
 <tr>
-<td>Question content</td>
-<td><code>question</code>, <code>description</code>, <code>outcomes</code>, <code>slug</code></td>
+<td><code>question</code></td>
+<td><code>str</code></td>
+<td>Market question text as displayed on Polymarket</td>
 </tr>
 <tr>
-<td>Lifecycle</td>
-<td><code>start_time</code>, <code>close_time</code>, <code>resolution_time</code></td>
+<td><code>category</code></td>
+<td><code>str</code></td>
+<td>Canonical category (one of <code>Sports</code>, <code>Crypto</code>, <code>Finance</code>, <code>Politics</code>, <code>Tech</code>, <code>Culture</code>, <code>Weather</code>, or <code>Untagged</code>). Tag-based mapping inherited from the parent event</td>
 </tr>
 <tr>
-<td>Resolution</td>
-<td><code>winner</code> (token id of winning outcome, nullable until settled)</td>
+<td><code>category_original</code></td>
+<td><code>str</code></td>
+<td>Original Polymarket platform tag before mapping to the canonical set</td>
 </tr>
 <tr>
-<td>Category</td>
-<td><code>category</code> (classifier output), <code>category_original</code> (Polymarket tag)</td>
+<td><code>event_id</code></td>
+<td><code>str</code></td>
+<td>Parent event identifier (matches <code>events.event_id</code>)</td>
 </tr>
 <tr>
-<td>Trading</td>
-<td><code>taker_base_fee</code> (fee flag), <code>volume_total</code></td>
+<td><code>outcome_yes</code></td>
+<td><code>bool</code></td>
+<td><code>True</code> for binary markets where this row represents the "Yes" side</td>
+</tr>
+<tr>
+<td><code>market_start_time</code></td>
+<td><code>datetime[ns, UTC]</code></td>
+<td>Trading start time</td>
+</tr>
+<tr>
+<td><code>close_time</code></td>
+<td><code>datetime[ns, UTC]</code></td>
+<td>When trading closed (resolution time when settled)</td>
+</tr>
+<tr>
+<td><code>expiration_time</code></td>
+<td><code>datetime[ns, UTC]</code></td>
+<td>Scheduled expiration / settlement time</td>
+</tr>
+<tr>
+<td><code>can_close_early</code></td>
+<td><code>bool</code></td>
+<td>Whether the market is allowed to close before its scheduled expiration</td>
+</tr>
+<tr>
+<td><code>taker_base_fee</code></td>
+<td><code>int64</code></td>
+<td>Taker base fee in basis points (0 before the Q4 2024 fee introduction)</td>
+</tr>
+<tr>
+<td><code>has_fee</code></td>
+<td><code>bool</code></td>
+<td>Convenience flag: <code>True</code> iff <code>taker_base_fee &gt; 0</code></td>
 </tr>
 </tbody>
 </table>

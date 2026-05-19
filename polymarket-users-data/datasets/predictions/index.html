@@ -800,8 +800,8 @@ to market-level metadata.</p>
 </tr>
 <tr>
 <td><code>market_id</code></td>
-<td><code>int</code></td>
-<td>Parent market identifier (matches <code>markets.question_id</code>)</td>
+<td><code>int64</code></td>
+<td>Parent market identifier (matches <code>markets.market_id</code>)</td>
 </tr>
 <tr>
 <td><code>outcome</code></td>
@@ -840,9 +840,9 @@ to market-level metadata.</p>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Trade-level outcome label + parent market category</span>
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="n">enriched</span> <span class="o">=</span> <span class="p">(</span>
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    <span class="n">trades</span>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>    <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;prediction_id&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>    <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">markets</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;question_id&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">),</span>
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>          <span class="n">left_on</span><span class="o">=</span><span class="s2">&quot;market_id&quot;</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="s2">&quot;question_id&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>    <span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s2">&quot;market_id&quot;</span><span class="p">)</span>  <span class="c1"># use the int64 market_id from predictions instead</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>    <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;prediction_id&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>    <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">markets</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;market_id&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">),</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;market_id&quot;</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">)</span>
 <a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>    <span class="o">.</span><span class="n">collect</span><span class="p">()</span>
 <a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="p">)</span>
 </code></pre></div>

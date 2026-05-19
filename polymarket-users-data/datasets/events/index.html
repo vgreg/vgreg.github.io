@@ -764,30 +764,71 @@ markets — e.g., an election event groups markets for individual candidates.</p
 <table>
 <thead>
 <tr>
-<th>Group</th>
-<th>Examples</th>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Identifiers</td>
-<td><code>event_id</code>, <code>slug</code></td>
+<td><code>event_id</code></td>
+<td><code>str</code></td>
+<td>Event identifier (matches <code>markets.event_id</code> and <code>trades.event_id</code>)</td>
 </tr>
 <tr>
-<td>Content</td>
-<td><code>title</code>, <code>description</code></td>
+<td><code>event_ticker</code></td>
+<td><code>str</code></td>
+<td>Short ticker / slug used by the platform</td>
 </tr>
 <tr>
-<td>Category</td>
-<td><code>category</code> (tag-based), <code>tags</code></td>
+<td><code>series_id</code></td>
+<td><code>str</code></td>
+<td>Identifier of the parent series, if any (e.g., a recurring weekly event)</td>
 </tr>
 <tr>
-<td>Structure</td>
-<td><code>n_questions</code> (number of markets in the event), <code>volume_total</code></td>
+<td><code>title</code></td>
+<td><code>str</code></td>
+<td>Event title as displayed on Polymarket</td>
 </tr>
 <tr>
-<td>Lifecycle</td>
-<td><code>start_time</code>, <code>close_time</code></td>
+<td><code>category</code></td>
+<td><code>str</code></td>
+<td>Canonical category (one of <code>Sports</code>, <code>Crypto</code>, <code>Finance</code>, <code>Politics</code>, <code>Tech</code>, <code>Culture</code>, <code>Weather</code>, or <code>Untagged</code>)</td>
+</tr>
+<tr>
+<td><code>category_original</code></td>
+<td><code>str</code></td>
+<td>Original Polymarket platform tag before mapping</td>
+</tr>
+<tr>
+<td><code>event_start_time</code></td>
+<td><code>datetime[ns, UTC]</code></td>
+<td>Earliest market-start time across constituent markets</td>
+</tr>
+<tr>
+<td><code>mutually_exclusive</code></td>
+<td><code>bool</code></td>
+<td>Whether the constituent markets resolve mutually exclusively (e.g., "which candidate wins?")</td>
+</tr>
+<tr>
+<td><code>volume</code></td>
+<td><code>float64</code></td>
+<td>Total trading volume across constituent markets (USDC contract notional)</td>
+</tr>
+<tr>
+<td><code>open_interest</code></td>
+<td><code>float64</code></td>
+<td>Total open interest across constituent markets at sample end</td>
+</tr>
+<tr>
+<td><code>n_questions</code></td>
+<td><code>uint32</code></td>
+<td>Number of constituent markets</td>
+</tr>
+<tr>
+<td><code>multi_category_flag</code></td>
+<td><code>bool</code></td>
+<td><code>True</code> if constituent markets span more than one canonical category</td>
 </tr>
 </tbody>
 </table>

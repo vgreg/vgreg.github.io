@@ -810,17 +810,17 @@ forward-filling, no resolution rows, no synthetic flat bars.</p>
 <tr>
 <td><code>prediction_id</code></td>
 <td><code>str</code></td>
-<td>Conditional token identifier</td>
+<td>Conditional token identifier (matches <code>predictions.prediction_id</code>)</td>
 </tr>
 <tr>
 <td><code>timestamp</code></td>
-<td><code>datetime</code></td>
-<td>Start of the bar (UTC, truncated to the bar's frequency)</td>
+<td><code>datetime[ns, UTC]</code></td>
+<td>Start of the bar, truncated to the bar's frequency (daily bars start at midnight UTC)</td>
 </tr>
 <tr>
 <td><code>market_id</code></td>
-<td><code>int</code></td>
-<td>Parent market</td>
+<td><code>str</code></td>
+<td>Parent market (matches <code>markets.market_id</code>, cast as string)</td>
 </tr>
 <tr>
 <td><code>outcome</code></td>
@@ -850,12 +850,12 @@ forward-filling, no resolution rows, no synthetic flat bars.</p>
 <tr>
 <td><code>volume</code></td>
 <td><code>float64</code></td>
-<td>Sum of trade quantities</td>
+<td>Sum of trade quantities in the bar</td>
 </tr>
 <tr>
 <td><code>trade_count</code></td>
-<td><code>int</code></td>
-<td>Number of trades</td>
+<td><code>int64</code></td>
+<td>Number of trades in the bar</td>
 </tr>
 </tbody>
 </table>

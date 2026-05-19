@@ -850,21 +850,18 @@ consult Polymarket's terms directly.</p>
 <p><strong>No warranty.</strong> As CC-BY 4.0 §5 states, this dataset is provided
 "AS IS" without warranty of any kind, express or implied.</p>
 <h2 id="source-code">Source code<a class="headerlink" href="#source-code" title="Permanent link">&para;</a></h2>
-<p>The full pipeline — from raw on-chain events to the parquet files shipped
-here — is open source:</p>
-<blockquote>
-<p><a href="https://github.com/fintech-research/polymarket-users">github.com/fintech-research/polymarket-users</a></p>
-</blockquote>
-<p>See in particular:</p>
-<ul>
-<li><a href="https://github.com/fintech-research/polymarket-users/blob/main/src/prediction_markets/data/polymarket/data_packaging.py"><code>data/polymarket/data_packaging.py</code></a> — staging functions that produce every file in this dataset.</li>
-<li><a href="https://github.com/fintech-research/polymarket-users/blob/main/docs/data.md"><code>docs/data.md</code></a> — internal data dictionary with exhaustive column lists.</li>
-<li><a href="https://github.com/fintech-research/polymarket-users/issues/261">Issue #261</a> — the packaging discussion.</li>
-</ul>
+<p>The processing pipeline that produced this dataset is maintained in a
+private research repository. Researchers needing access for reproducibility
+purposes can contact the authors via the
+<a href="https://huggingface.co/datasets/vgregoire/polymarket-users/discussions">Discussions tab</a>
+on the dataset page or by email.</p>
+<p>The full column-level schema for every subset in this release is
+documented in the <a href="../datasets/">Datasets</a> section of this site —
+those pages are the canonical data dictionary.</p>
 <h2 id="reporting-issues">Reporting issues<a class="headerlink" href="#reporting-issues" title="Permanent link">&para;</a></h2>
-<p>Please open issues on the
-<a href="https://github.com/fintech-research/polymarket-users/issues">source repo</a>
-and tag them <code>dataset</code>.</p>
+<p>Please open a thread in the
+<a href="https://huggingface.co/datasets/vgregoire/polymarket-users/discussions">Discussions tab</a>
+on the dataset page.</p>
 <h2 id="acknowledgments">Acknowledgments<a class="headerlink" href="#acknowledgments" title="Permanent link">&para;</a></h2>
 <p>This research was undertaken, in part, thanks to funding from the Canada
 Research Chairs Program and from the Social Sciences and Humanities

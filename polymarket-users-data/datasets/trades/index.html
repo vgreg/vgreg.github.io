@@ -795,43 +795,43 @@ underlying hourly cache:</p>
 </tr>
 <tr>
 <td><code>timestamp</code></td>
-<td><code>datetime</code></td>
-<td>Block timestamp (UTC, nanosecond precision)</td>
+<td><code>datetime[ns, UTC]</code></td>
+<td>Block timestamp</td>
 </tr>
 <tr>
-<td><code>question_id</code></td>
-<td><code>int</code></td>
-<td>Market identifier</td>
+<td><code>market_id</code></td>
+<td><code>str</code></td>
+<td>Market identifier (matches <code>markets.market_id</code>, cast as string)</td>
 </tr>
 <tr>
 <td><code>event_id</code></td>
-<td><code>int</code></td>
-<td>Parent event identifier</td>
+<td><code>str</code></td>
+<td>Parent event identifier (matches <code>events.event_id</code>)</td>
 </tr>
 <tr>
 <td><code>prediction_id</code></td>
 <td><code>str</code></td>
-<td>The conditional token traded (maker side)</td>
+<td>The conditional token traded (matches <code>predictions.prediction_id</code>)</td>
 </tr>
 <tr>
 <td><code>outcome</code></td>
 <td><code>str</code></td>
-<td>Outcome label (e.g., "Yes", "Trump", …)</td>
+<td>Outcome label (e.g., <code>"Yes"</code>, <code>"Trump"</code>, team name, …)</td>
 </tr>
 <tr>
 <td><code>winner</code></td>
-<td><code>bool?</code></td>
-<td>Whether this outcome won (null until resolution)</td>
+<td><code>bool</code></td>
+<td>Whether this outcome resolved as the winner (null until resolution)</td>
 </tr>
 <tr>
 <td><code>category</code></td>
 <td><code>str</code></td>
-<td>Tag-based category (from parent event)</td>
+<td>Canonical category, inherited from the parent event</td>
 </tr>
 <tr>
 <td><code>category_original</code></td>
 <td><code>str</code></td>
-<td>Original platform category before mapping</td>
+<td>Original Polymarket platform tag before mapping</td>
 </tr>
 <tr>
 <td><code>price</code></td>

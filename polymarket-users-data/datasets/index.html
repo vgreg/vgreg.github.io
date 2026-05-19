@@ -741,7 +741,7 @@
 <h1 id="datasets">Datasets<a class="headerlink" href="#datasets" title="Permanent link">&para;</a></h1>
 <p>The Polymarket Users dataset is split into several related tables. Each
 serves a different access pattern; they share the same <code>user_address</code>,
-<code>token_id</code>, <code>question_id</code>, and <code>event_id</code> identifiers and can be joined
+<code>prediction_id</code>, <code>market_id</code>, and <code>event_id</code> identifiers and can be joined
 freely.</p>
 <h2 id="map">Map<a class="headerlink" href="#map" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>metadata         features          PnL                    trade data
@@ -794,28 +794,28 @@ that satisfies your access pattern:</p>
 <td>All user-level tables</td>
 </tr>
 <tr>
-<td><code>token_id</code> / <code>prediction_id</code></td>
+<td><code>prediction_id</code></td>
 <td><code>str</code></td>
 <td>CTF Exchange conditional token id</td>
-<td><code>trades.prediction_id</code>, <code>ohlcv_1d.prediction_id</code></td>
+<td><code>trades.prediction_id</code>, <code>ohlcv_*.prediction_id</code>, <code>predictions.prediction_id</code></td>
 </tr>
 <tr>
-<td><code>question_id</code></td>
-<td><code>int</code></td>
-<td>Polymarket internal question id</td>
-<td><code>markets</code>, <code>trades.question_id</code></td>
+<td><code>market_id</code></td>
+<td><code>int64</code> in <code>markets</code> / <code>predictions</code>, <code>str</code> in <code>trades</code> / <code>ohlcv_*</code></td>
+<td>Polymarket internal market id</td>
+<td><code>markets.market_id</code>, <code>predictions.market_id</code>, <code>trades.market_id</code>, <code>ohlcv_*.market_id</code> — cast trades' string id to <code>int64</code> when joining back to <code>markets</code></td>
 </tr>
 <tr>
 <td><code>event_id</code></td>
-<td><code>int</code></td>
+<td><code>str</code></td>
 <td>Polymarket internal event id</td>
-<td><code>events</code>, <code>trades.event_id</code></td>
+<td><code>events.event_id</code>, <code>markets.event_id</code>, <code>trades.event_id</code></td>
 </tr>
 <tr>
 <td><code>category</code></td>
 <td><code>str</code></td>
-<td>Classifier-derived (Sports, Crypto, Finance, Politics, Tech, Culture, Weather)</td>
-<td><code>markets</code>, <code>events</code>, <code>trades</code>, <code>pnl_category_daily</code></td>
+<td>Canonical category, tag-based (Sports, Crypto, Finance, Politics, Tech, Culture, Weather; or <code>Untagged</code>)</td>
+<td><code>markets</code>, <code>events</code>, <code>trades</code>, <code>pnl_category_daily*</code></td>
 </tr>
 </tbody>
 </table>

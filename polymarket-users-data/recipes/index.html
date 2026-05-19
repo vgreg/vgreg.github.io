@@ -890,13 +890,20 @@ appear in the data.</p>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">trades</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">scan_parquet</span><span class="p">(</span><span class="s2">&quot;trades/**/*.parquet&quot;</span><span class="p">,</span> <span class="n">hive_partitioning</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">markets</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">scan_parquet</span><span class="p">(</span><span class="s2">&quot;markets.parquet&quot;</span><span class="p">)</span>
 <a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1"># Trades enriched with market lifecycle / fee / resolution info</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="n">enriched</span> <span class="o">=</span> <span class="n">trades</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="n">markets</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;question_id&quot;</span><span class="p">,</span> <span class="s2">&quot;close_time&quot;</span><span class="p">,</span> <span class="s2">&quot;taker_base_fee&quot;</span><span class="p">,</span> <span class="s2">&quot;winner&quot;</span><span class="p">),</span>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="n">on</span><span class="o">=</span><span class="s2">&quot;question_id&quot;</span><span class="p">,</span>
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="p">)</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1"># trades.market_id is stored as a string, markets.market_id as int64 — cast to match.</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="n">enriched</span> <span class="o">=</span> <span class="p">(</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="n">trades</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="o">.</span><span class="n">with_columns</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;market_id&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">Int64</span><span class="p">))</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="o">.</span><span class="n">join</span><span class="p">(</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>        <span class="n">markets</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;market_id&quot;</span><span class="p">,</span> <span class="s2">&quot;close_time&quot;</span><span class="p">,</span> <span class="s2">&quot;taker_base_fee&quot;</span><span class="p">,</span> <span class="s2">&quot;has_fee&quot;</span><span class="p">),</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>        <span class="n">on</span><span class="o">=</span><span class="s2">&quot;market_id&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>        <span class="n">how</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>    <span class="p">)</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>    <span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="p">)</span>
 </code></pre></div>
+<p>The per-trade resolution flag lives on <code>trades.winner</code> directly, so the
+join above is only needed when you want market lifecycle or fee metadata.</p>
 <h2 id="realized-vs-unrealized-at-the-end-of-the-sample">Realized vs unrealized at the end of the sample<a class="headerlink" href="#realized-vs-unrealized-at-the-end-of-the-sample" title="Permanent link">&para;</a></h2>
 <p><code>user_pnl_summary</code> carries <code>portfolio_value</code> (mark-to-market value of
 open positions ≈ unrealized) and <code>usdc_balance</code> (cash account ≈ realized
