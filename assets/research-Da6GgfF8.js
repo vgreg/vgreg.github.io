@@ -1,1 +1,0 @@
-import{j as o}from"./main-bYYpvp93.js";import{R as t}from"./ResearchPage-0MquVymG.js";import{r}from"./research-DUkG5LGi.js";import"./research-utils-CVvcpCWR.js";import"./media-format-DosB8jZc.js";import"./jsonld-f2oMh6Y_.js";const i=()=>o.jsx(t,{content:r,lang:"en"});export{i as component};
