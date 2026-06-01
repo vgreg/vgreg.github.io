@@ -696,7 +696,7 @@
   
   
   <span class="md-ellipsis">
-    Citation & license
+    About & changelog
     
   </span>
   
@@ -824,7 +824,7 @@
 <a href="https://polymarket.com">Polymarket</a>, the largest on-chain prediction market.</p>
 <p>The dataset covers <strong>2022-11-11 → 2026-03-29</strong>, includes every reconciled
 end-user trade, daily mark-to-market PnL (sparse delta-encoded), wide
-end-of-sample PnL summaries, and ~83 behavioral features per user. Built
+end-of-sample PnL summaries, and ~87 behavioral features per user. Built
 from on-chain CTF Exchange events on Polygon.</p>
 <div class="admonition note">
 <p class="admonition-title">Companion paper</p>
@@ -950,7 +950,7 @@ user's terminal PnL from the previous trading day.</p>
 <td><a href="datasets/user_pnl_summary/"><code>user_pnl_summary</code></a></td>
 <td>single parquet</td>
 <td>user</td>
-<td>Terminal PnL × 4 variants × {total + 7 categories} + base-variant portfolio/cash decomposition</td>
+<td>Terminal PnL × 5 variants × {total + 7 categories} + base-variant portfolio/cash decomposition</td>
 </tr>
 <tr>
 <td><a href="datasets/pnl_daily/"><code>pnl_daily</code></a></td>
@@ -1011,7 +1011,7 @@ user's terminal PnL from the previous trading day.</p>
 <h2 id="quick-start">Quick start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">polars</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pl</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># One row per user with full-sample PnL across four variants</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># One row per user with full-sample PnL across five variants</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">users</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s2">&quot;user_pnl_summary.parquet&quot;</span><span class="p">)</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">users</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="s2">&quot;pnl_total&quot;</span><span class="p">,</span> <span class="n">descending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </code></pre></div>

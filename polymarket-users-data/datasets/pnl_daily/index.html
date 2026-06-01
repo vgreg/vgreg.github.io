@@ -701,7 +701,7 @@
   
   
   <span class="md-ellipsis">
-    Citation & license
+    About & changelog
     
   </span>
   
@@ -932,11 +932,7 @@ user-day will <strong>not</strong> in general equal the same user-day's row in
 <p>The same per-(user, day) panel and its per-(user, category, day)
 companion are also shipped restricted to three useful market subsets.
 Use these to reproduce the resolved-only, no-fee, or resolved-no-fee
-variants of the paper-profits exhibits — the per-(user, category) user
-set on the wide <code>user_pnl_summary</code> columns includes users with no
-positions in that variant for that category (filled with 0.0), which
-inflates denominators on <code>concentration_by_category</code>,
-<code>probit_regression</code>, and <code>pnl_spread_decomposition</code>.</p>
+variants of the paper-profits exhibits.</p>
 <table>
 <thead>
 <tr>
@@ -971,8 +967,19 @@ inflates denominators on <code>concentration_by_category</code>,
 </tr>
 </tbody>
 </table>
-<p>Schema and layout are identical to the corresponding base panel; only
-the subset of markets contributing to each row differs.</p>
+<p>Schema and layout are identical to the corresponding base panel.</p>
+<div class="admonition note">
+<p class="admonition-title">Variant filtering happens at the position level (v1.1)</p>
+<p>Starting in v1.1, the variant filter is applied to the underlying
+trades when positions are constructed — not at PnL aggregation time.
+A trade on a market outside the variant's subset contributes nothing
+to the variant: no token position, no USDC movement, no settlement,
+not even if the user later sold back to flat. This makes each
+variant's terminal PnL structurally zero-sum within its market
+subset (modulo platform-collected fees and non-user counterparties).
+Users who only traded outside a variant's subset correctly do not
+appear in that variant's panels.</p>
+</div>
 <div class="admonition warning">
 <p class="admonition-title">Snapshot time convention (+1 day right-boundary)</p>
 <p><code>snapshot_time</code> is labelled with the <strong>right boundary</strong> of the day it

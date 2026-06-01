@@ -23,7 +23,7 @@
     
     
       
-        <title>Citation & license - Polymarket Users Dataset</title>
+        <title>About & changelog - Polymarket Users Dataset</title>
       
     
     
@@ -113,7 +113,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Citation & license
+              About & changelog
             
           </span>
         </div>
@@ -597,7 +597,7 @@
   
   
   <span class="md-ellipsis">
-    Citation & license
+    About & changelog
     
   </span>
   
@@ -610,7 +610,7 @@
   
   
   <span class="md-ellipsis">
-    Citation & license
+    About & changelog
     
   </span>
   
@@ -692,6 +692,39 @@
       Acknowledgments
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#changelog" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changelog
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Changelog">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#v11-2026-06-01" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.1 (2026-06-01)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v10-2026-05-19" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.0 (2026-05-19)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -792,6 +825,39 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#changelog" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changelog
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Changelog">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#v11-2026-06-01" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.1 (2026-06-01)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v10-2026-05-19" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.0 (2026-05-19)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -866,6 +932,55 @@ on the dataset page.</p>
 <p>This research was undertaken, in part, thanks to funding from the Canada
 Research Chairs Program and from the Social Sciences and Humanities
 Research Council, Rotman FinHub, and the Ontario Securities Commission.</p>
+<h2 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h2>
+<h3 id="v11-2026-06-01">v1.1 (2026-06-01)<a class="headerlink" href="#v11-2026-06-01" title="Permanent link">&para;</a></h3>
+<p>Corrected PnL panels and per-category breakdowns. Every PnL-related table
+(<code>pnl_daily</code>, the three <code>pnl_daily_*</code> variants, <code>pnl_category_daily</code> and
+its three variants, <code>pnl_change_daily</code>, <code>pnl_change_monthly</code>, and
+<code>user_pnl_summary</code>) was rebuilt from corrected position snapshots. Sample
+period and the other panels (<code>markets</code>, <code>events</code>, <code>predictions</code>, <code>trades</code>,
+<code>user_features</code>, <code>ohlcv_*</code>) are unchanged from v1.0.</p>
+<p><strong>What changed and why:</strong></p>
+<ol>
+<li>
+<p><strong>Phantom-settlement bug fixed.</strong> A zero-position row was being dropped
+   before settlement logic ran, which caused round-trip trades on
+   already-resolved markets (buy + sell back within the same day) to
+   produce a ghost USDC settlement for a position the user no longer held.
+   The fix moves the zero-row filter to <em>after</em> settlement decisions.
+   Effect on <code>pnl_daily</code> (base): aggregate user-population terminal PnL
+   moved from $114,798 to exactly $0 (zero-sum restored); the median
+   user's terminal PnL moved by $0.0007; top-5 winners' PnL is
+   bit-identical to 6 decimals.</p>
+</li>
+<li>
+<p><strong>Analysis variants now filter at the market level.</strong> The
+   <code>pnl_daily_resolved</code>, <code>pnl_daily_no_fee</code>, <code>pnl_daily_resolved_no_fee</code>
+   variants (and their <code>pnl_category_daily_*</code> counterparts) previously
+   applied the variant predicate only at PnL aggregation time, which
+   produced asymmetric USDC leakage of $1–5 B per variant. The variants
+   are now built from positions that exclude trades on markets outside
+   the variant's subset, so each variant is structurally zero-sum within
+   its subset (modulo platform-collected fees and non-user
+   counterparties). Effect: each variant's aggregate terminal PnL moved
+   by +$1 B to +$4.7 B, from large negative leakage totals down to ≈ $0.</p>
+</li>
+<li>
+<p><strong>Sample composition.</strong> A small number of users (≤ 0.05 % of the
+   2.48 M user base) drop in or out of the panel depending on which
+   variant subset they touch. For the variants, user counts drop by
+   54 k–127 k as users who only traded outside the variant's market
+   subset now correctly disappear from the panel.</p>
+</li>
+</ol>
+<p>The headline statistics that appear in the accompanying paper round to
+the same values as in v1.0 — top 1 % capture 76.5 % of profits, top
+0.1 % capture 51.2 %, ~70 % of users lose money — but the underlying
+panels are now internally consistent and pass a whole-cache
+<code>maker_pnl + taker_pnl = base_pnl</code> invariant across all
+2.26 billion daily snapshots.</p>
+<h3 id="v10-2026-05-19">v1.0 (2026-05-19)<a class="headerlink" href="#v10-2026-05-19" title="Permanent link">&para;</a></h3>
+<p>Initial release. Sample 2022-11-11 → 2026-03-29.</p>
 
 
 

@@ -728,7 +728,7 @@
   
   
   <span class="md-ellipsis">
-    Citation & license
+    About & changelog
     
   </span>
   
@@ -954,7 +954,7 @@ end are valued at their last observed mid.</p>
 settles. We store only those rows (the "sparse" tables). To reconstruct
 a dense panel, forward-fill — see the <a href="../recipes/#forward-fill-sparse-daily-pnl-to-a-dense-daily-series">forward-fill recipe</a>.</p>
 <h3 id="variants">Variants<a class="headerlink" href="#variants" title="Permanent link">&para;</a></h3>
-<p>The <code>user_pnl_summary</code> table carries four methodological variants:</p>
+<p>The <code>user_pnl_summary</code> table carries five methodological variants:</p>
 <table>
 <thead>
 <tr>
@@ -972,6 +972,10 @@ a dense panel, forward-fill — see the <a href="../recipes/#forward-fill-sparse
 <td>Restricts to markets that have settled (<code>winner</code> not null) by the sample end. Eliminates mark-to-market valuation uncertainty.</td>
 </tr>
 <tr>
+<td><strong>No-fee</strong></td>
+<td>Restricts to markets without taker fees (predates Polymarket's Q4 2024 fee introduction). Equivalent to <code>markets.has_fee = False</code>.</td>
+</tr>
+<tr>
 <td><strong>Spread-adjusted</strong></td>
 <td>Charges each fill an additional half-spread (0.005 by default — half the 1¢ tick). Approximates a no-free-lunch market without rebate.</td>
 </tr>
@@ -981,9 +985,23 @@ a dense panel, forward-fill — see the <a href="../recipes/#forward-fill-sparse
 </tr>
 </tbody>
 </table>
-<p>The <code>no_fee</code> variant used internally by the paper (markets where
-<code>taker_base_fee</code> is null or 0) is <strong>not</strong> shipped — it's a paper-internal
-robustness check.</p>
+<p>The sparse panels also ship a <strong>Resolved + No-fee</strong> intersection
+(<code>pnl_daily_resolved_no_fee</code> and <code>pnl_category_daily_resolved_no_fee</code>).
+That variant is not exposed on <code>user_pnl_summary</code> because the strict
+intersection is the appendix-only specification in the paper.</p>
+<div class="admonition note">
+<p class="admonition-title">Variant semantics (v1.1)</p>
+<p>Starting in v1.1, the <strong>Resolved</strong> and <strong>No-fee</strong> filters are
+applied to the underlying trades <strong>when positions are built</strong> — not
+at PnL aggregation time. A trade on a market outside the variant's
+subset contributes nothing to that variant's positions, USDC
+balance, or eventual settlement, even if the user later sold back to
+flat. This makes each variant's terminal PnL structurally zero-sum
+within its market subset (modulo platform-collected fees and
+non-user counterparties). Users whose trading is entirely outside a
+variant's subset are absent from that variant's columns in
+<code>user_pnl_summary</code> (encoded as <code>0.0</code> for backwards compatibility).</p>
+</div>
 <h2 id="wash-trading">Wash trading<a class="headerlink" href="#wash-trading" title="Permanent link">&para;</a></h2>
 <p>We detect (but do not filter) suspected wash trading via counterparty
 Herfindahl–Hirschman Index (HHI). The HHI for user <code>u</code> is</p>
