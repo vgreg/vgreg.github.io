@@ -706,6 +706,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#v12-2026-06-14" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.2 (2026-06-14)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#v11-2026-06-01" class="md-nav__link">
     <span class="md-ellipsis">
       v1.1 (2026-06-01)
@@ -836,6 +845,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#v12-2026-06-14" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1.2 (2026-06-14)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#v11-2026-06-01" class="md-nav__link">
     <span class="md-ellipsis">
       v1.1 (2026-06-01)
@@ -933,6 +951,18 @@ on the dataset page.</p>
 Research Chairs Program and from the Social Sciences and Humanities
 Research Council, Rotman FinHub, and the Ontario Securities Commission.</p>
 <h2 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h2>
+<h3 id="v12-2026-06-14">v1.2 (2026-06-14)<a class="headerlink" href="#v12-2026-06-14" title="Permanent link">&para;</a></h3>
+<p>Removed 16 maker/taker terminal-PnL columns (<code>pnl_maker_total</code>,
+<code>pnl_taker_total</code>, and their per-category siblings) from
+<code>user_pnl_summary</code>. These had shipped undocumented in v1.1, and the
+per-category role columns did not recombine to the base per-category
+totals for users who acted as both maker and taker (≈17.5% of users), so
+they have been withdrawn. The five documented variants, their per-category
+breakdowns, and the <code>portfolio_value</code> / <code>usdc_balance</code> decomposition are
+unchanged, and no other table is affected. A user's maker-vs-taker
+activity remains fully recoverable from the <code>trades</code> table (each row
+carries <code>maker_address</code> and <code>taker_address</code>) — see
+<a href="../recipes/#classify-user-months-as-maker-heavy-or-taker-heavy">Recipes</a>.</p>
 <h3 id="v11-2026-06-01">v1.1 (2026-06-01)<a class="headerlink" href="#v11-2026-06-01" title="Permanent link">&para;</a></h3>
 <p>Corrected PnL panels and per-category breakdowns. Every PnL-related table
 (<code>pnl_daily</code>, the three <code>pnl_daily_*</code> variants, <code>pnl_category_daily</code> and
