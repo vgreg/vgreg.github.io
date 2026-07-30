@@ -1,1 +1,0 @@
-function r(a){return[...a].sort((e,n)=>{const t=e.date??`${e.year}`,s=n.date??`${n.year}`;return t.localeCompare(s)})}function u(a,e){const n=a.medium==="tv"?"📺 ":a.medium==="radio"?"🎙️ ":"",t=e==="en"?{french:" (in French)",spanish:" (in Spanish)"}:{spanish:" (en espagnol)"},s=a.language&&a.language in t?t[a.language]:"";return`${n}${a.title}${s}`}export{u as g,r as s};
